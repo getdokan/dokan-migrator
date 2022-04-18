@@ -1,0 +1,8 @@
+composer.lock
+vendor
+node_modules
+.DS_Store
+package-lock.json
+assets/dist
+yarn.lock
+.vscode

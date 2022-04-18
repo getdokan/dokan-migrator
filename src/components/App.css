@@ -1,0 +1,42 @@
+body{
+    background-color: #F0F0F1;
+}
+
+.dokan-migrator-card{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+#dokan-migrator-app {
+    margin-left: 15px;
+}
+
+.dokan-migrator-align-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dokan-migrator-card .dokan-migrator-align-center .dokan-migration-count-status{
+    display: flex;
+    width: 65%;
+    justify-content: space-between;
+}
+.dokan-migrator-card .dokan-migrator-align-center .dokan-migration-count-status .dokan-migration-count-total{
+    display: flex;
+    flex-direction: column;
+}
+.dokan-migrator-update-status{
+    margin-top: 10px;
+}
+
+.dokan-migration-active-v-dash-btn{
+    background-color: #52C519 !important;
+    border-color: #52C519 !important;
+}
+.dokan-migration-active-v-dash-btn:focus{
+    background-color: #48aa17 !important;
+    border-color: #48aa17 !important;
+}
+.dokan-migration-active-v-dash-btn:active{
+    background-color: #52C519 !important;
+    border-color: #52C519 !important;
+}

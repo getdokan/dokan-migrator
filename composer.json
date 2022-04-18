@@ -1,0 +1,21 @@
+{
+    "name": "wedevs/dokan-migrator",
+    "description": "An e-commerce marketplace migration plugin for WordPress.",
+    "type": "wordpress-plugin",
+    "license": "GPL2",
+    "autoload": {
+        "psr-4": {
+            "Wedevs\\DokanMigrator\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "weDevs",
+            "email": "info@wedevs.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.0.0"
+    }
+}
