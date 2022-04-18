@@ -4,6 +4,7 @@ namespace Wedevs\DokanMigrator\Handlers;
 
 use Wedevs\DokanMigrator\Abstracts\Handler;
 use Wedevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
+use Wedevs\DokanMigrator\Integrations\WcVendors\OrderMigrator as WcVendorsOrderMigrator;
 
 class OrderMigrationHandler extends Handler {
 
@@ -57,6 +58,10 @@ class OrderMigrationHandler extends Handler {
         switch ($plugin) {
             case 'wcfmmarketplace':
                 return new WcfmOrderMigrator();
+                break;
+
+            case 'wcvendors':
+                return new WcVendorsOrderMigrator();
                 break;
 
             default:

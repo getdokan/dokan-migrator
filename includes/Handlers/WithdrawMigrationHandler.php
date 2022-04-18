@@ -5,6 +5,7 @@ namespace Wedevs\DokanMigrator\Handlers;
 use Wedevs\DokanMigrator\Abstracts\Handler;
 
 use Wedevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
+use Wedevs\DokanMigrator\Integrations\WcVendors\WithdrawMigrator as WcVendorsWithdrawMigrator;
 
 class WithdrawMigrationHandler extends Handler {
 
@@ -20,16 +21,23 @@ class WithdrawMigrationHandler extends Handler {
     public function get_total( $plugin ) {
         $total_count = 0;
         global $wpdb;
+        $sql = '';
 
         switch ($plugin) {
             case 'wcfmmarketplace':
-                $sql = $wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request");
-                $total_count = (int) $wpdb->get_var( $sql );
+                $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request";
+                break;
+
+            case 'wcvendors':
+                $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}pv_commission WHERE status='paid'";
                 break;
 
             default:
                 break;
         }
+
+        $sql_prepared = $wpdb->prepare( $sql );
+        $total_count  = (int) $wpdb->get_var( $sql_prepared );
 
         return $total_count;
     }
@@ -43,17 +51,24 @@ class WithdrawMigrationHandler extends Handler {
      */
     function get_items( $plugin, $number, $offset ) {
         global $wpdb;
+        $sql = '';
 
         switch ($plugin) {
             case 'wcfmmarketplace':
-                $sql = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request ORDER BY ID LIMIT %d OFFSET %d", $number, $offset );
-                return $wpdb->get_results( $sql );
+                $sql = "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request ORDER BY ID LIMIT %d OFFSET %d";
+                break;
+
+            case 'wcvendors':
+                $sql = "SELECT * FROM {$wpdb->prefix}pv_commission WHERE status='paid' ORDER BY id LIMIT %d OFFSET %d";
                 break;
 
             default:
                 return [];
                 break;
         }
+
+        $prepared_sql = $wpdb->prepare( $sql, $number, $offset );
+        return $wpdb->get_results( $prepared_sql );
     }
 
     /**
@@ -66,7 +81,11 @@ class WithdrawMigrationHandler extends Handler {
     function get_migration_class($plugin){
         switch ($plugin) {
             case 'wcfmmarketplace':
-                return new WcfmWithdrawMigrator();;
+                return new WcfmWithdrawMigrator();
+                break;
+
+            case 'wcvendors':
+                return new WcVendorsWithdrawMigrator();
                 break;
 
             default:

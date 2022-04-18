@@ -6,6 +6,7 @@ use \WP_User_Query;
 
 use Wedevs\DokanMigrator\Abstracts\Handler;
 use Wedevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
+use Wedevs\DokanMigrator\Integrations\WcVendors\VendorMigrator as WcVendorsVendorMigrator;
 
 class VendorMigrationHandler extends Handler {
 
@@ -20,16 +21,21 @@ class VendorMigrationHandler extends Handler {
      */
     public function get_total( $plugin ) {
         $total_count = 0;
+        $args = [ 'role' => 'wcfm_vendor' ];
 
         switch ($plugin) {
             case 'wcfmmarketplace':
-                $total_count = count( get_users( array( 'role' => 'wcfm_vendor' ) ) );
+                break;
+
+            case 'wcvendors':
+                $args = [ 'role__in' => [ 'vendor', 'pending_vendor' ], ];
                 break;
 
             default:
                 break;
         }
 
+        $total_count = count( get_users( $args ) );
         return $total_count;
     }
 
@@ -50,6 +56,10 @@ class VendorMigrationHandler extends Handler {
         switch ($plugin) {
             case 'wcfmmarketplace':
                 $args['role'] = 'wcfm_vendor';
+                break;
+
+            case 'wcvendors':
+                $args['role__in'] = [ 'vendor', 'pending_vendor' ];
                 break;
 
             default:
@@ -73,6 +83,10 @@ class VendorMigrationHandler extends Handler {
         switch ($plugin) {
             case 'wcfmmarketplace':
                 return new WcfmVendorMigrator();
+                break;
+
+            case 'wcvendors':
+                return new WcVendorsVendorMigrator();
                 break;
 
             default:
