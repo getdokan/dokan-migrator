@@ -6,6 +6,7 @@ use \WP_User_Query;
 
 use Wedevs\DokanMigrator\Abstracts\Handler;
 use Wedevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
+use Wedevs\DokanMigrator\Integrations\YithMultiVendor\VendorMigrator as YithMultiVendorVendorMigrator;
 
 class VendorMigrationHandler extends Handler {
 
@@ -24,6 +25,13 @@ class VendorMigrationHandler extends Handler {
         switch ($plugin) {
             case 'wcfmmarketplace':
                 $total_count = count( get_users( array( 'role' => 'wcfm_vendor' ) ) );
+                break;
+
+            case 'yithvendors':
+                return count( get_terms( [
+                    'taxonomy'   => 'yith_shop_vendor',
+                    'hide_empty' => false,
+                ] ) );
                 break;
 
             default:
@@ -52,6 +60,10 @@ class VendorMigrationHandler extends Handler {
                 $args['role'] = 'wcfm_vendor';
                 break;
 
+            case 'yithvendors':
+                $args['role'] = 'yith_vendor';
+                break;
+
             default:
                 return [];
                 break;
@@ -73,6 +85,10 @@ class VendorMigrationHandler extends Handler {
         switch ($plugin) {
             case 'wcfmmarketplace':
                 return new WcfmVendorMigrator();
+                break;
+
+            case 'yithvendors':
+                return new YithMultiVendorVendorMigrator();
                 break;
 
             default:
