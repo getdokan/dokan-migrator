@@ -21,9 +21,8 @@ class OrderMigrationHandler extends Handler {
         global $wpdb;
 
         $total_count = 0;
-        $sql = $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}posts WHERE post_type='shop_order' AND post_parent=0" );
 
-        $total_count = (int) $wpdb->get_var( $sql );
+        $total_count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}posts WHERE post_type='shop_order' AND post_parent=0" );
         return $total_count;
     }
 
@@ -34,7 +33,7 @@ class OrderMigrationHandler extends Handler {
      *
      * @return array
      */
-    function get_items( $plugin, $number, $offset ) {
+    public function get_items( $plugin, $number, $offset ) {
         $args = array(
             'post_type'      => 'shop_order',
             'orderby'        => 'ASC',
@@ -54,11 +53,10 @@ class OrderMigrationHandler extends Handler {
      *
      * @return Class
      */
-    function get_migration_class($plugin){
-        switch ($plugin) {
+    public function get_migration_class( $plugin ) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmOrderMigrator();
-                break;
 
             case 'wcvendors':
                 return new WcVendorsOrderMigrator();

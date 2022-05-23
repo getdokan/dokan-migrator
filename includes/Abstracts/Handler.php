@@ -18,7 +18,7 @@ abstract class Handler {
      *
      * @return integer
      */
-    abstract function get_total($plugin);
+    abstract public function get_total( $plugin );
 
     /**
      * Returns array of items vendor or order or withdraw.
@@ -29,7 +29,7 @@ abstract class Handler {
      *
      * @return array
      */
-    abstract function get_items( $plugin, $number, $offset );
+    abstract public function get_items( $plugin, $number, $offset );
 
     /**
      * Return class to handle migration.
@@ -40,5 +40,5 @@ abstract class Handler {
      *
      * @return Class
      */
-    abstract function get_migration_class($plugin);
+    abstract public function get_migration_class( $plugin );
 }

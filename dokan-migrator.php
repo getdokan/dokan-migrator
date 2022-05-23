@@ -12,9 +12,7 @@
  * WC requires at least: 3.0
  * WC tested up to: 6.2.0
  * Text Domain: dokan-migrator
- */
-
- /**
+ *
  * Copyright (c) 2016 weDevs (email: info@wedevs.com). All rights reserved.
  *
  * Released under the GPL license
@@ -186,15 +184,29 @@ final class Dokan_Migrator {
      * @return void
      */
     public static function prevent_email_notification() {
-        add_filter( 'woocommerce_email_classes', function ( $data ) {
-            self::$email_class = $data; return [];
-        }, 35 );
-        add_filter( 'woocommerce_template_directory', function ( $data ) {
-            self::$template = $data; return [];
-        }, 15 );
-        add_filter( 'woocommerce_email_actions', function ( $data ) {
-            self::$actions = $data; return [];
-        } );
+        add_filter(
+            'woocommerce_email_classes',
+            function ( $data ) {
+                self::$email_class = $data;
+                return [];
+            },
+            35
+        );
+        add_filter(
+            'woocommerce_template_directory',
+            function ( $data ) {
+                self::$template = $data;
+                return [];
+            },
+            15
+        );
+        add_filter(
+            'woocommerce_email_actions',
+            function ( $data ) {
+                self::$actions = $data;
+                return [];
+            }
+        );
     }
 
     /**
@@ -205,15 +217,26 @@ final class Dokan_Migrator {
      * @return void
      */
     public static function reset_email_data() {
-        add_filter( 'woocommerce_email_classes', function ( $data ) {
-            return self::$email_class;
-        }, 35 );
-        add_filter( 'woocommerce_template_directory', function ( $data ) {
-            return self::$template;
-        }, 15 );
-        add_filter( 'woocommerce_email_actions', function ( $data ) {
-            return self::$actions;
-        } );
+        add_filter(
+            'woocommerce_email_classes',
+            function ( $data ) {
+                return self::$email_class;
+            },
+            35
+        );
+        add_filter(
+            'woocommerce_template_directory',
+            function ( $data ) {
+                return self::$template;
+            },
+            15
+        );
+        add_filter(
+            'woocommerce_email_actions',
+            function ( $data ) {
+                return self::$actions;
+            }
+        );
     }
 
     /**

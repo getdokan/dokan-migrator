@@ -17,5 +17,24 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=7.0.0"
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "dev-master",
+        "dealerdirect/phpcodesniffer-composer-installer": "dev-master",
+        "tareq1988/wp-php-cs-fixer": "dev-master",
+        "phpcompatibility/phpcompatibility-wp": "dev-master"
+    },
+    "scripts": {
+        "phpcs": [
+          "phpcs -p -s"
+        ],
+        "phpcbf": [
+          "phpcbf -p"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

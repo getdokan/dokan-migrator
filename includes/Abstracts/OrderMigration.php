@@ -127,7 +127,12 @@ abstract class OrderMigration {
      */
     public function clear_dokan_order_table( $order_id, $seller_id ) {
         global $wpdb;
-        $wpdb->delete( $wpdb->prefix . 'dokan_orders', array( 'order_id' => $order_id, 'seller_id' => $seller_id ) );
+        $wpdb->delete(
+            $wpdb->prefix . 'dokan_orders', array(
+				'order_id'  => $order_id,
+				'seller_id' => $seller_id,
+            )
+        );
     }
 
     /**
@@ -142,7 +147,12 @@ abstract class OrderMigration {
      */
     public function clear_dokan_vendor_balance_table( $order_id ) {
         global $wpdb;
-        $wpdb->delete( $wpdb->prefix . 'dokan_vendor_balance', array( 'trn_id' => $order_id, 'trn_type' => 'dokan_orders' ) );
+        $wpdb->delete(
+            $wpdb->prefix . 'dokan_vendor_balance', array(
+				'trn_id'   => $order_id,
+				'trn_type' => 'dokan_orders',
+            )
+        );
     }
 
     /**
@@ -173,10 +183,9 @@ abstract class OrderMigration {
      * @return void
      */
     public function sync_dokan_order_table( $dokan_order_data, $sub_order_id, $seller_id, $order_obj ) {
-        // $order_total = $dokan_order_data['order_total'];
         $order_total = $order_obj->get_total();
         $net_amount = $dokan_order_data['net_sale'];
-        $created_date = reset($dokan_order_data['commission_data'])['created'];
+        $created_date = reset( $dokan_order_data['commission_data'] )['created'];
 
         global $wpdb;
 
@@ -209,7 +218,7 @@ abstract class OrderMigration {
                 'credit'        => 0,
                 'status'        => 'wc-' . $order_obj->get_status(),
                 'trn_date'      => $created_date,
-                'balance_date'  => date( 'Y-m-d h:i:s', strtotime( $created_date ) ),
+                'balance_date'  => gmdate( 'Y-m-d h:i:s', strtotime( $created_date ) ),
             ),
             array(
                 '%d',
@@ -235,7 +244,7 @@ abstract class OrderMigration {
      *
      * @return \WC_Order
      */
-    public function create_sub_order ( $seller_id, $seller_products ) {
+    public function create_sub_order( $seller_id, $seller_products ) {
         $bill_ship = array(
             'billing_country',
 			'billing_first_name',
@@ -325,15 +334,15 @@ abstract class OrderMigration {
     public function create_shipping( $order, $parent_order ) {
         // Get all shipping methods for parent order
         $shipping_methods = $parent_order->get_shipping_methods();
-        $order_seller_id  = dokan_get_seller_id_by_order( $order->get_id() );
+        $order_seller_id  = absint( dokan_get_seller_id_by_order( $order->get_id() ) );
 
         $applied_shipping_method = '';
 
         if ( $shipping_methods ) {
             foreach ( $shipping_methods as $method_item_id => $shipping_object ) {
-                $shipping_seller_id = wc_get_order_item_meta( $method_item_id, 'vendor_id', true );
+                $shipping_seller_id = absint( wc_get_order_item_meta( $method_item_id, 'vendor_id', true ) );
 
-                if ( $order_seller_id == $shipping_seller_id ) {
+                if ( $order_seller_id === $shipping_seller_id ) {
                     $applied_shipping_method = $shipping_object;
                     break;
                 }
@@ -346,8 +355,6 @@ abstract class OrderMigration {
         if ( ! $shipping_method ) {
             return;
         }
-
-
 
         if ( is_a( $shipping_method, 'WC_Order_Item_Shipping' ) ) {
             $item = new \WC_Order_Item_Shipping();
@@ -392,7 +399,7 @@ abstract class OrderMigration {
         $this->reset_sub_orders_if_needed();
 
         // If we've only ONE seller update the order meta or else create a new order for each seller.
-        if ( count( $vendors ) == 1 ) {
+        if ( count( $vendors ) === 1 ) {
             $temp      = array_keys( $vendors );
             $seller_id = reset( $temp );
 
@@ -435,9 +442,9 @@ abstract class OrderMigration {
      *
      * @return void
      */
-    public function update_commission_applied_data_in_order( $order, $commission_data) {
-        $commission = reset($commission_data['commission_data']);
-        foreach ($order->get_items() as $item_id => $item ) {
+    public function update_commission_applied_data_in_order( $order, $commission_data ) {
+        $commission = reset( $commission_data['commission_data'] );
+        foreach ( $order->get_items() as $item_id => $item ) {
             wc_add_order_item_meta( $item_id, '_dokan_commission_rate', $commission['fixed'] );
             wc_add_order_item_meta( $item_id, '_dokan_commission_type', $commission['type'] );
             wc_add_order_item_meta( $item_id, '_dokan_additional_fee', $commission['percentage'] );
@@ -456,7 +463,7 @@ abstract class OrderMigration {
      *
      * @return void
      */
-    public function dokan_sync_refund_table( $order_id, $seller_id, $refund_amount, $refund_reason, $item_qtys, $item_totals, $item_tax_totals, $restock_items, $date, $status, $method) {
+    public function dokan_sync_refund_table( $order_id, $seller_id, $refund_amount, $refund_reason, $item_qtys, $item_totals, $item_tax_totals, $restock_items, $date, $status, $method ) {
         global $wpdb;
 
         $wpdb->insert(
@@ -489,32 +496,6 @@ abstract class OrderMigration {
             )
         );
 
-        // $wpdb->insert(
-        //     $wpdb->dokan_vendor_balance,
-        //     [
-        //         'vendor_id'     => $seller_id,
-        //         'trn_id'        => $order_id,
-        //         'trn_type'      => 'dokan_refund',
-        //         'perticulars'   => $refund_reason,
-        //         'debit'         => 0,
-        //         'credit'        => round( $refund_amount, 2 ),
-        //         'status'        => 'approved',
-        //         'trn_date'      => $date,
-        //         'balance_date'  => $date,
-        //     ],
-        //     [
-        //         '%d',
-        //         '%d',
-        //         '%s',
-        //         '%s',
-        //         '%f',
-        //         '%f',
-        //         '%s',
-        //         '%s',
-        //         '%s',
-        //     ]
-        // );
-
         // update the order table with new refund amount
         $order_data = $wpdb->get_row(
             $wpdb->prepare(
@@ -524,20 +505,12 @@ abstract class OrderMigration {
         );
 
         if ( isset( $order_data->order_total, $order_data->net_amount ) ) {
-            // $new_total_amount = $order_data->order_total - $this->get_refund_amount();
-            // $new_net_amount   = $order_data->net_amount - $vendor_refund;
-
             $new_total_amount = $order_data->order_total - round( $refund_amount, 2 );
 
-            // $new_net_amount   = $order_data->net_amount - round( $refund_amount, 2 ); // No need to update here.
-            // $new_net_amount = ( $new_net_amount < 0 ) ? 0.00 : $new_net_amount;
-
-            // insert on dokan sync table
             $wpdb->update(
                 $wpdb->dokan_orders,
                 [
                     'order_total' => $new_total_amount,
-                    // 'net_amount'  => $new_net_amount,
                 ],
                 [
                     'order_id' => $order_id,
@@ -561,7 +534,7 @@ abstract class OrderMigration {
      *
      * @return boolean
      */
-    function has_refunds( $order ) {
-        return sizeof( $order->get_refunds() ) > 0 ? true : false;
+    public function has_refunds( $order ) {
+        return count( $order->get_refunds() ) > 0 ? true : false;
     }
 }
