@@ -103,7 +103,7 @@ abstract class VendorMigration {
      *
      * @return array
      */
-    abstract public function get_social($default);
+    abstract public function get_social( $default );
 
     /**
      * Returns vendor payment array.
@@ -114,7 +114,7 @@ abstract class VendorMigration {
      *
      * @return array
      */
-    abstract public function get_payment($default);
+    abstract public function get_payment( $default );
 
     /**
      * Returns vendor phone number.
@@ -125,7 +125,7 @@ abstract class VendorMigration {
      *
      * @return string
      */
-    abstract public function get_phone($default);
+    abstract public function get_phone( $default );
 
     /**
      * Returns if email show in store or not.
@@ -136,7 +136,7 @@ abstract class VendorMigration {
      *
      * @return string
      */
-    abstract public function get_is_show_email($default);
+    abstract public function get_is_show_email( $default);
 
     /**
      * Returns  vendor address.
@@ -147,7 +147,7 @@ abstract class VendorMigration {
      *
      * @return string
      */
-    abstract public function get_address($default);
+    abstract public function get_address( $default );
 
     /**
      * Returns vendor location.
@@ -158,7 +158,7 @@ abstract class VendorMigration {
      *
      * @return string
      */
-    abstract public function get_location($default);
+    abstract public function get_location( $default );
 
     /**
      * Returns banner id.
@@ -169,7 +169,7 @@ abstract class VendorMigration {
      *
      * @return int
      */
-    abstract public function get_banner($default);
+    abstract public function get_banner( $default );
 
     /**
      * Returns applied commission in an vendor.
@@ -180,7 +180,7 @@ abstract class VendorMigration {
      *
      * @return int
      */
-    abstract public function get_icon($default);
+    abstract public function get_icon( $default );
 
     /**
      * Returns vendor gravatar.
@@ -191,7 +191,7 @@ abstract class VendorMigration {
      *
      * @return int
      */
-    abstract public function get_gravatar($default);
+    abstract public function get_gravatar( $default );
 
     /**
      * Returns if show more p tab.
@@ -202,7 +202,7 @@ abstract class VendorMigration {
      *
      * @return string
      */
-    abstract public function get_show_more_ptab($default);
+    abstract public function get_show_more_ptab( $default );
 
     /**
      * Returns applied commission in an vendor.
@@ -213,7 +213,7 @@ abstract class VendorMigration {
      *
      * @return int
      */
-    abstract public function get_sore_ppp($default);
+    abstract public function get_sore_ppp( $default );
 
     /**
      * Returns applied commission in an vendor.
@@ -224,7 +224,7 @@ abstract class VendorMigration {
      *
      * @return string
      */
-    abstract public function get_is_enabled_tnc($default);
+    abstract public function get_is_enabled_tnc( $default );
 
     /**
      * Returns terms and comdition.
@@ -235,7 +235,7 @@ abstract class VendorMigration {
      *
      * @return string
      */
-    abstract public function get_store_tnc($default);
+    abstract public function get_store_tnc( $default );
 
     /**
      * Returns if min discount.
@@ -246,7 +246,7 @@ abstract class VendorMigration {
      *
      * @return string
      */
-    abstract public function get_show_min_order_discount($default);
+    abstract public function get_show_min_order_discount( $default );
 
     /**
      * Returns store seo.
@@ -257,7 +257,7 @@ abstract class VendorMigration {
      *
      * @return array
      */
-    abstract public function get_store_seo($default);
+    abstract public function get_store_seo( $default );
 
     /**
      * Returns dokan vendor capability.
@@ -306,24 +306,26 @@ abstract class VendorMigration {
         $dokan_profile_settings = [
             'store_name'              => $this->get_store_name(),
             'vendor_biography'        => $this->get_store_biography(),
-            'social'                  => $this->get_social([]),
-            'payment'                 => $this->get_payment([
-                'paypal' => [ 'email' ],
-                'bank'   => [],
-            ]),
-            'phone'                   => $this->get_phone(''),
-            'show_email'              => $this->get_is_show_email('no'),
-            'address'                 => $this->get_address([]),
-            'location'                => $this->get_location([]),
-            'banner'                  => $this->get_banner(''),
-            'icon'                    => $this->get_icon(''),
-            'gravatar'                => $this->get_gravatar(''),
-            'show_more_ptab'          => $this->get_show_more_ptab('yes'),
-            'store_ppp'               => $this->get_sore_ppp(10),
-            'enable_tnc'              => $this->get_is_enabled_tnc('off'),
-            'store_tnc'               => wp_strip_all_tags( $this->get_store_tnc('') ),
-            'show_min_order_discount' => $this->get_show_min_order_discount('no'),
-            'store_seo'               => $this->get_store_seo([]),
+            'social'                  => $this->get_social( [] ),
+            'payment'                 => $this->get_payment(
+                array(
+                    'paypal' => [ 'email' ],
+                    'bank'   => [],
+                )
+            ),
+            'phone'                   => $this->get_phone( '' ),
+            'show_email'              => $this->get_is_show_email( 'no' ),
+            'address'                 => $this->get_address( [] ),
+            'location'                => $this->get_location( [] ),
+            'banner'                  => $this->get_banner( '' ),
+            'icon'                    => $this->get_icon( '' ),
+            'gravatar'                => $this->get_gravatar( '' ),
+            'show_more_ptab'          => $this->get_show_more_ptab( 'yes' ),
+            'store_ppp'               => $this->get_sore_ppp( 10 ),
+            'enable_tnc'              => $this->get_is_enabled_tnc( 'off' ),
+            'store_tnc'               => wp_strip_all_tags( $this->get_store_tnc( '' ) ),
+            'show_min_order_discount' => $this->get_show_min_order_discount( 'no' ),
+            'store_seo'               => $this->get_store_seo( [] ),
             'dokan_store_time'        => [],
         ];
 
@@ -356,20 +358,20 @@ abstract class VendorMigration {
         $this->meta_data = get_user_meta( $vendor->ID );
         $this->vendor_id = $vendor->ID;
 
-        update_user_meta( $this->vendor_id , 'dokan_enable_selling', $this->get_enable_selling() );
-        update_user_meta( $this->vendor_id , 'dokan_feature_seller', $this->get_featured() );
-        update_user_meta( $this->vendor_id , 'dokan_publishing', $this->get_publishing() );
-        update_user_meta( $this->vendor_id , 'dokan_profile_settings', $this->get_profile_settings() );
-        update_user_meta( $this->vendor_id , 'dokan_store_name', $this->get_store_name() );
-        update_user_meta( $this->vendor_id , 'dokan_geo_address', $this->get_geo_address() );
-        update_user_meta( $this->vendor_id , 'dokan_geo_latitude', $this->get_geo_lat() );
-        update_user_meta( $this->vendor_id , 'dokan_geo_longitude', $this->get_geo_long() );
-        update_user_meta( $this->vendor_id , 'dokan_geo_public', $this->get_geo_public() );
+        update_user_meta( $this->vendor_id, 'dokan_enable_selling', $this->get_enable_selling() );
+        update_user_meta( $this->vendor_id, 'dokan_feature_seller', $this->get_featured() );
+        update_user_meta( $this->vendor_id, 'dokan_publishing', $this->get_publishing() );
+        update_user_meta( $this->vendor_id, 'dokan_profile_settings', $this->get_profile_settings() );
+        update_user_meta( $this->vendor_id, 'dokan_store_name', $this->get_store_name() );
+        update_user_meta( $this->vendor_id, 'dokan_geo_address', $this->get_geo_address() );
+        update_user_meta( $this->vendor_id, 'dokan_geo_latitude', $this->get_geo_lat() );
+        update_user_meta( $this->vendor_id, 'dokan_geo_longitude', $this->get_geo_long() );
+        update_user_meta( $this->vendor_id, 'dokan_geo_public', $this->get_geo_public() );
 
         $vendor_commission = $this->get_commission();
-        update_user_meta( $this->vendor_id , 'dokan_admin_percentage', $vendor_commission[ 'dokan_admin_percentage' ] );
-        update_user_meta( $this->vendor_id , 'dokan_admin_percentage_type', $vendor_commission[ 'dokan_admin_percentage_type' ] );
-        update_user_meta( $this->vendor_id , 'dokan_admin_additional_fee', $vendor_commission[ 'dokan_admin_additional_fee' ] );
+        update_user_meta( $this->vendor_id, 'dokan_admin_percentage', $vendor_commission['dokan_admin_percentage'] );
+        update_user_meta( $this->vendor_id, 'dokan_admin_percentage_type', $vendor_commission['dokan_admin_percentage_type'] );
+        update_user_meta( $this->vendor_id, 'dokan_admin_additional_fee', $vendor_commission['dokan_admin_additional_fee'] );
 
         $this->vendor->add_role( $this->get_capability() );
     }

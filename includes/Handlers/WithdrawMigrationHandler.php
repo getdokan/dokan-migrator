@@ -21,10 +21,9 @@ class WithdrawMigrationHandler extends Handler {
         $total_count = 0;
         global $wpdb;
 
-        switch ($plugin) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
-                $sql = $wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request");
-                $total_count = (int) $wpdb->get_var( $sql );
+                $total_count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request" );
                 break;
 
             default:
@@ -41,18 +40,15 @@ class WithdrawMigrationHandler extends Handler {
      *
      * @return array
      */
-    function get_items( $plugin, $number, $offset ) {
+    public function get_items( $plugin, $number, $offset ) {
         global $wpdb;
 
-        switch ($plugin) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
-                $sql = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request ORDER BY ID LIMIT %d OFFSET %d", $number, $offset );
-                return $wpdb->get_results( $sql );
-                break;
+                return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request ORDER BY ID LIMIT %d OFFSET %d", $number, $offset ) );
 
             default:
                 return [];
-                break;
         }
     }
 
@@ -63,11 +59,10 @@ class WithdrawMigrationHandler extends Handler {
      *
      * @return Class
      */
-    function get_migration_class($plugin){
-        switch ($plugin) {
+    public function get_migration_class( $plugin ) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
-                return new WcfmWithdrawMigrator();;
-                break;
+                return new WcfmWithdrawMigrator();
 
             default:
                 break;

@@ -14,10 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <span class="dokan-icon dokan-icon-alert"></span>
             </div>
             <div class="dokan-message">
-                <h3><?php _e( 'Activate dokan vendor dashboard.', 'dokan-migrator' ); ?></h3>
+                <h3><?php esc_html_e( 'Activate dokan vendor dashboard.', 'dokan-migrator' ); ?></h3>
                 <?php
                     // translators: 1$-2$: opening and closing a tag to active dokan vendor dashboard.
-                    $text = sprintf( esc_html__( '%1$sActive now%2$s',  'dokan-migrator' ), '<a id="dokan-migrator-active-v-dash" href="#">', '</a>' );
+                    $text = sprintf( esc_html__( '%1$sActive now%2$s', 'dokan-migrator' ), '<a id="dokan-migrator-active-v-dash" href="#">', '</a>' );
 
                 ?>
                 <div><?php echo $text; ?></div>
@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     ;(function($){
         $( '#dokan-migrator-active-v-dash' ).on( 'click', ( e ) => {
             e.preventDefault();
-            
+
             $.post('<?php echo admin_url( 'admin-ajax.php' ); ?>', { nonce: '<?php echo wp_create_nonce( 'dokan_migrator_nonce' ); ?>', action: "dokan_migrator_active_vendor_dashboard"}, function(data) {
                 if (data.success) {
                     $('.dokan-migrator-active-v-dash-notice').remove();

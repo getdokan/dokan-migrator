@@ -85,7 +85,11 @@ class WithdrawMigrator extends WithdrawMigration {
      * @return string
      */
     public function get_withdraw_status() {
-        $dokan_withdraw_status = [ 'completed' => 1, 'requested' => 0, 'cancelled' => 2, ];
+        $dokan_withdraw_status = array(
+            'completed' => 1,
+            'requested' => 0,
+            'cancelled' => 2,
+        );
         $withdraw_status = ! empty( $this->withdraw->withdraw_status ) ? $this->withdraw->withdraw_status : '';
 
         return $dokan_withdraw_status[ $withdraw_status ];
@@ -99,7 +103,7 @@ class WithdrawMigrator extends WithdrawMigration {
      * @return string
      */
     public function get_withdraw_payment_method() {
-        return ! empty( $this->withdraw->payment_method ) ? $this->withdraw->payment_method        : '';
+        return ! empty( $this->withdraw->payment_method ) ? $this->withdraw->payment_method : '';
     }
 
     /**
@@ -110,7 +114,7 @@ class WithdrawMigrator extends WithdrawMigration {
      * @return string
      */
     public function get_withdraw_note() {
-        return ! empty( $this->withdraw->withdraw_note ) ? $this->withdraw->withdraw_note          : '';
+        return ! empty( $this->withdraw->withdraw_note ) ? $this->withdraw->withdraw_note : '';
     }
 
     /**
@@ -121,12 +125,12 @@ class WithdrawMigrator extends WithdrawMigration {
      * @return string
      */
     public function get_withdraw_details() {
-        $order_ids          = ! empty( $this->withdraw->order_ids ) ? $this->withdraw->order_ids                  : '';
-        $commission_ids     = ! empty( $this->withdraw->commission_ids ) ? $this->withdraw->commission_ids        : '';
-        $withdraw_charges   = ! empty( $this->withdraw->withdraw_charges ) ? $this->withdraw->withdraw_charges    : '';
-        $withdraw_mode      = ! empty( $this->withdraw->withdraw_mode ) ? $this->withdraw->withdraw_mode          : '';
-        $is_auto_withdrawal = ! empty( $this->withdraw->is_auto_withdrawal ) ? $this->withdraw->is_auto_withdrawal: '';
-        $withdraw_paid_date = ! empty( $this->withdraw->withdraw_paid_date ) ? $this->withdraw->withdraw_paid_date: '';
+        $order_ids          = ! empty( $this->withdraw->order_ids ) ? $this->withdraw->order_ids : '';
+        $commission_ids     = ! empty( $this->withdraw->commission_ids ) ? $this->withdraw->commission_ids : '';
+        $withdraw_charges   = ! empty( $this->withdraw->withdraw_charges ) ? $this->withdraw->withdraw_charges : '';
+        $withdraw_mode      = ! empty( $this->withdraw->withdraw_mode ) ? $this->withdraw->withdraw_mode : '';
+        $is_auto_withdrawal = ! empty( $this->withdraw->is_auto_withdrawal ) ? $this->withdraw->is_auto_withdrawal : '';
+        $withdraw_paid_date = ! empty( $this->withdraw->withdraw_paid_date ) ? $this->withdraw->withdraw_paid_date : '';
 
         $dokan_details                       = $this->meta_data;
         $dokan_details['email']              = get_userdata( $this->get_vendor_id() )->user_email;
@@ -161,8 +165,7 @@ class WithdrawMigrator extends WithdrawMigration {
     public function get_withdraw_meta_data() {
         global $wpdb;
 
-        $sql = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request_meta WHERE withdraw_id = %d", $this->withdraw_id );
-        $meta_data = $wpdb->get_results( $sql );
+        $meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request_meta WHERE withdraw_id = %d", $this->withdraw_id ) );
 
         $result = [];
 

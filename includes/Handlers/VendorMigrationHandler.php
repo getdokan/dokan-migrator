@@ -21,7 +21,7 @@ class VendorMigrationHandler extends Handler {
     public function get_total( $plugin ) {
         $total_count = 0;
 
-        switch ($plugin) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
                 $total_count = count( get_users( array( 'role' => 'wcfm_vendor' ) ) );
                 break;
@@ -40,21 +40,20 @@ class VendorMigrationHandler extends Handler {
      *
      * @return array
      */
-    function get_items( $plugin, $number, $offset ) {
+    public function get_items( $plugin, $number, $offset ) {
         $args = [
             'number' => $number,
             'offset' => $offset,
-            'order'  => 'ASC'
+            'order'  => 'ASC',
         ];
 
-        switch ($plugin) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
                 $args['role'] = 'wcfm_vendor';
                 break;
 
             default:
                 return [];
-                break;
         }
 
         $user_query = new WP_User_Query( $args );
@@ -69,11 +68,10 @@ class VendorMigrationHandler extends Handler {
      *
      * @return Class
      */
-    function get_migration_class($plugin){
-        switch ($plugin) {
+    public function get_migration_class( $plugin ) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmVendorMigrator();
-                break;
 
             default:
                 break;
