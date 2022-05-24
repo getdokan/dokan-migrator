@@ -273,20 +273,21 @@ class OrderMigrator extends OrderMigration {
      * @return void
      */
     public function wcfmmp_get_refund_meta( $refund_id, $key ) {
-                global $wpdb;
+		global $wpdb;
 
-                $commission_meta = $wpdb->get_var(
-                    $wpdb->prepare(
-                        "SELECT `value` FROM `{$wpdb->prefix}wcfm_marketplace_refund_request_meta`
-                                WHERE
-                                `refund_id` = %d
-                                    AND `key` = %s
-                                ",
-                        $refund_id,
-                        $key
-                    )
-                );
-                return $commission_meta;
+		$commission_meta = $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT `value` FROM `{$wpdb->prefix}wcfm_marketplace_refund_request_meta`
+                        WHERE
+                        `refund_id` = %d
+                            AND `key` = %s
+                        ",
+                $refund_id,
+                $key
+            )
+		);
+
+		return $commission_meta;
 	}
 
     /**
