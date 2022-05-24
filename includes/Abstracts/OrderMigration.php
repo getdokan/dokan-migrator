@@ -129,8 +129,8 @@ abstract class OrderMigration {
         global $wpdb;
         $wpdb->delete(
             $wpdb->prefix . 'dokan_orders', array(
-				'order_id'  => $order_id,
-				'seller_id' => $seller_id,
+                'order_id'  => $order_id,
+                'seller_id' => $seller_id,
             )
         );
     }
@@ -149,8 +149,8 @@ abstract class OrderMigration {
         global $wpdb;
         $wpdb->delete(
             $wpdb->prefix . 'dokan_vendor_balance', array(
-				'trn_id'   => $order_id,
-				'trn_type' => 'dokan_orders',
+                'trn_id'   => $order_id,
+                'trn_type' => 'dokan_orders',
             )
         );
     }
@@ -247,25 +247,25 @@ abstract class OrderMigration {
     public function create_sub_order( $seller_id, $seller_products ) {
         $bill_ship = array(
             'billing_country',
-			'billing_first_name',
-			'billing_last_name',
-			'billing_company',
+            'billing_first_name',
+            'billing_last_name',
+            'billing_company',
             'billing_address_1',
-			'billing_address_2',
-			'billing_city',
-			'billing_state',
-			'billing_postcode',
+            'billing_address_2',
+            'billing_city',
+            'billing_state',
+            'billing_postcode',
             'billing_email',
-			'billing_phone',
-			'shipping_country',
-			'shipping_first_name',
-			'shipping_last_name',
+            'billing_phone',
+            'shipping_country',
+            'shipping_first_name',
+            'shipping_last_name',
             'shipping_company',
-			'shipping_address_1',
-			'shipping_address_2',
-			'shipping_city',
+            'shipping_address_1',
+            'shipping_address_2',
+            'shipping_city',
             'shipping_state',
-			'shipping_postcode',
+            'shipping_postcode',
         );
 
         try {
@@ -361,10 +361,10 @@ abstract class OrderMigration {
 
             $item->set_props(
                 array(
-					'method_title' => $shipping_method->get_name(),
-					'method_id'    => $shipping_method->get_method_id(),
-					'total'        => $shipping_method->get_total(),
-					'taxes'        => $shipping_method->get_taxes(),
+                    'method_title' => $shipping_method->get_name(),
+                    'method_id'    => $shipping_method->get_method_id(),
+                    'total'        => $shipping_method->get_total(),
+                    'taxes'        => $shipping_method->get_taxes(),
                 )
             );
 
