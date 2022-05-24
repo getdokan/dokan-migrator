@@ -23,7 +23,6 @@ class WithdrawMigrationHandler extends Handler {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request" );
-                break;
 
             default:
                 return 0;
