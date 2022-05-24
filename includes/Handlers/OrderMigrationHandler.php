@@ -20,10 +20,7 @@ class OrderMigrationHandler extends Handler {
     public function get_total( $plugin ) {
         global $wpdb;
 
-        $total_count = 0;
-
-        $total_count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}posts WHERE post_type='shop_order' AND post_parent=0" );
-        return $total_count;
+        return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}posts WHERE post_type='shop_order' AND post_parent=0" );
     }
 
     /**
