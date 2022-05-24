@@ -129,8 +129,8 @@ abstract class OrderMigration {
         global $wpdb;
         $wpdb->delete(
             $wpdb->prefix . 'dokan_orders', array(
-                        'order_id'  => $order_id,
-                        'seller_id' => $seller_id,
+                'order_id'  => $order_id,
+                'seller_id' => $seller_id,
             )
         );
     }
