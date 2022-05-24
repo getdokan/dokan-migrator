@@ -60,7 +60,6 @@ class OrderMigrationHandler extends Handler {
 
             case 'wcvendors':
                 return new WcVendorsOrderMigrator();
-                break;
 
             default:
                 break;

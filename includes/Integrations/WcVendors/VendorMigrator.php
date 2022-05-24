@@ -43,7 +43,7 @@ class VendorMigrator extends VendorMigration {
      * @return string
      */
     public function get_enable_selling() {
-        $enabled = count( array_intersect( $this->vendor->roles, ['vendor', 'pending_vendor'] ) ) ? 'yes' : 'no';
+        $enabled = count( array_intersect( $this->vendor->roles, [ 'vendor', 'pending_vendor' ] ) ) ? 'yes' : 'no';
         return $enabled;
     }
 
@@ -87,7 +87,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return array
      */
-    public function get_social($default) {
+    public function get_social( $default ) {
         $social = [
             'fb'        => $this->get_val( '_wcv_facebook_url' ),
             'twitter'   => $this->get_val( '_wcv_twitter_username' ),
@@ -107,10 +107,10 @@ class VendorMigrator extends VendorMigration {
      *
      * @return array
      */
-    public function get_payment($default) {
+    public function get_payment( $default ) {
         return [
             'paypal' => [
-                'email' => $this->get_val( 'pv_paypal' )
+                'email' => $this->get_val( 'pv_paypal' ),
             ],
             'bank'   => [
                 'ac_name'        => $this->get_val( 'wcv_bank_account_name' ),
@@ -133,7 +133,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_phone($default) {
+    public function get_phone( $default ) {
         return $this->get_val( '_wcv_store_phone' );
     }
 
@@ -146,7 +146,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_is_show_email($default) {
+    public function get_is_show_email( $default ) {
         return 'no';
     }
 
@@ -159,7 +159,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return array
      */
-    public function get_address($default) {
+    public function get_address( $default ) {
         $address = [
             'street1' => $this->get_val( '_wcv_store_address1' ),
             'street2' => $this->get_val( '_wcv_store_address2' ),
@@ -181,7 +181,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_location($default) {
+    public function get_location( $default ) {
         return [];
     }
 
@@ -194,7 +194,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return int
      */
-    public function get_banner($default) {
+    public function get_banner( $default ) {
         return $this->get_val( '_wcv_store_banner_id' );
     }
 
@@ -208,7 +208,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return int
      */
-    public function get_icon($default) {
+    public function get_icon( $default ) {
         return $this->get_val( '_wcv_store_icon_id' );
     }
 
@@ -221,7 +221,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return int
      */
-    public function get_gravatar($default) {
+    public function get_gravatar( $default ) {
         return '';
     }
 
@@ -234,7 +234,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_show_more_ptab($default) {
+    public function get_show_more_ptab( $default ) {
         return 'yes';
     }
 
@@ -247,7 +247,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return int
      */
-    public function get_sore_ppp($default) {
+    public function get_sore_ppp( $default ) {
         $product_per_page = get_option( 'wcvendors_products_per_page' );
         return $product_per_page ? $product_per_page : 10;
     }
@@ -261,7 +261,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_is_enabled_tnc($default) {
+    public function get_is_enabled_tnc( $default ) {
         return 'off';
     }
 
@@ -274,7 +274,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_store_tnc($default) {
+    public function get_store_tnc( $default ) {
         return wp_strip_all_tags( $this->get_val( 'wcv_policy_terms' ) );
     }
 
@@ -287,7 +287,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_show_min_order_discount($default) {
+    public function get_show_min_order_discount( $default ) {
         return 'no';
     }
 
@@ -300,7 +300,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return array
      */
-    public function get_store_seo($default) {
+    public function get_store_seo( $default ) {
         $dokan_store_soe = [
             'dokan-seo-meta-title'    => $this->get_val( 'wcv_seo_title' ),
             'dokan-seo-meta-desc'     => $this->get_val( 'wcv_seo_meta_description' ),
@@ -328,7 +328,7 @@ class VendorMigrator extends VendorMigration {
         $dokan_commission = [
             'dokan_admin_percentage'      => '',
             'dokan_admin_percentage_type' => '',
-            'dokan_admin_additional_fee'  =>  '',
+            'dokan_admin_additional_fee'  => '',
         ];
 
         return $dokan_commission;

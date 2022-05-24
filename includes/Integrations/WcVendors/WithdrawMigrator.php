@@ -118,16 +118,16 @@ class WithdrawMigrator extends WithdrawMigration {
      * @return string
      */
     public function get_withdraw_details() {
-        $order_ids          = ! empty( $this->withdraw->order_ids ) ? $this->withdraw->order_ids                  : '';
-        $commission_ids     = ! empty( $this->withdraw->commission_ids ) ? $this->withdraw->commission_ids        : '';
-        $withdraw_charges   = ! empty( $this->withdraw->withdraw_charges ) ? $this->withdraw->withdraw_charges    : '';
-        $withdraw_mode      = ! empty( $this->withdraw->withdraw_mode ) ? $this->withdraw->withdraw_mode          : '';
-        $is_auto_withdrawal = ! empty( $this->withdraw->is_auto_withdrawal ) ? $this->withdraw->is_auto_withdrawal: '';
+        $order_ids          = ! empty( $this->withdraw->order_ids ) ? $this->withdraw->order_ids : '';
+        $commission_ids     = ! empty( $this->withdraw->commission_ids ) ? $this->withdraw->commission_ids : '';
+        $withdraw_charges   = ! empty( $this->withdraw->withdraw_charges ) ? $this->withdraw->withdraw_charges : '';
+        $withdraw_mode      = ! empty( $this->withdraw->withdraw_mode ) ? $this->withdraw->withdraw_mode : '';
+        $is_auto_withdrawal = ! empty( $this->withdraw->is_auto_withdrawal ) ? $this->withdraw->is_auto_withdrawal : '';
         $withdraw_paid_date = ! empty( $this->withdraw->time ) ? $this->withdraw->time : '';
 
-        $vendor_id  = ! empty( $this->withdraw->vendor_id ) ? $this->withdraw->vendor_id  : '';
-        $product_id = ! empty( $this->withdraw->product_id ) ? $this->withdraw->product_id: '';
-        $qty        = ! empty( $this->withdraw->qty ) ? $this->withdraw->qty              : '';
+        $vendor_id  = ! empty( $this->withdraw->vendor_id ) ? $this->withdraw->vendor_id : '';
+        $product_id = ! empty( $this->withdraw->product_id ) ? $this->withdraw->product_id : '';
+        $qty        = ! empty( $this->withdraw->qty ) ? $this->withdraw->qty : '';
 
         $dokan_details                       = $this->meta_data;
         $dokan_details['email']              = get_userdata( $this->get_vendor_id() )->user_email;

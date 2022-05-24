@@ -85,7 +85,6 @@ class VendorMigrationHandler extends Handler {
 
             case 'wcvendors':
                 return new WcVendorsVendorMigrator();
-                break;
 
             default:
                 break;

@@ -49,12 +49,11 @@ class OrderMigrator extends OrderMigration {
     public function get_dokan_order_data( $parent_order_id, $seller_id ) {
         global $wpdb;
 
-        $prepared_sql = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pv_commission commission WHERE commission.vendor_id = '%d' AND commission.order_id = '%d'", $seller_id, $parent_order_id );
-        $orders       = $wpdb->get_results( $prepared_sql );
+        $orders = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pv_commission commission WHERE commission.vendor_id = %d AND commission.order_id = %d", $seller_id, $parent_order_id ) );
 
-        $wc_order = wc_get_order($parent_order_id);
+        $wc_order = wc_get_order( $parent_order_id );
 
-        $net_amount  = 0;
+        $net_amount = 0;
 
         $order_total = $wc_order->get_total();
         $commissions = [];
@@ -80,7 +79,7 @@ class OrderMigrator extends OrderMigration {
             $unit_commissin_rate_admin  = 100 - $unit_commissin_rate_vendor;
             $new_admin_commissin        = ( $wc_order->get_subtotal() * $unit_commissin_rate_admin ) / 100;
 
-            $res_commission['percentage']       = number_format((float)$unit_commissin_rate_admin, 2, '.', '');
+            $res_commission['percentage']       = number_format( (float) $unit_commissin_rate_admin, 2, '.', '' );
             $res_commission['admin_commission'] = $new_admin_commissin;
 
             array_push( $commissions, $res_commission );
@@ -120,12 +119,13 @@ class OrderMigrator extends OrderMigration {
 
         // insert on dokan sync table
 
-        $wpdb->update( $wpdb->prefix . 'dokan_orders',
+        $wpdb->update(
+            $wpdb->prefix . 'dokan_orders',
             array(
-                'order_total'  => $new_total_amount,
+                'order_total' => $new_total_amount,
             ),
             array(
-                'order_id'     => $child_order->get_id()
+                'order_id' => $child_order->get_id(),
             ),
             array(
                 '%f',
