@@ -273,9 +273,9 @@ class OrderMigrator extends OrderMigration {
      * @return void
      */
     public function wcfmmp_get_refund_meta( $refund_id, $key ) {
-		global $wpdb;
+        global $wpdb;
 
-		$commission_meta = $wpdb->get_var(
+        $commission_meta = $wpdb->get_var(
             $wpdb->prepare(
                 "SELECT `value` FROM `{$wpdb->prefix}wcfm_marketplace_refund_request_meta`
                         WHERE
@@ -285,9 +285,10 @@ class OrderMigrator extends OrderMigration {
                 $refund_id,
                 $key
             )
-		);
-		return $commission_meta;
-	}
+        );
+
+        return $commission_meta;
+    }
 
     /**
      * Rename vendor shipping for an order

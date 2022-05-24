@@ -304,10 +304,10 @@ abstract class VendorMigration {
      */
     public function get_profile_settings() {
         $dokan_profile_settings = [
-            'store_name'              => $this->get_store_name(),
-            'vendor_biography'        => $this->get_store_biography(),
-            'social'                  => $this->get_social( [] ),
-            'payment'                 => $this->get_payment(
+            'store_name'       => $this->get_store_name(),
+            'vendor_biography' => $this->get_store_biography(),
+            'social'           => $this->get_social( [] ),
+            'payment'          => $this->get_payment(
                 array(
                     'paypal' => [ 'email' ],
                     'bank'   => [],

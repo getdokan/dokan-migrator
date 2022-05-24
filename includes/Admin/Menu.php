@@ -53,7 +53,7 @@ class Menu {
             'dokan-migrator-script',
             DOKAN_MIGRATOR_PLUGIN_ASSETS . '/dist/index.js',
             $asset['dependencies'],
-			$asset['version'],
+            $asset['version'],
             true
         );
         wp_enqueue_style(
