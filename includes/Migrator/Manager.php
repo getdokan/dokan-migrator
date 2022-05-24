@@ -88,20 +88,20 @@ class Manager {
      *
      * @return void
      */
-    public function get_total ( $import = 'vendor', $migratable) {
+    public function get_total( $import = 'vendor', $migratable ) {
         $total_count = 0;
 
         switch ( $import ) {
             case 'vendor':
-                $total_count    = $this->vendor_handler->get_total($migratable);
+                $total_count = $this->vendor_handler->get_total( $migratable );
                 break;
 
             case 'order':
-                $total_count    = $this->order_handler->get_total($migratable);
+                $total_count = $this->order_handler->get_total( $migratable );
                 break;
 
             case 'withdraw':
-                $total_count    = $this->withdraw_handler->get_total($migratable);
+                $total_count = $this->withdraw_handler->get_total( $migratable );
                 break;
         }
 
@@ -129,20 +129,16 @@ class Manager {
 
         switch ( $import ) {
             case 'vendor':
-                return $this->migrate_vendor($migratable);
-                break;
+                return $this->migrate_vendor( $migratable );
 
             case 'order':
-                return $this->migrate_order($migratable );
-                break;
+                return $this->migrate_order( $migratable );
 
             case 'withdraw':
-                return $this->migrate_withdraw($migratable );
-                break;
+                return $this->migrate_withdraw( $migratable );
 
             default:
                 throw new \Exception( 'Invalid import type' );
-                break;
         }
     }
 
@@ -155,12 +151,12 @@ class Manager {
      *
      * @return void
      */
-    public function migrate_vendor($migratable ) {
+    public function migrate_vendor( $migratable ) {
         $users = $this->vendor_handler->get_items( $migratable, $this->number, $this->offset );
 
         if ( ! empty( $users ) ) {
             foreach ( $users as $user ) {
-                $vendor_migrator = $this->vendor_handler->get_migration_class($migratable);
+                $vendor_migrator = $this->vendor_handler->get_migration_class( $migratable );
                 $vendor_migrator->process_migration( $user );
             }
 
@@ -188,13 +184,13 @@ class Manager {
      *
      * @return void
      */
-    public function migrate_order($migratable) {
+    public function migrate_order( $migratable ) {
         $orders = $this->order_handler->get_items( $migratable, $this->number, $this->offset );
 
         if ( ! empty( $orders ) ) {
             foreach ( $orders as $order ) {
-                $order_migrator = $this->order_handler->get_migration_class($migratable);
-                $order_migrator->process_migration($order);
+                $order_migrator = $this->order_handler->get_migration_class( $migratable );
+                $order_migrator->process_migration( $order );
             }
 
             $data = [
@@ -220,14 +216,14 @@ class Manager {
      *
      * @return void
      */
-    public function migrate_withdraw($migratable) {
+    public function migrate_withdraw( $migratable ) {
         $withwraws = $this->withdraw_handler->get_items( $migratable, $this->number, $this->offset );
 
         0 === (int) $this->offset ? $this->remove_existing_withdraw_data() : '';
 
         if ( ! empty( $withwraws ) ) {
             foreach ( $withwraws as $withwraw ) {
-                $withwraws_migrator = $this->withdraw_handler->get_migration_class($migratable);
+                $withwraws_migrator = $this->withdraw_handler->get_migration_class( $migratable );
 
                 $withwraws_migrator->set_withdraw_data( $withwraw );
                 $withwraws_migrator->process_migration();
@@ -291,10 +287,9 @@ class Manager {
      *
      * @return void
      */
-    public function remove_existing_withdraw_data(){
+    public function remove_existing_withdraw_data() {
         global $wpdb;
 
-        $sql = $wpdb->prepare( "DELETE FROM {$wpdb->prefix}dokan_withdraw WHERE 1" );
-        $wpdb->query( $sql );
+        $wpdb->query( "DELETE FROM {$wpdb->prefix}dokan_withdraw WHERE 1" );
     }
 }

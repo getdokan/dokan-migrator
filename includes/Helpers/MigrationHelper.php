@@ -22,12 +22,14 @@ class MigrationHelper {
         $migration_success = get_option( 'dokan_migration_success', false );
         $migratable        = self::get_migratable_plugin();
 
-        wp_send_json_success( [
-            'last_migrated'     => $last_migrated,
-            'migratable'        => $migratable,
-            'migration_success' => $migration_success,
-            'set_title' => self::get_migration_title( $migratable ),
-        ] );
+        wp_send_json_success(
+            array(
+                'last_migrated'     => $last_migrated,
+                'migratable'        => $migratable,
+                'migration_success' => $migration_success,
+                'set_title'         => self::get_migration_title( $migratable ),
+            )
+        );
     }
 
     /**
@@ -155,13 +157,15 @@ class MigrationHelper {
      *
      * @return \Wp_Post
      */
-    public static function  get_post_by_name( $name, $post_type = "page") {
-        $query = new \WP_Query([
-            "post_type" => $post_type,
-            "name" => $name
-        ]);
+    public static function get_post_by_name( $name, $post_type = 'page' ) {
+        $query = new \WP_Query(
+            array(
+                'post_type' => $post_type,
+                'name'      => $name,
+            )
+        );
 
-        return $query->have_posts() ? reset($query->posts) : null;
+        return $query->have_posts() ? reset( $query->posts ) : null;
     }
 
     /**
@@ -173,10 +177,10 @@ class MigrationHelper {
      *
      * @return string
      */
-    public static function  get_migration_title( $plugin ) {
+    public static function get_migration_title( $plugin ) {
         $title = __( 'Migrate to dokan', 'dokan-migrator' );
 
-        switch ($plugin) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
                 $title = __( 'Migrate Wcfm To Dokan.', 'dokan-migrator' );
                 break;
@@ -206,7 +210,7 @@ class MigrationHelper {
         }
 
         // WCfM Multivendor Marketplace Check
-        $is_marketplace = ( in_array( 'wc-multivendor-marketplace/wc-multivendor-marketplace.php', $active_plugins ) || array_key_exists( 'wc-multivendor-marketplace/wc-multivendor-marketplace.php', $active_plugins ) || class_exists( 'WCFMmp' ) ) ? 'wcfmmarketplace' : false;
+        $is_marketplace = ( in_array( 'wc-multivendor-marketplace/wc-multivendor-marketplace.php', $active_plugins, true ) || array_key_exists( 'wc-multivendor-marketplace/wc-multivendor-marketplace.php', $active_plugins ) || class_exists( 'WCFMmp' ) ) ? 'wcfmmarketplace' : false;
 
         // YITH multi vendor marketplace Check
         if( !$is_marketplace ) {

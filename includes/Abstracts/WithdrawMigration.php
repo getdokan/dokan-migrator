@@ -106,7 +106,7 @@ abstract class WithdrawMigration {
             'date'    => $this->get_withdraw_created_date(),
             'status'  => $this->get_withdraw_status(),
             'method'  => $this->get_withdraw_payment_method(),
-            'note'    => $this->get_withdraw_note() ,
+            'note'    => $this->get_withdraw_note(),
             'details' => $this->get_withdraw_details(),
             'ip'      => $this->get_withdraw_ip(),
         ];
@@ -159,8 +159,8 @@ abstract class WithdrawMigration {
                 'debit'         => 0,
                 'credit'        => $amount,
                 'status'        => 'approved',
-                'trn_date'      => date( 'Y-m-d h:i:s', strtotime( $created_date ) ),
-                'balance_date'  => date( 'Y-m-d h:i:s', strtotime( $created_date ) ),
+                'trn_date'      => gmdate( 'Y-m-d h:i:s', strtotime( $created_date ) ),
+                'balance_date'  => gmdate( 'Y-m-d h:i:s', strtotime( $created_date ) ),
             ),
             array(
                 '%d',

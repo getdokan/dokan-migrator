@@ -19,27 +19,18 @@ class WithdrawMigrationHandler extends Handler {
      * @return integer
      */
     public function get_total( $plugin ) {
-        $total_count = 0;
         global $wpdb;
-        $sql = '';
 
-        switch ($plugin) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
-                $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request";
-                break;
+                return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request" );
 
             case 'yithvendors':
-                $sql = "SELECT COUNT(*) FROM {$wpdb->prefix}yith_vendors_commissions WHERE status='paid' AND type='product'";
-                break;
+                return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}yith_vendors_commissions WHERE status='paid' AND type='product'" );
 
             default:
-                break;
+                return 0;
         }
-
-        $sql_prepared = $wpdb->prepare( $sql );
-        $total_count  = (int) $wpdb->get_var( $sql_prepared );
-
-        return $total_count;
     }
 
     /**
@@ -49,26 +40,19 @@ class WithdrawMigrationHandler extends Handler {
      *
      * @return array
      */
-    function get_items( $plugin, $number, $offset ) {
+    public function get_items( $plugin, $number, $offset ) {
         global $wpdb;
-        $sql = '';
 
-        switch ($plugin) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
-                $sql = "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request ORDER BY ID LIMIT %d OFFSET %d";
-                break;
+                return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request ORDER BY ID LIMIT %d OFFSET %d", $number, $offset ) );
 
             case 'yithvendors':
-                $sql = "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE status='paid' AND type='product' ORDER BY id LIMIT %d OFFSET %d";
-                break;
+                return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE status='paid' AND type='product' ORDER BY id LIMIT %d OFFSET %d", $number, $offset ) );
 
             default:
                 return [];
-                break;
         }
-
-        $prepared_sql = $wpdb->prepare( $sql, $number, $offset );
-        return $wpdb->get_results( $prepared_sql );
     }
 
     /**
@@ -78,11 +62,10 @@ class WithdrawMigrationHandler extends Handler {
      *
      * @return Class
      */
-    function get_migration_class($plugin){
-        switch ($plugin) {
+    public function get_migration_class( $plugin ) {
+        switch ( $plugin ) {
             case 'wcfmmarketplace':
-                return new WcfmWithdrawMigrator();;
-                break;
+                return new WcfmWithdrawMigrator();
 
             case 'yithvendors':
                 return new YithMultiVendorWithdrawMigrator();
