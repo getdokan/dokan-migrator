@@ -28,7 +28,7 @@ class VendorMigrationHandler extends Handler {
                 break;
 
             case 'wcvendors':
-                $args = [ 'role__in' => [ 'vendor', 'pending_vendor' ], ];
+                $args = [ 'role__in' => [ 'vendor', 'pending_vendor' ] ];
                 break;
 
             default:
