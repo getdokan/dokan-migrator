@@ -19,18 +19,13 @@ class VendorMigrationHandler extends Handler {
      * @return integer
      */
     public function get_total( $plugin ) {
-        $total_count = 0;
-
         switch ( $plugin ) {
             case 'wcfmmarketplace':
-                $total_count = count( get_users( array( 'role' => 'wcfm_vendor' ) ) );
-                break;
+                return count( get_users( array( 'role' => 'wcfm_vendor' ) ) );
 
             default:
-                break;
+                return 0;
         }
-
-        return $total_count;
     }
 
     /**

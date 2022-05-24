@@ -18,19 +18,16 @@ class WithdrawMigrationHandler extends Handler {
      * @return integer
      */
     public function get_total( $plugin ) {
-        $total_count = 0;
         global $wpdb;
 
         switch ( $plugin ) {
             case 'wcfmmarketplace':
-                $total_count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request" );
+                return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request" );
                 break;
 
             default:
-                break;
+                return 0;
         }
-
-        return $total_count;
     }
 
     /**
