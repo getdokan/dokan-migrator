@@ -88,10 +88,10 @@ class OrderMigrator extends OrderMigration {
 
             $item->set_props(
                 array(
-'method_title' => $shipping_method->get_name(),
-'method_id'    => $shipping_method->get_method_id(),
-'total'        => $total,
-'taxes'        => $taxes,
+                    'method_title' => $shipping_method->get_name(),
+                    'method_id'    => $shipping_method->get_method_id(),
+                    'total'        => $total,
+                    'taxes'        => $taxes,
                 )
             );
 
