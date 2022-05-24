@@ -57,7 +57,7 @@ class MigrationHelper {
 
         delete_option( 'dokan_migration_completed' );
 
-        wp_send_json_success( __( 'Dokan vendor dashboard activated.', 'dokan-migrator', ) );
+        wp_send_json_success( __( 'Dokan vendor dashboard activated.', 'dokan-migrator' ) );
     }
 
     /**
@@ -110,12 +110,6 @@ class MigrationHelper {
                 'page_id'    => 'store_listing',
                 'content'    => '[dokan-stores]',
             ),
-            // array(
-            //     'post_title' => __( 'My Orders', 'dokan-migrator' ),
-            //     'slug'       => 'my-orders',
-            //     'page_id'    => 'my_orders',
-            //     'content'    => '[dokan-my-orders]',
-            // ),
         );
 
         $dokan_pages = array();
@@ -205,6 +199,7 @@ class MigrationHelper {
      */
     public static function get_migratable_plugin() {
         $active_plugins = (array) get_option( 'active_plugins', array() );
+
         if ( is_multisite() ) {
             $active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
         }
@@ -213,8 +208,8 @@ class MigrationHelper {
         $is_marketplace = ( in_array( 'wc-multivendor-marketplace/wc-multivendor-marketplace.php', $active_plugins, true ) || array_key_exists( 'wc-multivendor-marketplace/wc-multivendor-marketplace.php', $active_plugins ) || class_exists( 'WCFMmp' ) ) ? 'wcfmmarketplace' : false;
 
         // YITH multi vendor marketplace Check
-        if( !$is_marketplace ) {
-            $is_marketplace = ( in_array( 'yith-woocommerce-multi-vendor-premium/init.php', $active_plugins ) || array_key_exists( 'yith-woocommerce-multi-vendor-premium/init.php', $active_plugins ) || class_exists( 'YITH_Vendors' ) ) ? 'yithvendors' : false;
+        if ( ! $is_marketplace ) {
+            $is_marketplace = ( in_array( 'yith-woocommerce-multi-vendor-premium/init.php', $active_plugins, true ) || array_key_exists( 'yith-woocommerce-multi-vendor-premium/init.php', $active_plugins ) || class_exists( 'YITH_Vendors' ) ) ? 'yithvendors' : false;
         }
 
         return $is_marketplace;

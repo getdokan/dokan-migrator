@@ -57,7 +57,6 @@ class OrderMigrationHandler extends Handler {
 
             case 'yithvendors':
                 return new YithMultiVendorOrderMigrator();
-                break;
 
             default:
                 break;

@@ -25,11 +25,14 @@ class VendorMigrationHandler extends Handler {
                 return count( get_users( array( 'role' => 'wcfm_vendor' ) ) );
 
             case 'yithvendors':
-                return count( get_terms( [
-                    'taxonomy'   => 'yith_shop_vendor',
-                    'hide_empty' => false,
-                ] ) );
-                break;
+                return count(
+                    get_terms(
+                        array(
+                            'taxonomy'   => 'yith_shop_vendor',
+                            'hide_empty' => false,
+                        )
+                    )
+                );
 
             default:
                 return 0;
