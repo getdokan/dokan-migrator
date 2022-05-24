@@ -149,8 +149,8 @@ abstract class OrderMigration {
         global $wpdb;
         $wpdb->delete(
             $wpdb->prefix . 'dokan_vendor_balance', array(
-				'trn_id'   => $order_id,
-				'trn_type' => 'dokan_orders',
+                                'trn_id'   => $order_id,
+                                'trn_type' => 'dokan_orders',
             )
         );
     }
