@@ -56,7 +56,7 @@ class VendorMigrator extends VendorMigration {
      * @return string
      */
     public function get_enable_selling() {
-        return $this->get_vendor_data_from_terms_table('enable_selling');
+        return $this->get_vendor_data_from_terms_table( 'enable_selling' );
     }
 
     /**
@@ -67,7 +67,7 @@ class VendorMigrator extends VendorMigration {
      * @return string
      */
     public function get_geo_address() {
-        return $this->get_vendor_data_from_terms_table('location');
+        return $this->get_vendor_data_from_terms_table( 'location' );
     }
 
     /**
@@ -99,8 +99,8 @@ class VendorMigrator extends VendorMigration {
      *
      * @return array
      */
-    public function get_social($default) {
-        return $this->get_vendor_data_from_terms_table('socials');
+    public function get_social( $default ) {
+        return $this->get_vendor_data_from_terms_table( 'socials' );
     }
 
     /**
@@ -110,10 +110,10 @@ class VendorMigrator extends VendorMigration {
      *
      * @return array
      */
-    public function get_payment($default) {
+    public function get_payment( $default ) {
         return [
             'paypal' => [
-                'email' => $this->get_vendor_data_from_terms_table('paypal_email')
+                'email' => $this->get_vendor_data_from_terms_table( 'paypal_email' ),
             ],
             'bank'   => [
                 'ac_name'        => '',
@@ -121,7 +121,7 @@ class VendorMigrator extends VendorMigration {
                 'bank_name'      => '',
                 'bank_addr'      => '',
                 'routing_number' => '',
-                'iban'           => $this->get_vendor_data_from_terms_table('bank_account'),
+                'iban'           => $this->get_vendor_data_from_terms_table( 'bank_account' ),
                 'swift'          => '',
             ],
         ];
@@ -136,8 +136,8 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_phone($default) {
-        return $this->get_vendor_data_from_terms_table('telephone');
+    public function get_phone( $default ) {
+        return $this->get_vendor_data_from_terms_table( 'telephone' );
     }
 
     /**
@@ -149,7 +149,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_is_show_email($default) {
+    public function get_is_show_email( $default ) {
         return 'no';
     }
 
@@ -162,9 +162,9 @@ class VendorMigrator extends VendorMigration {
      *
      * @return array
      */
-    public function get_address($default) {
+    public function get_address( $default ) {
         $address = [
-            'street1' => $this->get_vendor_data_from_terms_table('location'),
+            'street1' => $this->get_vendor_data_from_terms_table( 'location' ),
             'street2' => '',
             'city'    => '',
             'zip'     => '',
@@ -184,7 +184,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_location($default) {
+    public function get_location( $default ) {
         return [];
     }
 
@@ -197,8 +197,8 @@ class VendorMigrator extends VendorMigration {
      *
      * @return int
      */
-    public function get_banner($default) {
-        return $this->get_vendor_data_from_terms_table('header_image');
+    public function get_banner( $default ) {
+        return $this->get_vendor_data_from_terms_table( 'header_image' );
     }
 
 
@@ -211,7 +211,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return int
      */
-    public function get_icon($default) {
+    public function get_icon( $default ) {
         return '';
     }
 
@@ -224,8 +224,8 @@ class VendorMigrator extends VendorMigration {
      *
      * @return int
      */
-    public function get_gravatar($default) {
-        return $this->get_vendor_data_from_terms_table('avatar');
+    public function get_gravatar( $default ) {
+        return $this->get_vendor_data_from_terms_table( 'avatar' );
     }
 
     /**
@@ -237,7 +237,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_show_more_ptab($default) {
+    public function get_show_more_ptab( $default ) {
         return 'yes';
     }
 
@@ -250,7 +250,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return int
      */
-    public function get_sore_ppp($default) {
+    public function get_sore_ppp( $default ) {
         return 10;
     }
 
@@ -263,7 +263,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_is_enabled_tnc($default) {
+    public function get_is_enabled_tnc( $default ) {
         return 'off';
     }
 
@@ -276,8 +276,8 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_store_tnc($default) {
-        return wp_strip_all_tags( $this->get_vendor_data_from_terms_table('avatar') );
+    public function get_store_tnc( $default ) {
+        return wp_strip_all_tags( $this->get_vendor_data_from_terms_table( 'avatar' ) );
     }
 
     /**
@@ -289,7 +289,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return string
      */
-    public function get_show_min_order_discount($default) {
+    public function get_show_min_order_discount( $default ) {
         return 'no';
     }
 
@@ -302,7 +302,7 @@ class VendorMigrator extends VendorMigration {
      *
      * @return array
      */
-    public function get_store_seo($default) {
+    public function get_store_seo( $default ) {
         $dokan_store_soe = [
             'dokan-seo-meta-title'    => '',
             'dokan-seo-meta-desc'     => '',
@@ -327,12 +327,10 @@ class VendorMigrator extends VendorMigration {
      * @return void
      */
     public function get_commission() {
-        $dokan_commission = [
-            'dokan_admin_percentage'      => $this->get_vendor_data_from_terms_table('commission'),
+        return array(
+            'dokan_admin_percentage'      => $this->get_vendor_data_from_terms_table( 'commission' ),
             'dokan_admin_percentage_type' => 'percentage',
-            'dokan_admin_additional_fee'  =>  $this->get_vendor_data_from_terms_table('commission'),
-        ];
-
-        return $dokan_commission;
+            'dokan_admin_additional_fee'  => $this->get_vendor_data_from_terms_table( 'commission' ),
+        );
     }
 }

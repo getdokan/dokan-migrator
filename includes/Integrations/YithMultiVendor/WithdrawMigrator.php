@@ -118,17 +118,17 @@ class WithdrawMigrator extends WithdrawMigration {
      * @return string
      */
     public function get_withdraw_details() {
-        $order_ids          = ! empty( $this->withdraw->order_ids ) ? $this->withdraw->order_ids                  : '';
-        $commission_ids     = ! empty( $this->withdraw->commission_ids ) ? $this->withdraw->commission_ids        : '';
-        $withdraw_charges   = ! empty( $this->withdraw->withdraw_charges ) ? $this->withdraw->withdraw_charges    : '';
-        $withdraw_mode      = ! empty( $this->withdraw->withdraw_mode ) ? $this->withdraw->withdraw_mode          : '';
-        $is_auto_withdrawal = ! empty( $this->withdraw->is_auto_withdrawal ) ? $this->withdraw->is_auto_withdrawal: '';
+        $order_ids          = ! empty( $this->withdraw->order_ids ) ? $this->withdraw->order_ids : '';
+        $commission_ids     = ! empty( $this->withdraw->commission_ids ) ? $this->withdraw->commission_ids : '';
+        $withdraw_charges   = ! empty( $this->withdraw->withdraw_charges ) ? $this->withdraw->withdraw_charges : '';
+        $withdraw_mode      = ! empty( $this->withdraw->withdraw_mode ) ? $this->withdraw->withdraw_mode : '';
+        $is_auto_withdrawal = ! empty( $this->withdraw->is_auto_withdrawal ) ? $this->withdraw->is_auto_withdrawal : '';
         $withdraw_paid_date = ! empty( $this->withdraw->time ) ? $this->withdraw->time : '';
 
-        $vendor_id  = ! empty( $this->withdraw->user_id ) ? $this->withdraw->user_id          : '';
-        $product_id = ! empty( $this->withdraw->line_item_id ) ? $this->withdraw->line_item_id: '';
-        $qty        = ! empty( $this->withdraw->qty ) ? $this->withdraw->qty                  : '';
-        $rate       = ! empty( $this->withdraw->rate ) ? ( $this->withdraw->rate * 100 )      : '';
+        $vendor_id  = ! empty( $this->withdraw->user_id ) ? $this->withdraw->user_id : '';
+        $product_id = ! empty( $this->withdraw->line_item_id ) ? $this->withdraw->line_item_id : '';
+        $qty        = ! empty( $this->withdraw->qty ) ? $this->withdraw->qty : '';
+        $rate       = ! empty( $this->withdraw->rate ) ? ( $this->withdraw->rate * 100 ) : '';
 
         $dokan_details                       = $this->meta_data;
         $dokan_details['email']              = get_userdata( $this->get_vendor_id() )->user_email;

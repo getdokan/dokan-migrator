@@ -82,7 +82,6 @@ class VendorMigrationHandler extends Handler {
 
             case 'yithvendors':
                 return new YithMultiVendorVendorMigrator();
-                break;
 
             default:
                 break;

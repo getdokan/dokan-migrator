@@ -27,21 +27,20 @@ class OrderMigrator extends OrderMigration {
             'order'          => 'DESC',
             'post_parent'    => $parent_order_id,
             'post_type'      => 'shop_order',
-            );
+        );
 
         $sub_orders = get_children( $args, ARRAY_A );
 
         $current_order = $parent_order_id;
 
-
         foreach ( $sub_orders as $id => $sub_order ) {
-            if ( absint( $sub_order['post_author'] ) == $seller_id ) {
-                $current_order =  $id;
+            if ( absint( $sub_order['post_author'] ) === $seller_id ) {
+                $current_order = $id;
             }
         }
 
-        $child_order = wc_get_order($current_order);
-        $parent_order = wc_get_order($parent_order_id);
+        $child_order = wc_get_order( $current_order );
+        $parent_order = wc_get_order( $parent_order_id );
 
         $this->add_splited_shipping( $child_order, $parent_order );
 
@@ -58,11 +57,11 @@ class OrderMigrator extends OrderMigration {
      *
      * @return void
      */
-    public function add_splited_shipping( $order, $parent_order ){
+    public function add_splited_shipping( $order, $parent_order ) {
         $parent_order->get_shipping_methods();
 
         $shipping_methods = $parent_order->get_shipping_methods();
-        $shipping_method = '';
+        $shipping_method  = '';
         if ( $shipping_methods ) {
             foreach ( $shipping_methods as $method_item_id => $shipping_object ) {
                 $shipping_method = $shipping_object;
@@ -81,10 +80,10 @@ class OrderMigrator extends OrderMigration {
             $vendors = count( $vendors );
 
             $taxes = $shipping_method->get_taxes();
-            $total = $shipping_method->get_total()/$vendors;
+            $total = $shipping_method->get_total() / $vendors;
 
             foreach ( $taxes['total'] as $index => $tax ) {
-                $taxes['total'][$index] = $tax / $vendors;
+                $taxes['total'][ $index ] = $tax / $vendors;
             }
 
             $item->set_props(
@@ -97,8 +96,6 @@ class OrderMigrator extends OrderMigration {
             );
 
             $metadata = $shipping_method->get_meta_data();
-
-
 
             if ( $metadata ) {
                 foreach ( $metadata as $meta ) {
@@ -122,7 +119,7 @@ class OrderMigrator extends OrderMigration {
      * @return void
      */
     public function reset_sub_orders_if_needed() {
-        return;
+        return '';
     }
 
     /**
@@ -137,7 +134,7 @@ class OrderMigrator extends OrderMigration {
      */
     public function get_dokan_order_data( $parent_order_id, $seller_id ) {
         global $wpdb;
-        $wc_order = wc_get_order($parent_order_id);
+        $wc_order = wc_get_order( $parent_order_id );
 
         $net_amount  = 0;
         $order_total = $wc_order->get_total();
@@ -152,14 +149,13 @@ class OrderMigrator extends OrderMigration {
             'posts_per_page' => -1,
             'order'          => 'DESC',
             'post_parent'    => $parent_order_id,
-            'post_type'      => 'shop_order'
-            );
+            'post_type'      => 'shop_order',
+        );
 
-        $sub_orders = get_children( $args,ARRAY_A );
+        $sub_orders = get_children( $args, ARRAY_A );
 
         foreach ( $sub_orders as $id => $sub_order ) {
-            $prepared_sql = $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE user_id = '%d' AND order_id='%d'", $seller_id, $id );
-            $orders       = $wpdb->get_results( $prepared_sql );
+            $orders = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE user_id = %d AND order_id=%d", $seller_id, $id ) );
 
             foreach ( $orders as $order ) {
                 $net_amount += $order->amount - abs( $order->amount_refunded );
@@ -184,9 +180,7 @@ class OrderMigrator extends OrderMigration {
             }
         }
 
-
-
-        if ( count( $sub_orders ) == 1 ) {
+        if ( count( $sub_orders ) === 1 ) {
             // update post type
             $sub_order = reset( $sub_orders );
             set_post_type( $sub_order['ID'], 'dep_yith_order' );
@@ -224,12 +218,13 @@ class OrderMigrator extends OrderMigration {
 
         // insert on dokan sync table
 
-        $res = $wpdb->update( $wpdb->prefix . 'dokan_orders',
+        $res = $wpdb->update(
+            $wpdb->prefix . 'dokan_orders',
             array(
                 'order_total'  => $new_total_amount,
             ),
             array(
-                'order_id'     => $child_order->get_id()
+                'order_id'     => $child_order->get_id(),
             ),
             array(
                 '%f',
