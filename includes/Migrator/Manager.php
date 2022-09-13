@@ -46,6 +46,19 @@ class Manager {
     private $total_migrated = 0;
 
     /**
+     * Class constructor.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function __construct() {
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+            new Ajax();
+        }
+    }
+
+    /**
      * Sets import type.
      *
      * @since 1.0.0
@@ -55,7 +68,7 @@ class Manager {
      * @return void
      */
     protected function set_import_type( $import_type ) {
-        $import_type = ! empty( $import_type ) ? $import_type : $import_type;
+        $this->import_type = ! empty( $import_type ) ? $import_type : $this->import_type;
     }
 
     /**
