@@ -65,17 +65,17 @@ class Ajax {
     public function import() {
         $this->verify_nonce( $_REQUEST ); // phpcs:ignore
 
-        $request = wp_unslash( $_REQUEST ); // phpcs:ignore
-
-        $import         = ! empty( $request['import'] ) ? sanitize_text_field( $request['import'] ) : '';
-        $number         = ! empty( $request['number'] ) ? absint( $request['number'] ) : 10;
-        $offset         = ! empty( $request['offset'] ) ? sanitize_text_field( $request['offset'] ) : 0;
-        $total_count    = ! empty( $request['total_count'] ) ? absint( $request['total_count'] ) : 0;
-        $total_migrated = ! empty( $request['total_migrated'] ) ? absint( $request['total_migrated'] ) : 0;
-        $migratable     = ! empty( $request['migratable'] ) ? sanitize_text_field( $request['migratable'] ) : false;
+        $import     = ! empty( $_REQUEST['import'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['import'] ) ) : '';
+        $migratable = ! empty( $_REQUEST['migratable'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['migratable'] ) ) : '';
+        $args       = [
+            'number'         => ! empty( $_REQUEST['number'] ) ? absint( $_REQUEST['number'] ) : 10,
+            'offset'         => ! empty( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0,
+            'total_count'    => ! empty( $_REQUEST['total_count'] ) ? absint( $_REQUEST['total_count'] ) : 0,
+            'total_migrated' => ! empty( $_REQUEST['total_migrated'] ) ? absint( $_REQUEST['total_migrated'] ) : 0,
+        ];
 
         try {
-            $processed_data = dokan_migrator()->migrator->migrate( $import, $number, $offset, $total_count, $total_migrated, $migratable );
+            $processed_data = dokan_migrator()->migrator->migrate( $import, $migratable, $args );
             wp_send_json_success(
                 array(
                     'message' => __( 'Import successfull.', 'dokan-migrator' ),

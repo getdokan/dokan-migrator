@@ -7,7 +7,7 @@ namespace Wedevs\DokanMigrator\Abstracts;
  *
  * @since 1.0.0
  */
-abstract class Handler {
+abstract class Processor {
 
     /**
      * Returns count of items vendor or order or withdraw.
@@ -18,7 +18,7 @@ abstract class Handler {
      *
      * @return integer
      */
-    abstract public function get_total( $plugin );
+    abstract public static function get_total( $plugin );
 
     /**
      * Returns array of items vendor or order or withdraw.
@@ -29,7 +29,7 @@ abstract class Handler {
      *
      * @return array
      */
-    abstract public function get_items( $plugin, $number, $offset );
+    abstract public static function get_items( $plugin, $number, $offset );
 
     /**
      * Return class to handle migration.
@@ -40,5 +40,5 @@ abstract class Handler {
      *
      * @return Class
      */
-    abstract public function get_migration_class( $plugin );
+    abstract public static function get_migration_class( $plugin );
 }
