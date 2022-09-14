@@ -218,7 +218,7 @@ abstract class OrderMigration {
                 'credit'        => 0,
                 'status'        => 'wc-' . $order_obj->get_status(),
                 'trn_date'      => $created_date,
-                'balance_date'  => gmdate( 'Y-m-d h:i:s', strtotime( $created_date ) ),
+                'balance_date'  => dokan_current_datetime()->modify( $created_date )->format( 'Y-m-d H:i:s' ),
             ),
             array(
                 '%d',
@@ -430,8 +430,6 @@ abstract class OrderMigration {
                 $this->process_refund( $order, $seller_id );
             }
         }
-
-        dokan_migrator()::reset_email_data();
     }
 
     /**

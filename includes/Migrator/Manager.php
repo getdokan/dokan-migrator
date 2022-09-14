@@ -129,6 +129,7 @@ class Manager {
         $data = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset );
 
         foreach ( $data as $value ) {
+            dokan_migrator()::prevent_email_notification();
             $migrator = call_user_func( [ $processor, 'get_migration_class' ], $plugin );
             $migrator->process_migration( $value );
         }
@@ -146,6 +147,8 @@ class Manager {
         } else {
             delete_option( "dokan_migrator_{$import_type}_status" );
         }
+
+        dokan_migrator()::reset_email_data();
 
         return $args;
     }

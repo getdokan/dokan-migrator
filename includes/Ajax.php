@@ -32,12 +32,12 @@ class Ajax {
      * @return void
      */
     public function count() {
-        $this->verify_nonce( $_REQUEST ); // phpcs:ignore
+        $this->verify_nonce();
 
         $request = wp_unslash( $_REQUEST ); // phpcs:ignore
 
-        $import = ! empty( $request['import'] ) ? sanitize_text_field( $request['import'] ) : 'vendor';
-        $migratable = ! empty( $request['migratable'] ) ? sanitize_text_field( $request['migratable'] ) : false;
+        $import     = ! empty( $_POST['import'] ) ? sanitize_text_field( wp_unslash( $_POST['import'] ) ) : 'vendor';
+        $migratable = ! empty( $_POST['migratable'] ) ? boolval( wp_unslash( $_POST['migratable'] ) ) : false;
 
         try {
             $data = dokan_migrator()->migrator->get_total( $import, $migratable );
@@ -63,7 +63,7 @@ class Ajax {
      * @return void
      */
     public function import() {
-        $this->verify_nonce( $_REQUEST ); // phpcs:ignore
+        $this->verify_nonce();
 
         $import     = ! empty( $_REQUEST['import'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['import'] ) ) : '';
         $migratable = ! empty( $_REQUEST['migratable'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['migratable'] ) ) : '';
@@ -96,12 +96,10 @@ class Ajax {
      *
      * @since 1.0.0
      *
-     * @param array $request
-     *
      * @return void
      */
-    public function verify_nonce( $request ) {
-        $nonce = ! empty( $request['nonce'] ) ? sanitize_text_field( $request['nonce'] ) : '';
+    public function verify_nonce() {
+        $nonce = ! empty( $_REQUEST['nonce'] ) ? sanitize_text_field( $_REQUEST['nonce'] ) : '';
 
         if ( ! wp_verify_nonce( $nonce, 'dokan_migrator_nonce' ) ) {
             wp_send_json_error( array( 'message' => __( 'Nonce verification failed!', 'dokan-migrator' ) ) );

@@ -142,10 +142,11 @@ final class Dokan_Migrator {
     /**
      * Init the plugin.
      *
+     * @since 1.0.0
+     *
      * @return void
      */
     public function plugin_init() {
-        self::prevent_email_notification();
         // Initialize the action hooks
         $this->init_classes();
 

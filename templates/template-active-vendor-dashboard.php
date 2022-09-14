@@ -15,12 +15,16 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
             <div class="dokan-message">
                 <h3><?php esc_html_e( 'Activate dokan vendor dashboard.', 'dokan-migrator' ); ?></h3>
-                <?php
-                    // translators: 1$-2$: opening and closing a tag to active dokan vendor dashboard.
-                    $text = sprintf( esc_html__( '%1$sActive now%2$s', 'dokan-migrator' ), '<a id="dokan-migrator-active-v-dash" href="#">', '</a>' );
-
-                ?>
-                <div><?php echo $text; ?></div>
+                <div>
+                    <?php
+                        printf(
+                            /* translators: 1$s: opening anchor tag, 2$s: closing anchor tag */
+                            esc_html__( '%1$sActive now%2$s', 'dokan-migrator' ),
+                            '<a id="dokan-migrator-active-v-dash" href="#">',
+                            '</a>'
+                        );
+                    ?>
+                </div>
             </div>
         </div>
     </div>
