@@ -1,6 +1,6 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Abstracts;
+namespace WeDevs\DokanMigrator\Abstracts;
 
 abstract class VendorMigration {
 

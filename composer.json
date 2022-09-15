@@ -5,13 +5,13 @@
     "license": "GPL2",
     "autoload": {
         "psr-4": {
-            "Wedevs\\DokanMigrator\\": "includes/"
+            "WeDevs\\DokanMigrator\\": "includes/"
         }
     },
     "authors": [
         {
-            "name": "weDevs",
-            "email": "info@wedevs.com"
+            "name": "WeDevs",
+            "email": "info@Wedevs.com"
         }
     ],
     "minimum-stability": "dev",

@@ -2,30 +2,32 @@
   "name": "dokan-migrator",
   "version": "1.0.0",
   "description": "An e-commerce marketplace migration plugin for WordPress.",
-  "author": "weDevs",
+  "author": "WeDevs",
   "license": "GPL",
   "private": true,
   "devDependencies": {
+    "@wordpress/i18n": "^4.17.0",
     "@wordpress/scripts": "^22.0.1"
   },
   "scripts": {
-    "build": "wp-scripts build src/index.js --output-path=assets/dist",
-    "dev": "wp-scripts start src/index.js --output-path=assets/dist",
-    "zip": "wp-scripts plugin-zip"
+    "build": "wp-scripts build src/index.js --output-path=assets/dist --progress",
+    "dev": "wp-scripts start src/index.js --output-path=assets/dist --progress",
+    "dev:hot": "wp-scripts start src/index.js --output-path=assets/dist --progress --hot",
+    "zip": "wp-scripts plugin-zip",
+    "makepot": "wp i18n make-pot --domain='dokan-migrator' --exclude='node_modules,src,vendor' . --headers='{\"Last-Translator\":\"support@wedevs.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/weDevsOfficial/dokan-migrator/issues\"}' --file-comment=\"Copyright (c) $(date +'%Y') weDevs Pte. Ltd. All Rights Reserved.\" languages/dokan-migrator.pot"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@wordpress/element": "^4.1.1",
-    "antd": "^4.18.9",
-    "axios": "^0.26.0"
+    "antd": "^4.18.9"
   },
-  "files": [ 
+  "files": [
     "dokan-migrator.php",
-    "assets/dist/index.asset.php", 
-    "assets/dist/index.css", 
-    "assets/dist/index.js", 
-    "includes", 
-    "templates", 
-    "vendor" 
+    "assets/dist/index.asset.php",
+    "assets/dist/index.css",
+    "assets/dist/index.js",
+    "includes",
+    "templates",
+    "vendor"
   ]
 }

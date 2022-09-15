@@ -1,6 +1,6 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Abstracts;
+namespace WeDevs\DokanMigrator\Abstracts;
 
 /**
  * This class defines the methods for vendor, order and withdraw handler.

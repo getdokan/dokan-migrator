@@ -1,11 +1,11 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Processors;
+namespace WeDevs\DokanMigrator\Processors;
 
 use \WP_User_Query;
 
-use Wedevs\DokanMigrator\Abstracts\Processor;
-use Wedevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
+use WeDevs\DokanMigrator\Abstracts\Processor;
+use WeDevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
 
 class Vendor extends Processor {
 

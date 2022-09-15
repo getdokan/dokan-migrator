@@ -1,0 +1,77 @@
+# Copyright (c) 2022 weDevs Pte. Ltd. All Rights Reserved.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dokan Migrator 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/weDevsOfficial/dokan-migrator/issues\n"
+"Last-Translator: support@wedevs.com\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2022-09-15T12:03:33+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.6.0\n"
+"X-Domain: dokan-migrator\n"
+
+#. Plugin Name of the plugin
+#: includes/Admin/Menu.php:32
+#: includes/Admin/Menu.php:33
+msgid "Dokan Migrator"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "http://WeDevs.com/"
+msgstr ""
+
+#. Description of the plugin
+msgid "An e-commerce marketplace migration plugin for WordPress. Powered by WooCommerce and WeDevs."
+msgstr ""
+
+#. Author of the plugin
+msgid "WeDevs"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://WeDevs.com/"
+msgstr ""
+
+#: includes/Ajax.php:45
+msgid "Item count successfull."
+msgstr ""
+
+#: includes/Ajax.php:79
+msgid "Import successfull."
+msgstr ""
+
+#: includes/Ajax.php:103
+msgid "Nonce verification failed!"
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:54
+msgid "Dokan vendor dashboard activated."
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:88
+msgid "Migrate to dokan"
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:92
+msgid "Migrate Wcfm To Dokan."
+msgstr ""
+
+#: templates/template-active-vendor-dashboard.php:17
+msgid "Activate dokan vendor dashboard."
+msgstr ""
+
+#. translators: 1$s: opening anchor tag, 2$s: closing anchor tag
+#: templates/template-active-vendor-dashboard.php:22
+msgid "%1$sActive now%2$s"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Congratulations."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Active dokan vendor dashboard."
+msgstr ""

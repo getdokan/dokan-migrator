@@ -1,6 +1,8 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Migrator;
+namespace WeDevs\DokanMigrator\Migrator;
+
+use WeDevs\DokanMigrator\Ajax;
 
 /**
  * Migrator class.

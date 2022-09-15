@@ -1,9 +1,9 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Processors;
+namespace WeDevs\DokanMigrator\Processors;
 
-use Wedevs\DokanMigrator\Abstracts\Processor;
-use Wedevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
+use WeDevs\DokanMigrator\Abstracts\Processor;
+use WeDevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
 
 class Order extends Processor {
 

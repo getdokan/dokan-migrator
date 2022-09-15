@@ -2,11 +2,11 @@
 import "antd/dist/antd.css";
 import './App.css';
 import { Alert, Button, Card, Col, Row, notification, } from 'antd';
+import { __ } from '@wordpress/i18n'
 
 import DokanMigrator from './DokanMigrator'
 
 import { useState, useEffect, } from 'react'
-import axios from 'axios'
 import { CheckCircleFilled, SmileOutlined, WarningFilled } from '@ant-design/icons';
 import StateLoader from './StateLoader'
 
@@ -34,18 +34,20 @@ function App() {
       setStateLoading(true);
       setLoading(true);
 
-      axios.post( dokan_migrator.ajax_url, null, { params: {
-        action: 'dokan_migrator_last_migrated',
-        nonce: dokan_migrator.nonce,
-      } } )
-      .then(res=>{
-        setType( res.data.data.last_migrated != 'undefined' ? res.data.data.last_migrated : 'vendor' );
-        setMigratable( res.data.data.migratable != 'undefined' ? res.data.data.migratable : false );
-        setMigrationSuccess( res.data.data.migration_success != 'undefined' ? res.data.data.migration_success : false );
-        setTitle( res.data.data.set_title != 'undefined' ? res.data.data.set_title : 'Migrate to Dokan' );
+      jQuery.post( dokan_migrator.ajax_url,
+        {
+          action: 'dokan_migrator_last_migrated',
+          nonce: dokan_migrator.nonce,
+        } )
+      .done( function (res) {
+        console.log(res.data);
+        setType( res.data.last_migrated != 'undefined' ? res.data.last_migrated : 'vendor' );
+        setMigratable( res.data.migratable != 'undefined' ? res.data.migratable : false );
+        setMigrationSuccess( res.data.migration_success != 'undefined' ? res.data.migration_success : false );
+        setTitle( res.data.set_title != 'undefined' ? res.data.set_title : 'Migrate to Dokan' );
 
         let oldData = {...lastCompleted};
-        switch (res.data.data) {
+        switch (res.data) {
           case 'order':
             oldData.vendor = true;
             break;
@@ -110,9 +112,8 @@ function App() {
 
     const openNotification = () => {
       notification.open({
-        message: 'Congratulations.',
-        description:
-          'You have successful migrated to Dokan. Enjoy 🎉',
+        message: __( 'Congratulations.', 'dokan-migrator' ),
+        description: __( 'You have successful migrated to Dokan. Enjoy 🎉', 'dokan-migrator' ),
         icon: <SmileOutlined style={{ color: '#52C519' }} />,
         placement: 'bottomRight'
       });
@@ -126,7 +127,7 @@ function App() {
           >
             <Row  gutter={[16, 16]}>
               <DokanMigrator
-                title="Vendor"
+                title={__( 'Vendor', 'dokan-migrator' )}
                 type="vendor"
                 url={dokan_migrator.ajax_url}
                 nonce={dokan_migrator.nonce}
@@ -138,7 +139,7 @@ function App() {
                 migrate={migratable}
               />
               <DokanMigrator
-                title="Order"
+                title={__( 'Order', 'dokan-migrator' )}
                 type="order"
                 url={dokan_migrator.ajax_url}
                 nonce={dokan_migrator.nonce}
@@ -150,7 +151,7 @@ function App() {
                 migrate={migratable}
               />
               <DokanMigrator
-                title="Withdraw"
+                title={__( 'Withdraw', 'dokan-migrator' )}
                 type="withdraw"
                 url={dokan_migrator.ajax_url}
                 nonce={dokan_migrator.nonce}
@@ -166,18 +167,18 @@ function App() {
               <Col span={24}>
                 { enableVendorDashboard ?  <Alert
                   style={{ width: '100%' }}
-                  message="Active dokan vendor dashboard."
+                  message={__( 'Active dokan vendor dashboard.', 'dokan-migrator' )}
                   type="success"
                   showIcon
                   action={
                     <Button onClick={activeVendorDashboard} className="dokan-migration-active-v-dash-btn" size="middle" type="primary">
-                      Active
+                      {__( 'Active', 'dokan-migrator' )}
                     </Button>
                   }
                 />
                 :''}
                 { ! completed ?
-                  <Button onClick={()=>startMigration(type)} type="primary" loading={loading}>Start migration</Button>
+                  <Button onClick={()=>startMigration(type)} type="primary" loading={loading}>{ __( 'Start migration', 'dokan-migrator' ) }</Button>
                   : ''
                 }
               </Col>
@@ -216,7 +217,7 @@ function App() {
     const successUiOrMigrationUi = () => {
       return(
         migrationSuccess ?
-          successOrWarningUi('You have successfully migrated to dokan.',true)
+          successOrWarningUi( __( 'You have successfully migrated to dokan.', 'dokan-migrator' ),true )
         :
           migrationCard()
       );
@@ -228,9 +229,9 @@ function App() {
           successUiOrMigrationUi()
         :
           migrationSuccess ?
-            successOrWarningUi('You have successfully migrated to dokan.',true)
+            successOrWarningUi( __( 'You have successfully migrated to dokan.', 'dokan-migrator' ), true )
           :
-            successOrWarningUi('No plugin found to migrate to dokan')
+            successOrWarningUi( __( 'No plugin found to migrate to dokan', 'dokan-migrator' ) )
       );
     }
 

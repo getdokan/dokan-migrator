@@ -1,10 +1,10 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Processors;
+namespace WeDevs\DokanMigrator\Processors;
 
-use Wedevs\DokanMigrator\Abstracts\Processor;
+use WeDevs\DokanMigrator\Abstracts\Processor;
 
-use Wedevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
+use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
 
 class Withdraw extends Processor {
 

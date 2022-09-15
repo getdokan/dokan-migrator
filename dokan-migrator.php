@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Dokan Migrator
- * Plugin URI: http://wedevs.com/
- * Description: An e-commerce marketplace migration plugin for WordPress. Powered by WooCommerce and weDevs.
+ * Plugin URI: http://WeDevs.com/
+ * Description: An e-commerce marketplace migration plugin for WordPress. Powered by WooCommerce and WeDevs.
  * Version: 1.0.0
- * Author: weDevs
- * Author URI: https://wedevs.com/
+ * Author: WeDevs
+ * Author URI: https://WeDevs.com/
  * Domain Path: /languages/
  * License: GPL2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -13,7 +13,7 @@
  * WC tested up to: 6.2.0
  * Text Domain: dokan-migrator
  *
- * Copyright (c) 2016 weDevs (email: info@wedevs.com). All rights reserved.
+ * Copyright (c) 2016 WeDevs (email: info@WeDevs.com). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
@@ -247,15 +247,12 @@ final class Dokan_Migrator {
      */
     private function init_classes() {
         if ( is_admin() ) {
-            new \Wedevs\DokanMigrator\Admin\Menu();
+            new \WeDevs\DokanMigrator\Admin\Menu();
         }
 
-        $this->container['migrator'] = new \Wedevs\DokanMigrator\Migrator\Manager();
+        $this->container['migrator'] = new \WeDevs\DokanMigrator\Migrator\Manager();
+        $this->container['assets'] = new \WeDevs\DokanMigrator\Assets();
         $this->container = apply_filters( 'dokan_migrator_get_class_container', $this->container );
-
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            new \Wedevs\DokanMigrator\Ajax();
-        }
     }
 
     /**

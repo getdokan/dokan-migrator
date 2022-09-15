@@ -1,6 +1,6 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Helpers;
+namespace WeDevs\DokanMigrator\Helpers;
 
 /**
  * Dokan migrator helper class

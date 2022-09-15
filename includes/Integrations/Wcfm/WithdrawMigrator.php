@@ -1,8 +1,8 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Integrations\Wcfm;
+namespace WeDevs\DokanMigrator\Integrations\Wcfm;
 
-use Wedevs\DokanMigrator\Abstracts\WithdrawMigration;
+use WeDevs\DokanMigrator\Abstracts\WithdrawMigration;
 
 /**
  * Formats vendor data for migration to Dokan.

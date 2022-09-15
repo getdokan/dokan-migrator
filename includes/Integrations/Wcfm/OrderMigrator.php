@@ -1,8 +1,8 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Integrations\Wcfm;
+namespace WeDevs\DokanMigrator\Integrations\Wcfm;
 
-use Wedevs\DokanMigrator\Abstracts\OrderMigration;
+use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 
 /**
  * Order migration class.
@@ -22,7 +22,47 @@ class OrderMigrator extends OrderMigration {
      * @return \WC_Order
      */
     public function create_sub_order_if_needed( $seller_id, $seller_products, $parent_order_id ) {
-        return $this->create_sub_order( $seller_id, $seller_products );
+        /**
+         * Before creating sub order, we need to convert the meta key according to
+         * Dokan meta key for order items as those data will be parsed while creating
+         * sub orders.
+         */
+        $this->map_shipping_method_item_meta();
+        return dokan()->order->create_sub_order( $this->order, $seller_id, $seller_products );
+    }
+
+    /**
+     * Converts the order item meta key according to
+     * Dokan meta key as those data will be parsed
+     * while creating sub orders.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function map_shipping_method_item_meta() {
+        if ( ! $this->order instanceof \WC_Order ) {
+            return;
+        }
+
+        $shipping_methods = $this->order->get_shipping_methods();
+        if ( empty( $shipping_methods ) ) {
+            return;
+        }
+
+        foreach ( $shipping_methods as $method_item_id => $shipping_object ) {
+            $seller_id = wc_get_order_item_meta( $method_item_id, 'vendor_id', true );
+
+            if ( ! $seller_id ) {
+                continue;
+            }
+
+            wc_update_order_item_meta(
+                $method_item_id,
+                'seller_id',
+                wc_get_order_item_meta( $method_item_id, 'vendor_id', true )
+            );
+        }
     }
 
     /**
