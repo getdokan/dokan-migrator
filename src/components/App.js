@@ -40,7 +40,6 @@ function App() {
           nonce: dokan_migrator.nonce,
         } )
       .done( function (res) {
-        console.log(res.data);
         setType( res.data.last_migrated != 'undefined' ? res.data.last_migrated : 'vendor' );
         setMigratable( res.data.migratable != 'undefined' ? res.data.migratable : false );
         setMigrationSuccess( res.data.migration_success != 'undefined' ? res.data.migration_success : false );
