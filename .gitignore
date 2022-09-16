@@ -7,3 +7,4 @@ assets/dist
 yarn.lock
 yarn-error.log
 .vscode
+build
