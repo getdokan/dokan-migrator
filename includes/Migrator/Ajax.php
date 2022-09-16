@@ -1,6 +1,6 @@
 <?php
 
-namespace WeDevs\DokanMigrator;
+namespace WeDevs\DokanMigrator\Migrator;
 
 use Exception;
 use WeDevs\DokanMigrator\Helpers\MigrationHelper;

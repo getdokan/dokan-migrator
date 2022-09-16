@@ -251,7 +251,6 @@ final class Dokan_Migrator {
         }
 
         $this->container['migrator'] = new \WeDevs\DokanMigrator\Migrator\Manager();
-        $this->container['assets'] = new \WeDevs\DokanMigrator\Assets();
         $this->container = apply_filters( 'dokan_migrator_get_class_container', $this->container );
     }
 

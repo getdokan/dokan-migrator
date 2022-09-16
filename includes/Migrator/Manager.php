@@ -2,7 +2,8 @@
 
 namespace WeDevs\DokanMigrator\Migrator;
 
-use WeDevs\DokanMigrator\Ajax;
+use WeDevs\DokanMigrator\Migrator\Ajax;
+use WeDevs\DokanMigrator\Migrator\Assets;
 
 /**
  * Migrator class.
@@ -58,6 +59,8 @@ class Manager {
         if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
             new Ajax();
         }
+
+        new Assets();
     }
 
     /**

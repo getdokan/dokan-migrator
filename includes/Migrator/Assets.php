@@ -1,6 +1,6 @@
 <?php
 
-namespace WeDevs\DokanMigrator;
+namespace WeDevs\DokanMigrator\Migrator;
 
 /**
  * Assets class for dokan migrator.
