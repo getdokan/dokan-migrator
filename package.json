@@ -19,7 +19,9 @@
     "dev:hot": "wp-scripts start src/index.js --output-path=assets/dist --progress --hot",
     "make:zip": "node bin/zip",
     "make:pot": "wp i18n make-pot --domain='dokan-migrator' --exclude='node_modules,src,vendor' . --headers='{\"Last-Translator\":\"support@wedevs.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/weDevsOfficial/dokan-migrator/issues\"}' --file-comment=\"Copyright (c) $(date +'%Y') weDevs Pte. Ltd. All Rights Reserved.\" languages/dokan-migrator.pot",
-    "version:replace": "node bin/version-replace"
+    "version:replace": "node bin/version-replace",
+    "release": "npm run version:replace && npm run build && npm run make:pot && npm run make:zip",
+    "for:testing": "npm run build && npm run make:pot && npm run make:zip"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",

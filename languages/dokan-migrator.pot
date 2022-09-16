@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-15T13:16:31+00:00\n"
+"POT-Creation-Date: 2022-09-16T11:11:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: dokan-migrator\n"
@@ -35,18 +35,6 @@ msgstr ""
 msgid "https://WeDevs.com/"
 msgstr ""
 
-#: includes/Ajax.php:45
-msgid "Item count successfull."
-msgstr ""
-
-#: includes/Ajax.php:79
-msgid "Import successfull."
-msgstr ""
-
-#: includes/Ajax.php:103
-msgid "Nonce verification failed!"
-msgstr ""
-
 #: includes/Helpers/MigrationHelper.php:54
 msgid "Dokan vendor dashboard activated."
 msgstr ""
@@ -57,6 +45,18 @@ msgstr ""
 
 #: includes/Helpers/MigrationHelper.php:92
 msgid "Migrate Wcfm To Dokan."
+msgstr ""
+
+#: includes/Migrator/Ajax.php:45
+msgid "Item count successfull."
+msgstr ""
+
+#: includes/Migrator/Ajax.php:79
+msgid "Import successfull."
+msgstr ""
+
+#: includes/Migrator/Ajax.php:103
+msgid "Nonce verification failed!"
 msgstr ""
 
 #: templates/template-active-vendor-dashboard.php:17
