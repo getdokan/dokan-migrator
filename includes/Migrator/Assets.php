@@ -5,14 +5,14 @@ namespace WeDevs\DokanMigrator\Migrator;
 /**
  * Assets class for dokan migrator.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class Assets {
 
     /**
      * Assets class constructor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      */
     public function __construct () {
         add_action( 'init', [ $this, 'register_scripts_and_localization_setup' ] );

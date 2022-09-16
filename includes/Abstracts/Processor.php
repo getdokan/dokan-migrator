@@ -5,14 +5,14 @@ namespace WeDevs\DokanMigrator\Abstracts;
 /**
  * This class defines the methods for vendor, order and withdraw handler.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 abstract class Processor {
 
     /**
      * Returns count of items vendor or order or withdraw.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $plugin
      *
@@ -23,7 +23,7 @@ abstract class Processor {
     /**
      * Returns array of items vendor or order or withdraw.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $plugin
      *
@@ -34,7 +34,7 @@ abstract class Processor {
     /**
      * Return class to handle migration.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $plugin
      *

@@ -7,7 +7,7 @@ use WeDevs\DokanMigrator\Abstracts\WithdrawMigration;
 /**
  * Formats vendor data for migration to Dokan.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class WithdrawMigrator extends WithdrawMigration {
 
@@ -35,7 +35,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Sets single withdraw item data.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      */
     public function set_withdraw_data( $withdraw_data ) {
         $this->withdraw = $withdraw_data;
@@ -47,7 +47,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns vendor id.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return int
      */
@@ -58,7 +58,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns withdraw amount.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return int|float
      */
@@ -69,7 +69,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns withdraw created date.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -80,7 +80,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns withdraw status.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -98,7 +98,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns withdraw payment method.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -109,7 +109,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns withdraw note
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -120,7 +120,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns withdraw details.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -147,7 +147,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns withdraw ip.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -158,7 +158,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Gets the withdraw meta data.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return array
      */

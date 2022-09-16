@@ -8,14 +8,14 @@ use WeDevs\DokanMigrator\Helpers\MigrationHelper;
 /**
  * Ajax request handler class.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class Ajax {
 
     /**
      * Class constructor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      */
     public function __construct() {
         add_action( 'wp_ajax_dokan_migrator_count_data', array( $this, 'count' ) );
@@ -27,7 +27,7 @@ class Ajax {
     /**
      * Count the data of vendor or order.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -92,7 +92,7 @@ class Ajax {
     /**
      * Verify nonce.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */

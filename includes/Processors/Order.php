@@ -10,7 +10,7 @@ class Order extends Processor {
     /**
      * Returns count of items vendor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $plugin
      *
@@ -25,7 +25,7 @@ class Order extends Processor {
     /**
      * Returns array of items vendor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return array
      * @throws \Exception
@@ -52,7 +52,7 @@ class Order extends Processor {
     /**
      * Return class to handle migration.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return Class
      */
@@ -69,7 +69,7 @@ class Order extends Processor {
     /**
      * Throws error on empty data or unsupported plugin.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      * @throws \Exception

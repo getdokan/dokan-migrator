@@ -12,7 +12,7 @@ class Vendor extends Processor {
     /**
      * Returns count of items vendor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $plugin
      *
@@ -31,7 +31,7 @@ class Vendor extends Processor {
     /**
      * Returns array of items vendor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return array
      * @throws \Exception
@@ -65,7 +65,7 @@ class Vendor extends Processor {
     /**
      * Return class to handle migration.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return Class
      */
@@ -82,7 +82,7 @@ class Vendor extends Processor {
     /**
      * Throws error on empty data or unsupported plugin.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      * @throws \Exception

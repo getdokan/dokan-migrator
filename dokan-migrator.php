@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @class Dokan_Migrator The class that holds the entire Dokan_Migrator plugin
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 final class Dokan_Migrator {
 
@@ -90,7 +90,7 @@ final class Dokan_Migrator {
     /**
      * Holds various class instances
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @var array
      */
@@ -126,7 +126,7 @@ final class Dokan_Migrator {
     /**
      * Define all dokan migrator constant
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -142,7 +142,7 @@ final class Dokan_Migrator {
     /**
      * Init the plugin.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -156,7 +156,7 @@ final class Dokan_Migrator {
     /**
      * Show needed admin notice.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -167,7 +167,7 @@ final class Dokan_Migrator {
     /**
      * Show activate vendor dashboard notice
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -180,7 +180,7 @@ final class Dokan_Migrator {
     /**
      * Preventing email notifications from dokan and woocommerce.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -213,7 +213,7 @@ final class Dokan_Migrator {
     /**
      * Resting email classes.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -257,7 +257,7 @@ final class Dokan_Migrator {
     /**
      * Magic getter to bypass referencing objects
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $prop
      *

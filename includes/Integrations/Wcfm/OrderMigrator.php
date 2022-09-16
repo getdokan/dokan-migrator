@@ -7,14 +7,14 @@ use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 /**
  * Order migration class.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class OrderMigrator extends OrderMigration {
 
     /**
      * Create sub order if needed
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param int $seller_id
      * @param array $seller_products
@@ -36,7 +36,7 @@ class OrderMigrator extends OrderMigration {
      * Dokan meta key as those data will be parsed
      * while creating sub orders.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -68,7 +68,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Delete sub orders of needed.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -79,7 +79,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Gets order data from wcfm order table for dokan.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param int $parent_order_id
      * @param int $seller_id
@@ -142,7 +142,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Process refund for a child order.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param \Wc_Order $child_order
      * @param integer $seller_id
@@ -305,7 +305,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Get wcfm refund meta data
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param integer $refund_id
      * @param sting $key
@@ -333,7 +333,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Rename vendor shipping for an order
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param object $order
      *

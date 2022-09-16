@@ -5,14 +5,14 @@ namespace WeDevs\DokanMigrator\Admin;
 /**
  * Dokan Migrator Menu Class
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class Menu {
 
     /**
      * Class constructor
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -40,7 +40,7 @@ class Menu {
     /**
      * Enqueue migration script and styles.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */

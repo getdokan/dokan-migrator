@@ -6,14 +6,14 @@ namespace WeDevs\DokanMigrator\Helpers;
  * Dokan migrator helper class
  * This class holds the helper methods for dokan migration.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class MigrationHelper {
 
     /**
      * Last migrated data, vendor/order/withdraw. and migratable plugin.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -35,7 +35,7 @@ class MigrationHelper {
     /**
      * Deactivate wcfm plugins.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -57,7 +57,7 @@ class MigrationHelper {
     /**
      * Get post by post name
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $name
      * @param string $post_type
@@ -78,7 +78,7 @@ class MigrationHelper {
     /**
      * Get get migration title.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $plugin
      *
@@ -102,7 +102,7 @@ class MigrationHelper {
     /**
      * Returns migratable plugin name like: wcfm, wcvendors, wcmarketplace, .......
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */

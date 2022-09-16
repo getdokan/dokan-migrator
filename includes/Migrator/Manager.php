@@ -9,7 +9,7 @@ use WeDevs\DokanMigrator\Migrator\Assets;
  * Migrator class.
  * Migration process works in this class.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class Manager {
 
@@ -51,7 +51,7 @@ class Manager {
     /**
      * Class constructor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -66,7 +66,7 @@ class Manager {
     /**
      * Sets import type.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $import_type
      *
@@ -79,7 +79,7 @@ class Manager {
     /**
      * Sets required data for execution.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param @param array{number:int,offset:int,total_count:int,total_migrated:int} $data
      *
@@ -116,7 +116,7 @@ class Manager {
     /**
      * Decide which import type is going to be migrated and run the migration process.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $import_type Type of the element being migrated. The values can be `vendor`, `order`, `withdraw`.
      * @param string $plugin Handle of the plugin which is being migrated
@@ -161,7 +161,7 @@ class Manager {
     /**
      * Retrives the class name of the migrator based on the import type.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $import_type
      *
@@ -180,7 +180,7 @@ class Manager {
     /**
      * Update successfully migration data into database option table based on vendor or order.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param array $data
      *
@@ -195,7 +195,7 @@ class Manager {
     /**
      * Get the migration status of vendor or order.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return boolean
      */
