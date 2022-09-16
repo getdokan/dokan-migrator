@@ -10,16 +10,16 @@
     "@wordpress/i18n": "^4.17.0",
     "@wordpress/scripts": "^22.0.1",
     "chalk": "^4.1.2",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^10.1.0",
+    "replace-in-file": "^6.3.5"
   },
   "scripts": {
     "build": "wp-scripts build src/index.js --output-path=assets/dist --progress",
     "dev": "wp-scripts start src/index.js --output-path=assets/dist --progress",
     "dev:hot": "wp-scripts start src/index.js --output-path=assets/dist --progress --hot",
-    "zip": "wp-scripts plugin-zip",
     "make:zip": "node bin/zip",
-    "make:zip:sh": "./bin/zip.sh",
-    "makepot": "wp i18n make-pot --domain='dokan-migrator' --exclude='node_modules,src,vendor' . --headers='{\"Last-Translator\":\"support@wedevs.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/weDevsOfficial/dokan-migrator/issues\"}' --file-comment=\"Copyright (c) $(date +'%Y') weDevs Pte. Ltd. All Rights Reserved.\" languages/dokan-migrator.pot"
+    "make:pot": "wp i18n make-pot --domain='dokan-migrator' --exclude='node_modules,src,vendor' . --headers='{\"Last-Translator\":\"support@wedevs.com\",\"Report-Msgid-Bugs-To\":\"https://github.com/weDevsOfficial/dokan-migrator/issues\"}' --file-comment=\"Copyright (c) $(date +'%Y') weDevs Pte. Ltd. All Rights Reserved.\" languages/dokan-migrator.pot",
+    "version:replace": "node bin/version-replace"
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
