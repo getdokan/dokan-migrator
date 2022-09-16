@@ -5,4 +5,5 @@ node_modules
 package-lock.json
 assets/dist
 yarn.lock
+yarn-error.log
 .vscode

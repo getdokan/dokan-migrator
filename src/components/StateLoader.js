@@ -1,4 +1,4 @@
-import { __ } from "@wordpress/i18n/build-types"
+import { __ } from "@wordpress/i18n"
 import { Card, Spin } from "antd"
 
 const StateLoader = (props) => {

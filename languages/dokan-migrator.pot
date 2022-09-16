@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-15T12:03:33+00:00\n"
+"POT-Creation-Date: 2022-09-15T13:16:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: dokan-migrator\n"
@@ -69,9 +69,45 @@ msgid "%1$sActive now%2$s"
 msgstr ""
 
 #: assets/dist/index.js:1
+msgid "Loading..."
+msgstr ""
+
+#: assets/dist/index.js:1
 msgid "Congratulations."
 msgstr ""
 
 #: assets/dist/index.js:1
+msgid "You have successful migrated to Dokan. Enjoy 🎉"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "You have successfully migrated to dokan."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Vendor"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Order"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Withdraw"
+msgstr ""
+
+#: assets/dist/index.js:1
 msgid "Active dokan vendor dashboard."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Active"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Start migration"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "No plugin found to migrate to dokan"
 msgstr ""
