@@ -30,14 +30,16 @@ class OrderMigrator extends OrderMigration {
         $this->map_shipping_method_item_meta();
         dokan()->order->create_sub_order( $this->order, $seller_id, $seller_products );
 
-        $res = get_posts(array(
-            'numberposts' => 1,
-            'post_status' => 'any',
-            'post_type'   => 'shop_order',
-            'post_parent' => $this->order->get_id(),
-            'meta_key'    => '_dokan_vendor_id',
-            'meta_value'  => $seller_id
-        ));
+        $res = get_posts(
+            array(
+                'numberposts' => 1,
+                'post_status' => 'any',
+                'post_type'   => 'shop_order',
+                'post_parent' => $this->order->get_id(),
+                'meta_key'    => '_dokan_vendor_id', // phpcs:ignore WordPress.DB.SlowDBQuery
+                'meta_value'  => $seller_id, // phpcs:ignore WordPress.DB.SlowDBQuery
+            )
+        );
         $created_suborder = reset( $res );
 
         return wc_get_order( $created_suborder->ID );

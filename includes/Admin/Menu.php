@@ -26,14 +26,13 @@ class Menu {
      * @return void
      */
     public function admin_menu() {
-        // add_submenu_page($parent_slug:string,$page_title:string,$menu_title:string,$capability:string,$menu_slug:string,$callback:callable,$position:integer|float|null )
         add_submenu_page(
             'tools.php',
             __( 'Dokan Migrator', 'dokan-migrator' ),
             __( 'Dokan Migrator', 'dokan-migrator' ),
             'manage_options',
             'dokan-migrator',
-            [ $this, 'migration_page' ],
+            [ $this, 'migration_page' ]
         );
     }
 
@@ -47,8 +46,8 @@ class Menu {
     public function enqueue_scripts() {
         $asset = require_once DOKAN_MIGRATOR_PLUGIN_ASSETS_DRI . '/dist/index.asset.php';
 
-        wp_enqueue_script( 'dokan-migrator-script',);
-        wp_enqueue_style( 'dokan-migrator-style', );
+        wp_enqueue_script( 'dokan-migrator-script' );
+        wp_enqueue_style( 'dokan-migrator-style' );
 
         wp_localize_script(
             'dokan-migrator-script',

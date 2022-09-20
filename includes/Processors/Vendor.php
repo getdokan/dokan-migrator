@@ -37,7 +37,7 @@ class Vendor extends Processor {
      * @throws \Exception
      */
     public static function get_items( $plugin, $number, $offset ) {
-        $args   = [
+        $args = [
             'number' => $number,
             'offset' => $offset,
             'order'  => 'ASC',

@@ -16,23 +16,16 @@ if ( ! defined( 'ABSPATH' ) ) {
             </div>
             <div class="dokan-message">
                 <h3>
-                    <?php
-                        printf(
-                            /* translators: 1$s: the plugin to migrate to dokan */
-                            esc_html__( 'Do You Want To %1$s ?', 'dokan-migrator' ),
-                            $data['set_title']
-                        );
-                    ?>
+                <?php
+                    /* translators: 1$s: the plugin to migrate to dokan */
+                    printf( esc_html__( 'Do You Want To %1$s ?', 'dokan-migrator' ), $data['set_title'] );
+                ?>
                 </h3>
                 <div>
-                    <?php
-                        printf(
-                            /* translators: 1$s: opening anchor tag, 2$s: closing anchor tag */
-                            esc_html__( 'Click %1sHere%2s to move to the migration process.', 'dokan-migrator' ),
-                            '<a href="' . menu_page_url( 'dokan-migrator', false ) . '">',
-                            '</a>'
-                        );
-                    ?>
+                <?php
+                    /* translators: 1$s: opening anchor tag, 2$s: closing anchor tag */
+                    printf( esc_html__( 'Click %1$1sHere%2$2s to move to the migration process.', 'dokan-migrator' ), '<a href="' . menu_page_url( 'dokan-migrator', false ) . '">', '</a>' );
+                ?>
                 </div>
             </div>
         </div>

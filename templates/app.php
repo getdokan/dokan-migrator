@@ -1,3 +1,3 @@
 <div id="dokan-migrator-app">
-    <h4>Loading...</h4>
+    <h4><?php esc_html_e( 'Loading..', 'dokan-migrator' ); ?></h4>
 </div>

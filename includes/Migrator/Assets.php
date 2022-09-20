@@ -14,7 +14,7 @@ class Assets {
      *
      * @since DOKAN_MIG_SINCE
      */
-    public function __construct () {
+    public function __construct() {
         add_action( 'init', [ $this, 'register_scripts_and_localization_setup' ] );
     }
 
@@ -36,7 +36,7 @@ class Assets {
                     'deps'      => $asset['dependencies'],
                     'version'   => $asset['version'],
                     'in_footer' => true,
-                ]
+                ],
             ]
         );
 
@@ -47,8 +47,8 @@ class Assets {
                     'handle'  => 'dokan-migrator-style',
                     'src'     => DOKAN_MIGRATOR_PLUGIN_ASSETS . '/dist/index.css',
                     'deps'    => [],
-                    'version' => $asset['version']
-                ]
+                    'version' => $asset['version'],
+                ],
             ]
         );
 
