@@ -58,9 +58,6 @@ class Withdraw extends Processor {
                         $offset
                     )
                 );
-
-            default:
-                self::throw_error();
         }
 
         if ( empty( $withdraws ) ) {

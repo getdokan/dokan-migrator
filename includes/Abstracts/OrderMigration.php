@@ -250,6 +250,9 @@ abstract class OrderMigration {
 
         $this->reset_sub_orders_if_needed();
 
+        // Removing this action otherwise it will overwrite data id dokan_order table.
+        remove_action( 'dokan_checkout_update_order_meta', 'dokan_sync_insert_order' );
+
         // If we've only ONE seller update the order meta or else create a new order for each seller.
         if ( count( $vendors ) === 1 ) {
             $temp      = array_keys( $vendors );
@@ -282,6 +285,9 @@ abstract class OrderMigration {
                 $this->process_refund( $order, $seller_id );
             }
         }
+
+        // Adding the hook again after updating dokan_order table for wcfm.
+        add_action( 'dokan_checkout_update_order_meta', 'dokan_sync_insert_order' );
     }
 
     /**
@@ -294,6 +300,7 @@ abstract class OrderMigration {
      */
     public function update_commission_applied_data_in_order( $order, $commission_data ) {
         $commission = reset( $commission_data['commission_data'] );
+
         foreach ( $order->get_items() as $item_id => $item ) {
             wc_add_order_item_meta( $item_id, '_dokan_commission_rate', $commission['fixed'] );
             wc_add_order_item_meta( $item_id, '_dokan_commission_type', $commission['type'] );
