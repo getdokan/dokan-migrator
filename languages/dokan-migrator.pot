@@ -8,14 +8,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-16T11:11:10+00:00\n"
+"POT-Creation-Date: 2022-09-20T12:49:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: dokan-migrator\n"
 
 #. Plugin Name of the plugin
+#: includes/Admin/Menu.php:31
 #: includes/Admin/Menu.php:32
-#: includes/Admin/Menu.php:33
 msgid "Dokan Migrator"
 msgstr ""
 
@@ -35,28 +35,32 @@ msgstr ""
 msgid "https://WeDevs.com/"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:54
+#: includes/Helpers/MigrationHelper.php:52
 msgid "Dokan vendor dashboard activated."
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:88
+#: includes/Helpers/MigrationHelper.php:86
 msgid "Migrate to dokan"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:92
-msgid "Migrate Wcfm To Dokan."
+#: includes/Helpers/MigrationHelper.php:90
+msgid "Migrate Wcfm To Dokan"
 msgstr ""
 
-#: includes/Migrator/Ajax.php:45
+#: includes/Migrator/Ajax.php:54
 msgid "Item count successfull."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:79
+#: includes/Migrator/Ajax.php:88
 msgid "Import successfull."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:103
+#: includes/Migrator/Ajax.php:112
 msgid "Nonce verification failed!"
+msgstr ""
+
+#: templates/app.php:2
+msgid "Loading.."
 msgstr ""
 
 #: templates/template-active-vendor-dashboard.php:17
@@ -64,8 +68,18 @@ msgid "Activate dokan vendor dashboard."
 msgstr ""
 
 #. translators: 1$s: opening anchor tag, 2$s: closing anchor tag
-#: templates/template-active-vendor-dashboard.php:22
+#: templates/template-active-vendor-dashboard.php:21
 msgid "%1$sActive now%2$s"
+msgstr ""
+
+#. translators: 1$s: the plugin to migrate to dokan
+#: templates/template-alert-migrate-to-dokan.php:21
+msgid "Do You Want To %1$s ?"
+msgstr ""
+
+#. translators: 1$s: opening anchor tag, 2$s: closing anchor tag
+#: templates/template-alert-migrate-to-dokan.php:27
+msgid "Click %1$1sHere%2$2s to move to the migration process."
 msgstr ""
 
 #: assets/dist/index.js:1
