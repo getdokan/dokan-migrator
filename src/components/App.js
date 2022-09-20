@@ -98,12 +98,13 @@ function App() {
     }
 
     function activeVendorDashboard() {
-      axios.post( dokan_migrator.ajax_url, null, { params: {
-        action: 'dokan_migrator_active_vendor_dashboard',
-        nonce: dokan_migrator.nonce,
-      } } )
-      .then(res=>{
-        if (res.data.success) {
+      jQuery.post( dokan_migrator.ajax_url,
+        {
+          action: 'dokan_migrator_active_vendor_dashboard',
+          nonce: dokan_migrator.nonce,
+        } )
+      .done( function (res) {
+        if (res.success) {
           setEnableVendorDashboard(false);
         }
       });

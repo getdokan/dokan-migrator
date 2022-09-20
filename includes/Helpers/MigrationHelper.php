@@ -22,13 +22,11 @@ class MigrationHelper {
         $migration_success = get_option( 'dokan_migration_success', false );
         $migratable        = self::get_migratable_plugin();
 
-        wp_send_json_success(
-            array(
-                'last_migrated'     => $last_migrated,
-                'migratable'        => $migratable,
-                'migration_success' => $migration_success,
-                'set_title'         => self::get_migration_title( $migratable ),
-            )
+        return array(
+            'last_migrated'     => $last_migrated,
+            'migratable'        => $migratable,
+            'migration_success' => $migration_success,
+            'set_title'         => self::get_migration_title( $migratable ),
         );
     }
 
@@ -89,7 +87,7 @@ class MigrationHelper {
 
         switch ( $plugin ) {
             case 'wcfmmarketplace':
-                $title = __( 'Migrate Wcfm To Dokan.', 'dokan-migrator' );
+                $title = __( 'Migrate Wcfm To Dokan', 'dokan-migrator' );
                 break;
 
             default:

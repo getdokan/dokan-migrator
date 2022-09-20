@@ -43,6 +43,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+use WeDevs\DokanMigrator\Helpers\MigrationHelper;
+
 /**
  * Dokan_Migrator class
  *
@@ -174,6 +176,11 @@ final class Dokan_Migrator {
     public function show_dokan_dashboard_activate_notice() {
         if ( get_option( 'dokan_migration_completed', false ) ) {
             require_once plugin_dir_path( __FILE__ ) . 'templates/template-active-vendor-dashboard.php';
+        }
+
+        $data = MigrationHelper::get_last_migrated();
+        if ( 'yes' !== $data['migration_success'] ) {
+            require_once plugin_dir_path( __FILE__ ) . 'templates/template-alert-migrate-to-dokan.php';
         }
     }
 

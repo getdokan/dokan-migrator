@@ -20,8 +20,17 @@ class Ajax {
     public function __construct() {
         add_action( 'wp_ajax_dokan_migrator_count_data', array( $this, 'count' ) );
         add_action( 'wp_ajax_dokan_migrator_import_data', array( $this, 'import' ) );
-        add_action( 'wp_ajax_dokan_migrator_last_migrated', array( MigrationHelper::class, 'get_last_migrated' ) );
+        add_action( 'wp_ajax_dokan_migrator_last_migrated', array( $this, 'get_last_migrated' ) );
         add_action( 'wp_ajax_dokan_migrator_active_vendor_dashboard', array( MigrationHelper::class, 'active_vendor_dashboard' ) );
+    }
+
+    /**
+     * Returns
+     *
+     * @return void
+     */
+    public function get_last_migrated() {
+        wp_send_json_success( MigrationHelper::get_last_migrated() );
     }
 
     /**
