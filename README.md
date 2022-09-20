@@ -41,11 +41,11 @@ composer install
 composer du -o
 
 # For Hot reloading
-npm run dev:hot
+yarn dev:hot
 
 # For dev build
-npm run dev
+yarn dev
 
 # For production build
-npm run build
+yarn build
 ```
