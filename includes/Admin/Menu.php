@@ -2,6 +2,11 @@
 
 namespace WeDevs\DokanMigrator\Admin;
 
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Dokan Migrator Menu Class
  *

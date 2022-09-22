@@ -2,6 +2,11 @@
 
 namespace WeDevs\DokanMigrator\Helpers;
 
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Dokan migrator helper class
  * This class holds the helper methods for dokan migration.

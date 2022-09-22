@@ -2,6 +2,11 @@
 
 namespace WeDevs\DokanMigrator\Processors;
 
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 use \WP_User_Query;
 
 use WeDevs\DokanMigrator\Abstracts\Processor;

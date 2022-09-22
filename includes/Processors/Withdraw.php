@@ -2,6 +2,11 @@
 
 namespace WeDevs\DokanMigrator\Processors;
 
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 use WeDevs\DokanMigrator\Abstracts\Processor;
 
 use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;

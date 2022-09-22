@@ -2,6 +2,11 @@
 
 namespace WeDevs\DokanMigrator\Migrator;
 
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Assets class for dokan migrator.
  *

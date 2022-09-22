@@ -1,6 +1,11 @@
 <?php
 namespace WeDevs\DokanMigrator\Abstracts;
 
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Abstracts order migration class.
  *

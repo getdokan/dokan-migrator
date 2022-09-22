@@ -2,6 +2,11 @@
 
 namespace WeDevs\DokanMigrator\Migrator;
 
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 use WeDevs\DokanMigrator\Migrator\Ajax;
 use WeDevs\DokanMigrator\Migrator\Assets;
 
@@ -16,12 +21,16 @@ class Manager {
     /**
      * Which import type is going to be migrated.
      *
+     * @since DOKAN_MIG_SINCE
+     *
      * @var string
      */
     private $import_type = 'vendor';
 
     /**
      * Get vendors starting from $offset( 1,2,3....,10,.......th ) vendor.
+     *
+     * @since DOKAN_MIG_SINCE
      *
      * @var integer
      */
@@ -30,12 +39,16 @@ class Manager {
     /**
      * Number of vendors to be migrated.
      *
+     * @since DOKAN_MIG_SINCE
+     *
      * @var integer
      */
     private $number = 10;
 
     /**
      * Total count of the data to be imported.
+     *
+     * @since DOKAN_MIG_SINCE
      *
      * @var integer
      */
@@ -44,9 +57,38 @@ class Manager {
     /**
      * Total count of migrated data.
      *
+     * @since DOKAN_MIG_SINCE
+     *
      * @var integer
      */
     private $total_migrated = 0;
+
+    /**
+     * Dokan email classes.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @var array
+     */
+    public static $email_classes = [];
+
+    /**
+     * Dokan email templates.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @var array
+     */
+    public static $templates = [];
+
+    /**
+     * Dokan email actions.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @var array
+     */
+    public static $actions = [];
 
     /**
      * Class constructor.
@@ -128,13 +170,13 @@ class Manager {
     public function migrate( $import_type, $plugin, $data ) {
         $this->set_import_type( $import_type );
         $this->set_data( $data );
+        $this->prevent_email_notification();
 
         $processor = $this->processor_class( $import_type );
 
         $data = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset );
 
         foreach ( $data as $value ) {
-            dokan_migrator()::prevent_email_notification();
             $migrator = call_user_func( [ $processor, 'get_migration_class' ], $plugin );
             $migrator->process_migration( $value );
         }
@@ -153,7 +195,7 @@ class Manager {
             delete_option( "dokan_migrator_{$import_type}_status" );
         }
 
-        dokan_migrator()::reset_email_data();
+        $this->reset_email_data();
 
         return $args;
     }
@@ -201,5 +243,69 @@ class Manager {
      */
     public static function get_migration_status( $type = 'vendor', $total_count = 0 ) {
         return get_option( 'dokan_migrator_' . $type . '_status' );
+    }
+
+
+    /**
+     * Preventing email notifications from dokan and woocommerce.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @return void
+     */
+    public function prevent_email_notification() {
+        add_filter(
+            'woocommerce_email_classes',
+            function ( $data ) {
+                self::$email_classes = $data;
+                return [];
+            },
+            35
+        );
+        add_filter(
+            'woocommerce_template_directory',
+            function ( $data ) {
+                self::$templates = $data;
+                return [];
+            },
+            15
+        );
+        add_filter(
+            'woocommerce_email_actions',
+            function ( $data ) {
+                self::$actions = $data;
+                return [];
+            }
+        );
+    }
+
+    /**
+     * Resting email classes.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @return void
+     */
+    public function reset_email_data() {
+        add_filter(
+            'woocommerce_email_classes',
+            function ( $data ) {
+                return array_unique( array_merge( self::$email_classes, $data ) );
+            },
+            35
+        );
+        add_filter(
+            'woocommerce_template_directory',
+            function ( $data ) {
+                return array_unique( array_merge( self::$templates, $data ) );
+            },
+            15
+        );
+        add_filter(
+            'woocommerce_email_actions',
+            function ( $data ) {
+                return array_unique( array_merge( self::$actions, $data ) );
+            }
+        );
     }
 }
