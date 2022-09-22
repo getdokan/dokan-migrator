@@ -94,6 +94,6 @@ class Vendor extends Processor {
      */
     public static function throw_error() {
         delete_option( 'dokan_migration_completed' );
-        throw new \Exception( 'No vendors found to migrate to dokan.' );
+        throw new \Exception( __( 'No vendors found to migrate to dokan.', 'dokan-migrator' ) );
     }
 }

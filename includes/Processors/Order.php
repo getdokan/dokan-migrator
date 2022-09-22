@@ -83,6 +83,6 @@ class Order extends Processor {
         delete_option( 'dokan_migrator_last_migrated' );
         update_option( 'dokan_migration_completed', 'yes' );
         update_option( 'dokan_migration_success', 'yes' );
-        throw new \Exception( 'No orders found to migrate to dokan.' );
+        throw new \Exception( __( 'No orders found to migrate to dokan.', 'dokan-migrator' ) );
     }
 }
