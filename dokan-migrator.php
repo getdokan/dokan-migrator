@@ -136,7 +136,7 @@ final class Dokan_Migrator {
      * @return void
      */
     public function activate() {
-
+        new WeDevs\DokanMigrator\Install\Installer();
     }
 
     /**
