@@ -13,7 +13,7 @@
  * WC tested up to: 6.2.0
  * Text Domain: dokan-migrator
  *
- * Copyright (c) 2016 WeDevs (email: info@WeDevs.com). All rights reserved.
+ * Copyright (c) 2022 WeDevs (email: info@WeDevs.com). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
@@ -80,11 +80,13 @@ final class Dokan_Migrator {
      *
      * @since DOKAN_MIG_SINCE
      */
-    public function __construct() {
+    private function __construct() {
         require_once __DIR__ . '/vendor/autoload.php';
 
         // Define constants.
         $this->define_constants();
+
+        register_activation_hook( __FILE__, [ $this, 'activate' ] );
 
         // load the addon
         add_action( 'dokan_loaded', array( $this, 'plugin_init' ) );
@@ -124,6 +126,17 @@ final class Dokan_Migrator {
         define( 'DOKAN_MIGRATOR_INC', DOKAN_MIGRATOR_DIR . '/includes' );
         define( 'DOKAN_MIGRATOR_PLUGIN_ASSETS_DRI', DOKAN_MIGRATOR_DIR . '/assets' );
         define( 'DOKAN_MIGRATOR_PLUGIN_ASSETS', plugins_url( 'assets', DOKAN_MIGRATOR_FILE ) );
+    }
+
+    /**
+     * Executes on plugin activation.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @return void
+     */
+    public function activate() {
+
     }
 
     /**
