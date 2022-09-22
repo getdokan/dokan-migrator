@@ -104,10 +104,8 @@ abstract class WithdrawMigration {
      *
      * @return void
      */
-    public function process_migration( $withdraw ) {
+    public function process_migration() {
         global $wpdb;
-
-        $this->set_withdraw_data( $withdraw );
 
         $dokan_columns = [
             'user_id' => $this->get_vendor_id(),

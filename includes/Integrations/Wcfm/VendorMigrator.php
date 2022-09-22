@@ -24,6 +24,19 @@ class VendorMigrator extends VendorMigration {
     private $vendor_profile = 'wcfmmp_profile_settings';
 
     /**
+     * Class constructor
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @param \WP_User $vendor
+     */
+    public function __construct( \WP_User $vendor ) {
+        $this->vendor    = $vendor;
+        $this->meta_data = get_user_meta( $vendor->ID );
+        $this->vendor_id = $vendor->ID;
+    }
+
+    /**
      * Returns store name
      *
      * @since DOKAN_MIG_SINCE

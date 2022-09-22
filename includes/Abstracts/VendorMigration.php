@@ -358,11 +358,7 @@ abstract class VendorMigration {
      *
      * @return void
      */
-    public function process_migration( \WP_User $vendor ) {
-        $this->vendor = $vendor;
-        $this->meta_data = get_user_meta( $vendor->ID );
-        $this->vendor_id = $vendor->ID;
-
+    public function process_migration() {
         update_user_meta( $this->vendor_id, 'dokan_enable_selling', $this->get_enable_selling() );
         update_user_meta( $this->vendor_id, 'dokan_feature_seller', $this->get_featured() );
         update_user_meta( $this->vendor_id, 'dokan_publishing', $this->get_publishing() );

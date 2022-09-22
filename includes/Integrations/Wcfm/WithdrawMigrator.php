@@ -38,6 +38,15 @@ class WithdrawMigrator extends WithdrawMigration {
     private $withdraw_id = '';
 
     /**
+     * Class constructor.
+     *
+     * @param object $withdraw
+     */
+    public function __construct( $withdraw ) {
+        $this->set_withdraw_data( $withdraw );
+    }
+
+    /**
      * Sets single withdraw item data.
      *
      * @since DOKAN_MIG_SINCE

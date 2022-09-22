@@ -84,7 +84,7 @@ class Vendor extends Processor {
     public static function get_migration_class( $plugin, $payload ) {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
-                return new WcfmVendorMigrator();
+                return new WcfmVendorMigrator( $payload );
 
             default:
                 break;

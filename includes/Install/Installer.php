@@ -12,6 +12,15 @@ namespace WeDevs\DokanMigrator\Install;
 class Installer {
 
     /**
+     * Class constructor.
+     *
+     * @since DOKAN_MIG_SINCE
+     */
+    public function __construct() {
+        $this->do_install();
+    }
+
+    /**
      * Adds installer data.
      *
      * @since DOKAN_MIG_SINCE
