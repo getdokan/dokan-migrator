@@ -8,9 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WeDevs\DokanMigrator\Abstracts\Processor;
-
 use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
 
+/**
+ * Withdraw migration handler class.
+ *
+ * @since DOKAN_MIG_SINCE
+ */
 class Withdraw extends Processor {
 
     /**
@@ -77,9 +81,12 @@ class Withdraw extends Processor {
      *
      * @since DOKAN_MIG_SINCE
      *
-     * @return Class
+     * @param string $plugin
+     * @param object $payload
+     *
+     * @return object
      */
-    public static function get_migration_class( $plugin ) {
+    public static function get_migration_class( $plugin, $payload ) {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmWithdrawMigrator();

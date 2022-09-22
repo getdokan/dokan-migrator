@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+use WC_order;
 use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 
 /**
@@ -17,6 +18,18 @@ use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 class OrderMigrator extends OrderMigration {
 
     /**
+     * Class constructor.
+     *
+     * @since DOKAN_PRO_SINCE
+     *
+     * @param \WP_Post $order
+     */
+    public function __construct( \WP_Post $order ) {
+        $this->order_id = $order->ID;
+        $this->order    = wc_get_order( $this->order_id );
+    }
+
+    /**
      * Create sub order if needed
      *
      * @since DOKAN_MIG_SINCE
@@ -24,7 +37,7 @@ class OrderMigrator extends OrderMigration {
      * @param int $seller_id
      * @param array $seller_products
      *
-     * @return \WC_Order
+     * @return WC_Order
      */
     public function create_sub_order_if_needed( $seller_id, $seller_products, $parent_order_id ) {
         /**
@@ -60,7 +73,7 @@ class OrderMigrator extends OrderMigration {
      * @return void
      */
     public function map_shipping_method_item_meta() {
-        if ( ! $this->order instanceof \WC_Order ) {
+        if ( ! $this->order instanceof WC_Order ) {
             return;
         }
 
@@ -163,7 +176,7 @@ class OrderMigrator extends OrderMigration {
      *
      * @since DOKAN_MIG_SINCE
      *
-     * @param \Wc_Order $child_order
+     * @param WC_Order $child_order
      * @param integer $seller_id
      * @param boolean $from_suborder
      *
@@ -172,11 +185,8 @@ class OrderMigrator extends OrderMigration {
     public function process_refund( $child_order, $seller_id, $from_suborder = true ) {
         global $wpdb;
         $refund_id = '';
-        $status = 'completed';
-        $refund_note = '';
-
         $vendor_id = 0;
-        $order_id = 0;
+        $order_id  = 0;
 
         // On complete Commission table update
         $sql = 'SELECT * FROM ' . $wpdb->prefix . 'wcfm_marketplace_refund_request';

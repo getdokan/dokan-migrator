@@ -42,8 +42,9 @@ abstract class Processor {
      * @since DOKAN_MIG_SINCE
      *
      * @param string $plugin
+     * @param object $payload
      *
-     * @return Class
+     * @return object
      */
-    abstract public static function get_migration_class( $plugin );
+    abstract public static function get_migration_class( $plugin, $payload );
 }

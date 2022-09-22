@@ -8,10 +8,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use \WP_User_Query;
-
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
 
+/**
+ * Vendor migration handler class.
+ *
+ * @since DOKAN_MIG_SINCE
+ */
 class Vendor extends Processor {
 
     /**
@@ -72,9 +76,12 @@ class Vendor extends Processor {
      *
      * @since DOKAN_MIG_SINCE
      *
-     * @return Class
+     * @param string $plugin
+     * @param object $payload
+     *
+     * @return object
      */
-    public static function get_migration_class( $plugin ) {
+    public static function get_migration_class( $plugin, $payload ) {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmVendorMigrator();

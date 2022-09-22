@@ -18,7 +18,7 @@ abstract class OrderMigration {
      *
      * @var \WC_Order
      */
-    public $order = '';
+    public $order = null;
 
     /**
      * Current order object instance.
@@ -242,16 +242,12 @@ abstract class OrderMigration {
     /**
      * Runs the order migration process.
      *
-     * @param \WP_Post $order
-     *
      * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
-    public function process_migration( \WP_Post $order ) {
-        $this->order_id = $order->ID;
-        $this->order    = wc_get_order( $order->ID );
-        $vendors        = dokan_get_sellers_by( $this->order_id );
+    public function process_migration() {
+        $vendors = dokan_get_sellers_by( $this->order_id );
 
         $this->reset_sub_orders_if_needed();
 

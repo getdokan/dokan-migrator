@@ -20,7 +20,7 @@ class MigrationHelper {
      *
      * @since DOKAN_MIG_SINCE
      *
-     * @return void
+     * @return array{last_migrated:string,migratable:string,migration_success:bool,set_title:string}
      */
     public static function get_last_migrated() {
         $last_migrated     = get_option( 'dokan_migrator_last_migrated', 'vendor' );
@@ -65,7 +65,7 @@ class MigrationHelper {
      * @param string $name
      * @param string $post_type
      *
-     * @return \Wp_Post
+     * @return \WP_Post|null
      */
     public static function get_post_by_name( $name, $post_type = 'page' ) {
         $query = new \WP_Query(
