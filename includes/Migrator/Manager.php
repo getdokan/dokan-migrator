@@ -177,7 +177,7 @@ class Manager {
         $data = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset );
 
         foreach ( $data as $value ) {
-            $migrator = call_user_func( [ $processor, 'get_migration_class' ], [ $plugin, $value ] );
+            $migrator = call_user_func( [ $processor, 'get_migration_class' ], $plugin, $value );
             $migrator->process_migration();
         }
 

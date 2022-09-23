@@ -205,6 +205,7 @@ class OrderMigrator extends OrderMigration {
             $order_id          = absint( $refund_info->order_id );
             $commission_id     = absint( $refund_info->commission_id );
             $refunded_amount   = (float) $refund_info->refunded_amount;
+            $refund_id         = (float) $refund_info->ID;
             $c_refunded_amount = $refunded_amount;
             $c_refunded_qty    = absint( $this->wcfmmp_get_refund_meta( $refund_id, 'refunded_qty' ) );
             $refund_reason     = $refund_info->refund_reason;
@@ -310,13 +311,15 @@ class OrderMigrator extends OrderMigration {
                     if ( ( $from_suborder && ! is_wp_error( $refund ) || ! $from_suborder ) ) {
                         $refund_status = $refund_info->refund_status === 'completed' ? true : false;
 
+                        $item_totals    = json_encode( [ $item_id => $c_refunded_amount ] );
+                        $c_refunded_qty = json_encode( [ $item_id => $c_refunded_qty ] );
                         $this->dokan_sync_refund_table(
                             $child_order->get_id(),
                             $seller_id,
                             round( $refunded_amount, 2 ),
                             $refund_reason,
                             $c_refunded_qty,
-                            $c_refunded_amount,
+                            $item_totals,
                             $refund_tax_total,
                             $restock_refunded_items,
                             $refund_info->refund_paid_date,
