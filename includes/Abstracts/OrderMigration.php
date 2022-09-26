@@ -314,15 +314,24 @@ abstract class OrderMigration {
      *
      * @since DOKAN_MIG_SINCE
      *
-     * @param array $dokan_order_data
-     * @param int $sub_order_id
-     * @param int $seller_id
-     * @param Object $order_obj
+     * @param array $data
      *
      * @return void
      */
-    public function dokan_sync_refund_table( $order_id, $seller_id, $refund_amount, $refund_reason, $item_qtys, $item_totals, $item_tax_totals, $restock_items, $date, $status, $method ) {
+    public function dokan_sync_refund_table( $data) {
         global $wpdb;
+
+        $order_id        = $data['order_id'];
+        $seller_id       = $data['seller_id'];
+        $refund_amount   = $data['refund_amount'];
+        $refund_reason   = $data['refund_reason'];
+        $item_qtys       = $data['item_qtys'];
+        $item_totals     = $data['item_totals'];
+        $item_tax_totals = $data['item_tax_totals'];
+        $restock_items   = $data['restock_items'];
+        $date            = $data['date'];
+        $status          = $data['status'];
+        $method          = $data['method'];
 
         $wpdb->insert(
             $wpdb->prefix . 'dokan_refund',

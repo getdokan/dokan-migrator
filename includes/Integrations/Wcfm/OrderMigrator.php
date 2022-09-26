@@ -1,6 +1,7 @@
 <?php
 
 namespace WeDevs\DokanMigrator\Integrations\Wcfm;
+use Automattic\WooCommerce\Utilities\NumberUtil;
 
 // don't call the file directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -201,14 +202,15 @@ class OrderMigrator extends OrderMigration {
             $c_refunded_qty    = absint( $this->get_refund_meta( $refund_id, 'refunded_qty' ) );
             $refund_reason     = $refund_info->refund_reason;
             $is_partially_refunded = $refund_info->is_partially_refunded;
-            $is_refunded = 0;
 
             // Create WC Refund Item
             if ( $order_id ) {
                 $line_item = new \WC_Order_Item_Product( $item_id );
 
-                $c_refunded_qty && $line_item->get_quantity() === $c_refunded_qty ? $is_partially_refunded = 0 : '';
-                ! $is_partially_refunded ? $is_refunded = 1 : '';
+                if ( $c_refunded_qty && $line_item->get_quantity() === $c_refunded_qty ) {
+                    $is_partially_refunded = false;
+                }
+                $is_refunded = ! $is_partially_refunded;
 
                 $order = $child_order;
 
@@ -227,8 +229,7 @@ class OrderMigrator extends OrderMigration {
                     if ( ! empty( $refund_tax ) && is_array( $refund_tax ) ) {
                         if ( isset( $refund_tax['total'] ) ) {
                             $refund_tax_total = $refund_tax['total'];
-                        }
-                        if ( ! empty( $refund_tax ) && is_array( $refund_tax ) ) {
+                        } else {
                             foreach ( $refund_tax as $refund_tax_id => $refund_tax_price ) {
                                 $refund_tax_total += (float) $refund_tax_price;
                             }
@@ -241,7 +242,7 @@ class OrderMigrator extends OrderMigration {
                     $shipping_tax  = 0;
                     $shipping_cost = $shipping_tax;
 
-                    if ( ! empty( $vendor_shipping ) && isset( $vendor_shipping[ $vendor_id ] ) && $vendor_shipping[ $vendor_id ]['shipping_item_id'] ) {
+                    if ( ! empty( $vendor_shipping[ $vendor_id ]['shipping_item_id'] ) ) {
                         $shipping_item_id = $vendor_shipping[ $vendor_id ]['shipping_item_id'];
                         $package_qty      = absint( $vendor_shipping[ $vendor_id ]['package_qty'] );
 
@@ -257,12 +258,12 @@ class OrderMigrator extends OrderMigration {
                             }
 
                             foreach ( $refund_shipping_tax as $refund_shipping_tax_id => $refund_shipping_tax_price ) {
-                                $refunded_amount += round( ( (float) $refund_shipping_tax_price / $package_qty ) * $line_item->get_quantity(), 2 );
-                                $shipping_tax_refund[ $refund_shipping_tax_id ] = round( ( (float) $refund_shipping_tax_price / $package_qty ) * $line_item->get_quantity(), 2 );
+                                $refunded_amount += NumberUtil::round( ( (float) $refund_shipping_tax_price / $package_qty ) * $line_item->get_quantity(), 2 );
+                                $shipping_tax_refund[ $refund_shipping_tax_id ] = NumberUtil::round( ( (float) $refund_shipping_tax_price / $package_qty ) * $line_item->get_quantity(), 2 );
                             }
                         }
 
-                        $shipping_cost = (float) round( ( $vendor_shipping[ $vendor_id ]['shipping'] / $package_qty ) * $line_item->get_quantity(), 2 );
+                        $shipping_cost = (float) NumberUtil::round( ( $vendor_shipping[ $vendor_id ]['shipping'] / $package_qty ) * $line_item->get_quantity(), 2 );
                         $refunded_amount += $shipping_cost;
                         $line_items[ $shipping_item_id ] = array(
                             'refund_total' => $shipping_cost,
@@ -277,6 +278,7 @@ class OrderMigrator extends OrderMigration {
                     }
                 }
 
+                // Here we are creating refund and syncing with dokan_refund table.
                 try {
                     $line_items[ $item_id ] = array(
                         'refund_total' => $c_refunded_amount,
@@ -286,7 +288,7 @@ class OrderMigrator extends OrderMigration {
                     $line_items[ $item_id ]['qty'] = $c_refunded_qty;
 
                     $wcfm_create_refund_args = array(
-                        'amount'         => round( $refunded_amount, 2 ),
+                        'amount'         => NumberUtil::round( $refunded_amount, 2 ),
                         'reason'         => $refund_reason,
                         'order_id'       => $child_order->get_id(),
                         'line_items'     => $line_items,
@@ -302,21 +304,23 @@ class OrderMigrator extends OrderMigration {
                     if ( ( $from_suborder && ! is_wp_error( $refund ) || ! $from_suborder ) ) {
                         $refund_status = $refund_info->refund_status === 'completed' ? true : false;
 
-                        $item_totals    = json_encode( [ $item_id => $c_refunded_amount ] );
-                        $c_refunded_qty = json_encode( [ $item_id => $c_refunded_qty ] );
-                        $this->dokan_sync_refund_table(
-                            $child_order->get_id(),
-                            $seller_id,
-                            round( $refunded_amount, 2 ),
-                            $refund_reason,
-                            $c_refunded_qty,
-                            $item_totals,
-                            $refund_tax_total,
-                            $restock_refunded_items,
-                            $refund_info->refund_paid_date,
-                            $refund_status,
-                            $this->order->get_payment_method()
-                        );
+                        $item_totals    = wp_json_encode( [ $item_id => $c_refunded_amount ] );
+                        $c_refunded_qty = wp_json_encode( [ $item_id => $c_refunded_qty ] );
+
+                        $data = [
+                            'order_id'        => $child_order->get_id(),
+                            'seller_id'       => $seller_id,
+                            'refund_amount'   => NumberUtil::round( $refunded_amount, 2 ),
+                            'refund_reason'   => $refund_reason,
+                            'item_qtys'       => $c_refunded_qty,
+                            'item_totals'     => $item_totals,
+                            'item_tax_totals' => $refund_tax_total,
+                            'restock_items'   => $restock_refunded_items,
+                            'date'            => $refund_info->refund_paid_date,
+                            'status'          => $refund_status,
+                            'method'          => $this->order->get_payment_method()
+                        ];
+                        $this->dokan_sync_refund_table( $data );
                     }
                 } catch ( \Exception $e ) {
                     error_log( print_r( $e->getMessage(), 1 ) );
@@ -339,9 +343,8 @@ class OrderMigrator extends OrderMigration {
 
         foreach ( $shipping_items as $shipping_item_id => $shipping_item ) {
             $order_item_shipping = new \WC_Order_Item_Shipping( $shipping_item_id );
-            $shipping_vendor_id  = $order_item_shipping->get_meta( 'vendor_id', true );
 
-            ! $shipping_vendor_id ? $shipping_vendor_id = 0 : '';
+            $shipping_vendor_id = (int) $order_item_shipping->get_meta( 'vendor_id', true );
 
             $refunded_shipping_amount = $this->order->get_total_refunded_for_item( $shipping_item_id, 'shipping' );
             $refunded_shipping_tax = 0;
