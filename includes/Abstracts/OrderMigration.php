@@ -318,7 +318,7 @@ abstract class OrderMigration {
      *
      * @return void
      */
-    public function dokan_sync_refund_table( $data) {
+    public function dokan_sync_refund_table( $data ) {
         global $wpdb;
 
         $order_id        = $data['order_id'];

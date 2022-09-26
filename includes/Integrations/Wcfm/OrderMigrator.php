@@ -1,7 +1,6 @@
 <?php
 
 namespace WeDevs\DokanMigrator\Integrations\Wcfm;
-use Automattic\WooCommerce\Utilities\NumberUtil;
 
 // don't call the file directly
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WC_order;
 use WeDevs\DokanMigrator\Abstracts\OrderMigration;
+use Automattic\WooCommerce\Utilities\NumberUtil;
 
 /**
  * Order migration class.
@@ -318,7 +318,7 @@ class OrderMigrator extends OrderMigration {
                             'restock_items'   => $restock_refunded_items,
                             'date'            => $refund_info->refund_paid_date,
                             'status'          => $refund_status,
-                            'method'          => $this->order->get_payment_method()
+                            'method'          => $this->order->get_payment_method(),
                         ];
                         $this->dokan_sync_refund_table( $data );
                     }
