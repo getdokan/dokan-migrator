@@ -19,9 +19,11 @@ class VendorMigrator extends VendorMigration {
     /**
      * WCFM vendor profile settings key.
      *
+     * @since DOKAN_MIG_SINCE
+     *
      * @var string
      */
-    private $vendor_profile = 'wcfmmp_profile_settings';
+    private static $vendor_profile = 'wcfmmp_profile_settings';
 
     /**
      * Class constructor
@@ -339,7 +341,7 @@ class VendorMigrator extends VendorMigration {
      * @param string $key
      * @param string $default
      *
-     * @return any
+     * @return mixed
      */
     public function get_val( $key, $default = '' ) {
         return isset( $this->meta_data[ $key ] ) ? reset( $this->meta_data[ $key ] ) : $default;
@@ -353,10 +355,10 @@ class VendorMigrator extends VendorMigration {
      * @param string $key
      * @param string $default
      *
-     * @return any
+     * @return mixed
      */
     public function get_profile_settings_val( $key, $default = '' ) {
-        $wcfm_profile_settings = $this->get_val( 'wcfmmp_profile_settings', [] );
+        $wcfm_profile_settings = $this->get_val( static::$vendor_profile, [] );
         $wcfm_profile_settings = maybe_unserialize( $wcfm_profile_settings );
         return isset( $wcfm_profile_settings[ $key ] ) ? $wcfm_profile_settings[ $key ] : $default;
     }

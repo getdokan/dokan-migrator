@@ -183,17 +183,8 @@ class OrderMigrator extends OrderMigration {
      * @return void
      */
     public function process_refund( $child_order, $seller_id, $from_suborder = true ) {
-        global $wpdb;
-        $refund_id = '';
-        $vendor_id = 0;
-        $order_id  = 0;
-
         // On complete Commission table update
-        $sql = 'SELECT * FROM ' . $wpdb->prefix . 'wcfm_marketplace_refund_request';
-        $sql .= ' WHERE 1=1';
-        $sql .= ' AND vendor_id = %d';
-        $sql .= ' AND order_id = %d';
-        $refund_infos = $wpdb->get_results( $wpdb->prepare( $sql, $seller_id, $this->order_id ) ); // phpcs:ignore
+        $refund_infos = $this->get_refund_requests( $seller_id, $this->order_id );
 
         if ( empty( $refund_infos ) ) {
             return;
@@ -207,7 +198,7 @@ class OrderMigrator extends OrderMigration {
             $refunded_amount   = (float) $refund_info->refunded_amount;
             $refund_id         = (float) $refund_info->ID;
             $c_refunded_amount = $refunded_amount;
-            $c_refunded_qty    = absint( $this->wcfmmp_get_refund_meta( $refund_id, 'refunded_qty' ) );
+            $c_refunded_qty    = absint( $this->get_refund_meta( $refund_id, 'refunded_qty' ) );
             $refund_reason     = $refund_info->refund_reason;
             $is_partially_refunded = $refund_info->is_partially_refunded;
             $is_refunded = 0;
@@ -225,7 +216,7 @@ class OrderMigrator extends OrderMigration {
                 $api_refund = $refund_info->refund_status === 'completed' ? true : false;
 
                 $restock_refunded_items = 'true';
-                $refund_tax = $this->wcfmmp_get_refund_meta( $refund_id, 'refunded_tax' );
+                $refund_tax = $this->get_refund_meta( $refund_id, 'refunded_tax' );
                 $refund_tax = maybe_unserialize( $refund_tax );
 
                 $refund_tax_total = 0;
@@ -335,34 +326,6 @@ class OrderMigrator extends OrderMigration {
     }
 
     /**
-     * Get wcfm refund meta data
-     *
-     * @since DOKAN_MIG_SINCE
-     *
-     * @param integer $refund_id
-     * @param sting $key
-     *
-     * @return void
-     */
-    public function wcfmmp_get_refund_meta( $refund_id, $key ) {
-        global $wpdb;
-
-        $commission_meta = $wpdb->get_var(
-            $wpdb->prepare(
-                "SELECT `value` FROM `{$wpdb->prefix}wcfm_marketplace_refund_request_meta`
-                        WHERE
-                        `refund_id` = %d
-                            AND `key` = %s
-                        ",
-                $refund_id,
-                $key
-            )
-        );
-
-        return $commission_meta;
-    }
-
-    /**
      * Rename vendor shipping for an order
      *
      * @since DOKAN_MIG_SINCE
@@ -402,5 +365,52 @@ class OrderMigrator extends OrderMigration {
         }
 
         return $vendor_shipping;
+    }
+
+    /**
+     * Retrieves WCFM refund requests.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @param int $vendor_id
+     * @param int $order_id
+     *
+     * @return object[]|null
+     */
+    public function get_refund_requests( $vendor_id, $order_id ) {
+        global $wpdb;
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_refund_request
+                WHERE vendor_id = %d
+                AND order_id = %d",
+                [ $vendor_id, $order_id ]
+            )
+        );
+    }
+
+    /**
+     * Retrieves WCFM refund meta data for a specific meta key.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @param integer $refund_id
+     * @param sting   $meta_key
+     *
+     * @return mixed
+     */
+    public function get_refund_meta( $refund_id, $meta_key ) {
+        global $wpdb;
+
+        return $wpdb->get_var(
+            $wpdb->prepare(
+                "SELECT `value`
+                FROM `{$wpdb->prefix}wcfm_marketplace_refund_request_meta`
+                WHERE `refund_id` = %d
+                AND `key` = %s",
+                [ $refund_id, $meta_key ]
+            )
+        );
     }
 }

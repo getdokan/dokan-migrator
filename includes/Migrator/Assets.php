@@ -20,16 +20,30 @@ class Assets {
      * @since DOKAN_MIG_SINCE
      */
     public function __construct() {
-        add_action( 'init', [ $this, 'register_scripts_and_localization_setup' ] );
+        add_action( 'init', [ $this, 'setup_assets' ] );
     }
 
-    public function register_scripts_and_localization_setup() {
+    /**
+     * Sets up assets.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @return void
+     */
+    public function setup_assets() {
         load_plugin_textdomain( 'dokan-migrator', false, DOKAN_MIGRATOR_DIR . '/languages' );
-        $this->register_js();
+        $this->register_scripts();
         wp_set_script_translations( 'dokan-migrator-app', 'dokan-migrator', DOKAN_MIGRATOR_DIR . '/languages' );
     }
 
-    public function register_js() {
+    /**
+     * Registers scripts.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @return void
+     */
+    public function register_scripts() {
         $asset = require_once DOKAN_MIGRATOR_PLUGIN_ASSETS_DRI . '/dist/index.asset.php';
 
         $scripts = apply_filters(

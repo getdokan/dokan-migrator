@@ -80,15 +80,15 @@ class Vendor extends Processor {
      * @param object $payload
      *
      * @return object
+     * @throws \Exception
      */
     public static function get_migration_class( $plugin, $payload ) {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmVendorMigrator( $payload );
-
-            default:
-                break;
         }
+
+        throw new \Exception( __( 'Migrator class not found', 'dokan-migrator' ) );
     }
 
     /**

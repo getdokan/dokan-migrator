@@ -212,7 +212,7 @@ class Manager {
      */
     public function processor_class( $import_type ) {
         if ( ! in_array( $import_type, [ 'vendor', 'order', 'withdraw' ], true ) ) {
-            throw new \Exception( 'Invalid import type' );
+            throw new \Exception( __( 'Invalid import type', 'dokan-migrator' ) );
         }
 
         $class = ucfirst( $import_type );
