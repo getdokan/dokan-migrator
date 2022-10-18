@@ -8,14 +8,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-20T12:49:10+00:00\n"
+"POT-Creation-Date: 2022-10-18T06:15:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: dokan-migrator\n"
 
 #. Plugin Name of the plugin
-#: includes/Admin/Menu.php:31
-#: includes/Admin/Menu.php:32
+#: includes/Admin/Menu.php:36
+#: includes/Admin/Menu.php:37
 msgid "Dokan Migrator"
 msgstr ""
 
@@ -35,28 +35,50 @@ msgstr ""
 msgid "https://WeDevs.com/"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:52
+#: includes/Helpers/MigrationHelper.php:57
 msgid "Dokan vendor dashboard activated."
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:86
+#: includes/Helpers/MigrationHelper.php:91
 msgid "Migrate to dokan"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:90
+#: includes/Helpers/MigrationHelper.php:95
 msgid "Migrate Wcfm To Dokan"
 msgstr ""
 
-#: includes/Migrator/Ajax.php:54
+#: includes/Migrator/Ajax.php:59
 msgid "Item count successfull."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:88
+#: includes/Migrator/Ajax.php:93
 msgid "Import successfull."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:112
+#: includes/Migrator/Ajax.php:117
 msgid "Nonce verification failed!"
+msgstr ""
+
+#: includes/Migrator/Manager.php:215
+msgid "Invalid import type"
+msgstr ""
+
+#: includes/Processors/Order.php:79
+#: includes/Processors/Vendor.php:91
+#: includes/Processors/Withdraw.php:96
+msgid "Migrator class not found"
+msgstr ""
+
+#: includes/Processors/Order.php:94
+msgid "No orders found to migrate to dokan."
+msgstr ""
+
+#: includes/Processors/Vendor.php:104
+msgid "No vendors found to migrate to dokan."
+msgstr ""
+
+#: includes/Processors/Withdraw.php:124
+msgid "No withdraws found to migrate to dokan."
 msgstr ""
 
 #: templates/app.php:2

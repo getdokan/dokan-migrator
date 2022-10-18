@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use WC_order;
+use WC_Order_Item_Shipping;
 use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 use Automattic\WooCommerce\Utilities\NumberUtil;
 
@@ -28,6 +29,8 @@ class OrderMigrator extends OrderMigration {
     public function __construct( \WP_Post $order ) {
         $this->order_id = $order->ID;
         $this->order    = wc_get_order( $this->order_id );
+
+        add_filter( 'dokan_shipping_method', [ $this, 'split_parent_order_shipping' ], 10, 3 );
     }
 
     /**
@@ -415,5 +418,67 @@ class OrderMigrator extends OrderMigration {
                 [ $refund_id, $meta_key ]
             )
         );
+    }
+
+    /**
+     * Split shipping amount for all vendors if wcfm processing an order as admin shipping.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @param WC_Order_Item_Shipping $applied_shipping_method
+     * @param int                    $order_id
+     * @param WC_Order               $parent_order
+     *
+     * @return WC_Order_Item_Shipping
+     */
+    public function split_parent_order_shipping( $applied_shipping_method, $order_id, $parent_order ) {
+        /**
+         * Not empty means parent order has sub-order and this order is processed as vendor wise shipping in wcfm.
+         * Or if parent order has no shipping methods the return it.
+         */
+        if ( ! empty( $applied_shipping_method ) || count( $parent_order->get_shipping_methods() ) < 1 ) {
+            return $applied_shipping_method;
+        }
+
+        $applied_shipping_method = reset( $parent_order->get_shipping_methods() );
+        $vendors                 = dokan_get_sellers_by( $parent_order->get_id() );
+
+        // Here we are dividing the shipping and shipping-tax amount of parent order into the vendors suborders.
+        $shipping_tax_amount = [
+            'total' => [ $applied_shipping_method->get_total_tax() / count( $vendors ) ],
+        ];
+        $shipping_amount = $applied_shipping_method->get_total() / count( $vendors );
+
+        // Generating the shipping for vendor.
+        $item = new WC_Order_Item_Shipping();
+        $item->set_props(
+            array(
+                'method_title' => $applied_shipping_method->get_name(),
+                'method_id'    => $applied_shipping_method->get_method_id(),
+                'total'        => $shipping_amount,
+                'taxes'        => $shipping_tax_amount,
+            )
+        );
+
+        $child_order = new WC_order( $order_id );
+        $products    = $child_order->get_items();
+
+        // Generating the shipping Item text.
+        $text = '';
+        foreach ( $products as $key => $product ) {
+            $current_item = $product->get_data();
+            $product_text = $current_item['name'] . ' &times; ' . $current_item['quantity'];
+
+            if ( $key !== array_key_first( $products ) ) {
+                $text .= ', ' . $product_text;
+            }
+
+            $text .= $product_text;
+        }
+
+        // Adding shipping item meta data.
+        $item->add_meta_data( 'Items', $text );
+
+        return $item;
     }
 }
