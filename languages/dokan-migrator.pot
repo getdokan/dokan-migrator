@@ -8,12 +8,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-18T06:15:22+00:00\n"
+"POT-Creation-Date: 2022-11-10T11:42:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: dokan-migrator\n"
 
 #. Plugin Name of the plugin
+#: build/dokan-migrator/includes/Admin/Menu.php:36
+#: build/dokan-migrator/includes/Admin/Menu.php:37
 #: includes/Admin/Menu.php:36
 #: includes/Admin/Menu.php:37
 msgid "Dokan Migrator"
@@ -35,115 +37,149 @@ msgstr ""
 msgid "https://WeDevs.com/"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:57
+#: build/dokan-migrator/includes/Helpers/MigrationHelper.php:59
+#: includes/Helpers/MigrationHelper.php:59
 msgid "Dokan vendor dashboard activated."
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:91
+#: build/dokan-migrator/includes/Helpers/MigrationHelper.php:93
+#: includes/Helpers/MigrationHelper.php:93
 msgid "Migrate to dokan"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:95
+#: build/dokan-migrator/includes/Helpers/MigrationHelper.php:97
+#: includes/Helpers/MigrationHelper.php:97
 msgid "Migrate Wcfm To Dokan"
 msgstr ""
 
+#: build/dokan-migrator/includes/Helpers/MigrationHelper.php:101
+#: includes/Helpers/MigrationHelper.php:101
+msgid "Migrate Wc Vendors To Dokan."
+msgstr ""
+
+#: build/dokan-migrator/includes/Migrator/Ajax.php:59
 #: includes/Migrator/Ajax.php:59
 msgid "Item count successfull."
 msgstr ""
 
+#: build/dokan-migrator/includes/Migrator/Ajax.php:93
 #: includes/Migrator/Ajax.php:93
 msgid "Import successfull."
 msgstr ""
 
+#: build/dokan-migrator/includes/Migrator/Ajax.php:117
 #: includes/Migrator/Ajax.php:117
 msgid "Nonce verification failed!"
 msgstr ""
 
+#: build/dokan-migrator/includes/Migrator/Manager.php:215
 #: includes/Migrator/Manager.php:215
 msgid "Invalid import type"
 msgstr ""
 
-#: includes/Processors/Order.php:79
-#: includes/Processors/Vendor.php:91
-#: includes/Processors/Withdraw.php:96
+#: build/dokan-migrator/includes/Processors/Order.php:83
+#: build/dokan-migrator/includes/Processors/Vendor.php:103
+#: build/dokan-migrator/includes/Processors/Withdraw.php:119
+#: includes/Processors/Order.php:83
+#: includes/Processors/Vendor.php:103
+#: includes/Processors/Withdraw.php:119
 msgid "Migrator class not found"
 msgstr ""
 
-#: includes/Processors/Order.php:94
+#: build/dokan-migrator/includes/Processors/Order.php:98
+#: includes/Processors/Order.php:98
 msgid "No orders found to migrate to dokan."
 msgstr ""
 
-#: includes/Processors/Vendor.php:104
+#: build/dokan-migrator/includes/Processors/Vendor.php:116
+#: includes/Processors/Vendor.php:116
 msgid "No vendors found to migrate to dokan."
 msgstr ""
 
-#: includes/Processors/Withdraw.php:124
+#: build/dokan-migrator/includes/Processors/Withdraw.php:147
+#: includes/Processors/Withdraw.php:147
 msgid "No withdraws found to migrate to dokan."
 msgstr ""
 
+#: build/dokan-migrator/templates/app.php:2
 #: templates/app.php:2
 msgid "Loading.."
 msgstr ""
 
+#: build/dokan-migrator/templates/template-active-vendor-dashboard.php:17
 #: templates/template-active-vendor-dashboard.php:17
 msgid "Activate dokan vendor dashboard."
 msgstr ""
 
 #. translators: 1$s: opening anchor tag, 2$s: closing anchor tag
+#: build/dokan-migrator/templates/template-active-vendor-dashboard.php:21
 #: templates/template-active-vendor-dashboard.php:21
 msgid "%1$sActive now%2$s"
 msgstr ""
 
 #. translators: 1$s: the plugin to migrate to dokan
+#: build/dokan-migrator/templates/template-alert-migrate-to-dokan.php:21
 #: templates/template-alert-migrate-to-dokan.php:21
 msgid "Do You Want To %1$s ?"
 msgstr ""
 
 #. translators: 1$s: opening anchor tag, 2$s: closing anchor tag
+#: build/dokan-migrator/templates/template-alert-migrate-to-dokan.php:27
 #: templates/template-alert-migrate-to-dokan.php:27
 msgid "Click %1$1sHere%2$2s to move to the migration process."
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "Loading..."
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "Congratulations."
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "You have successful migrated to Dokan. Enjoy 🎉"
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "You have successfully migrated to dokan."
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "Vendor"
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "Order"
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "Withdraw"
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "Active dokan vendor dashboard."
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "Active"
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "Start migration"
 msgstr ""
 
 #: assets/dist/index.js:1
+#: build/dokan-migrator/assets/dist/index.js:1
 msgid "No plugin found to migrate to dokan"
 msgstr ""

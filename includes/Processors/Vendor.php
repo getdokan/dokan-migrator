@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use \WP_User_Query;
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
+use WeDevs\DokanMigrator\Integrations\WcVendors\VendorMigrator as WcVendorsVendorMigrator;
 
 /**
  * Vendor migration handler class.
@@ -31,6 +32,9 @@ class Vendor extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return count( get_users( array( 'role' => 'wcfm_vendor' ) ) );
+
+            case 'wcvendors':
+                return count( get_users( array( 'role__in' => [ 'vendor', 'pending_vendor' ] ) ) );
 
             default:
                 return 0;
@@ -55,6 +59,10 @@ class Vendor extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 $args['role'] = 'wcfm_vendor';
+                break;
+
+            case 'wcvendors':
+                $args['role__in'] = [ 'vendor', 'pending_vendor' ];
                 break;
 
             default:
@@ -86,6 +94,10 @@ class Vendor extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmVendorMigrator( $payload );
+
+
+            case 'wcvendors':
+                return new WcVendorsVendorMigrator( $payload );
         }
 
         throw new \Exception( __( 'Migrator class not found', 'dokan-migrator' ) );

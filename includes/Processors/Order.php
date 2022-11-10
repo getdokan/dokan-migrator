@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
+use WeDevs\DokanMigrator\Integrations\WcVendors\OrderMigrator as WcVendorsOrderMigrator;
 
 /**
  * Vendor migration handler class.
@@ -74,6 +75,9 @@ class Order extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmOrderMigrator( $payload );
+
+            case 'wcvendors':
+                return new WcVendorsOrderMigrator( $payload );
         }
 
         throw new \Exception( __( 'Migrator class not found', 'dokan-migrator' ) );
