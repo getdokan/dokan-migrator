@@ -195,7 +195,7 @@ class VendorMigrator extends VendorMigration {
      * @return string
      */
     public function get_location( $default ) {
-        return [];
+        return '';
     }
 
     /**
