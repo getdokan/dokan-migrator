@@ -63,6 +63,12 @@ class MigrationHelper {
         deactivate_plugins( $all_plugins_to_deactivate );
 
         delete_option( 'dokan_migration_completed' );
+        /**
+         * Deleting this option, because sometimes after migrating to dokan from other marketplace
+         * dokan dashboard page conflicts with their pages so deleting this option will enable user
+         * to re-create dokan pages from dokan tools page.
+         */
+        delete_option( 'dokan_pages_created' );
 
         wp_send_json_success( __( 'Dokan vendor dashboard activated.', 'dokan-migrator' ) );
     }
