@@ -47,10 +47,18 @@ class MigrationHelper {
     public static function active_vendor_dashboard() {
         $all_plugins_to_deactivate = [];
 
-        // Wcfm plugins
+        // Wcfm plugins.
         $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-frontend-manager/wc_frontend_manager.php';
         $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-multivendor-marketplace/wc-multivendor-marketplace.php';
         $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-multivendor-membership/wc-multivendor-membership.php';
+
+        // Wc vendors plugins.
+        $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-vendors-pro-simple-auctions/class-wcv-simple-auctions.php';
+        $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-vendors-pro/wcvendors-pro.php';
+        $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-vendors-woocommerce-bookings/wcv-woocommerce-bookings.php';
+        $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-vendors-woocommerce-subscriptions/wcv-wc-subscriptions.php';
+        $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-vendors/class-wc-vendors.php';
+        $all_plugins_to_deactivate[] = WP_PLUGIN_DIR . '/wc-vendors-membership/wc-vendors-membership.php';
 
         deactivate_plugins( $all_plugins_to_deactivate );
 
