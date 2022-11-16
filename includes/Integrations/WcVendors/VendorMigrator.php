@@ -2,12 +2,13 @@
 
 namespace Wedevs\DokanMigrator\Integrations\WcVendors;
 
+use WP_User;
 use WeDevs\DokanMigrator\Abstracts\VendorMigration;
 
 /**
  * Formats vendor data for migration to Dokan.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class VendorMigrator extends VendorMigration {
 
@@ -16,9 +17,9 @@ class VendorMigrator extends VendorMigration {
      *
      * @since DOKAN_MIG_SINCE
      *
-     * @param \WP_User $vendor
+     * @param WP_User $vendor
      */
-    public function __construct( \WP_User $vendor ) {
+    public function __construct( WP_User $vendor ) {
         $this->vendor    = $vendor;
         $this->meta_data = get_user_meta( $vendor->ID );
         $this->vendor_id = $vendor->ID;
@@ -27,20 +28,24 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns store name
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
     public function get_store_name() {
         $store_name = $this->get_val( 'pv_shop_name' );
-        empty( $store_name ) ? $store_name = $this->vendor->display_name : '';
-        return $store_name;
+
+        if ( empty( $store_name ) ) {
+            return $this->vendor->display_name;
+        }
+
+        return '';
     }
 
     /**
      * Returns store description
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -51,19 +56,22 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns is vendor has selling capability.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
     public function get_enable_selling() {
-        $enabled = count( array_intersect( $this->vendor->roles, [ 'vendor', 'pending_vendor' ] ) ) ? 'yes' : 'no';
-        return $enabled;
+        if ( count( array_intersect( $this->vendor->roles, [ 'vendor', 'pending_vendor' ] ) ) ) {
+            return 'yes';
+        }
+
+        return 'no';
     }
 
     /**
      * Returns geo location address
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -74,7 +82,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor location latitude.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -85,7 +93,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor location longitude.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -96,7 +104,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor social data.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return array
      */
@@ -116,7 +124,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor payment data.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return array
      */
@@ -140,7 +148,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor phone number.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -153,7 +161,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns if email show in store or not.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -166,7 +174,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns  vendor address.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -188,7 +196,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor location.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -201,7 +209,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns banner id.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param int $default
      *
@@ -215,7 +223,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns applied commission in an vendor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -228,7 +236,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor gravatar.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -241,7 +249,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns if show more p tab.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param mixed $default
      *
@@ -254,7 +262,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns store product per page.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param int $default
      *
@@ -262,13 +270,14 @@ class VendorMigrator extends VendorMigration {
      */
     public function get_sore_ppp( $default ) {
         $product_per_page = get_option( 'wcvendors_products_per_page' );
+
         return $product_per_page ? $product_per_page : 10;
     }
 
     /**
      * Returns applied commission in an vendor.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -281,7 +290,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns terms and comdition.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -294,7 +303,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns if min discount.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param string $default
      *
@@ -307,7 +316,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns store seo.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param array $default
      *
@@ -334,6 +343,8 @@ class VendorMigrator extends VendorMigration {
 
     /**
      * Returns commission for specific vendor.
+     *
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */

@@ -9,14 +9,14 @@ use WC_Order;
 /**
  * Order migration class.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class OrderMigrator extends OrderMigration {
 
     /**
      * Class constructor.
      *
-     * @since DOKAN_PRO_SINCE
+     * @since DOKAN_MIG_SINCE
      *
      * @param \WP_Post $order
      */
@@ -30,9 +30,9 @@ class OrderMigrator extends OrderMigration {
     /**
      * Create sub order if needed
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
-     * @param int $seller_id
+     * @param int   $seller_id
      * @param array $seller_products
      *
      * @return \WC_Order
@@ -64,7 +64,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Delete sub orders of needed.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -75,7 +75,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Gets order data from wcfm order table for dokan.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param int $parent_order_id
      * @param int $seller_id
@@ -85,12 +85,19 @@ class OrderMigrator extends OrderMigration {
     public function get_dokan_order_data( $parent_order_id, $seller_id ) {
         global $wpdb;
 
-        $orders = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pv_commission commission WHERE commission.vendor_id = %d AND commission.order_id = %d", $seller_id, $parent_order_id ) );
+        $orders = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT *
+                FROM {$wpdb->prefix}pv_commission commission
+                WHERE commission.vendor_id = %d
+                AND commission.order_id = %d",
+                $seller_id,
+                $parent_order_id
+            )
+        );
 
-        $wc_order = wc_get_order( $parent_order_id );
-
-        $net_amount = 0;
-
+        $wc_order    = wc_get_order( $parent_order_id );
+        $net_amount  = 0;
         $order_total = $wc_order->get_total();
         $commissions = [];
 
@@ -108,7 +115,7 @@ class OrderMigrator extends OrderMigration {
                 'item_id'          => '',
                 'admin_commission' => 0,
                 'product_id'       => $order->product_id,
-                'created'       => $order->time,
+                'created'          => $order->time,
             ];
 
             $unit_commissin_rate_vendor = ( $order->total_due / $wc_order->get_subtotal() ) * 100;
@@ -140,17 +147,17 @@ class OrderMigrator extends OrderMigration {
     /**
      * Process refund for a child order.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param \Wc_Order $child_order
-     * @param integer $seller_id
-     * @param boolean $from_suborder
+     * @param integer   $seller_id
+     * @param boolean   $from_suborder
      *
      * @return void
      */
     public function process_refund( $child_order, $seller_id, $from_suborder = true ) {
         global $wpdb;
-        $order = wc_get_order( $child_order->get_id() );
+        $order            = wc_get_order( $child_order->get_id() );
         $new_total_amount = $order->get_total() - $order->get_total_refunded();
 
         // insert on dokan sync table
