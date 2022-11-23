@@ -2,6 +2,8 @@
 
 namespace Wedevs\DokanMigrator\Integrations\WcVendors;
 
+! defined( 'ABSPATH' ) || exit;
+
 use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 use WeDevs\DokanMigrator\Helpers\MigrationHelper;
 use WC_Order;
@@ -23,12 +25,10 @@ class OrderMigrator extends OrderMigration {
     public function __construct( \WP_Post $order ) {
         $this->order_id = $order->ID;
         $this->order    = wc_get_order( $this->order_id );
-
-        // add_filter( 'dokan_shipping_method', [ $this, 'split_parent_order_shipping' ], 10, 3 );
     }
 
     /**
-     * Create sub order if needed
+     * Create sub order if needed.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -46,7 +46,7 @@ class OrderMigrator extends OrderMigration {
         MigrationHelper::map_shipping_method_item_meta( $this->order );
         dokan()->order->create_sub_order( $this->order, $seller_id, $seller_products );
 
-        $res = get_posts(
+        $posts = get_posts(
             array(
                 'numberposts' => 1,
                 'post_status' => 'any',
@@ -56,13 +56,13 @@ class OrderMigrator extends OrderMigration {
                 'meta_value'  => $seller_id, // phpcs:ignore WordPress.DB.SlowDBQuery
             )
         );
-        $created_suborder = reset( $res );
+        $created_suborder = reset( $posts );
 
         return wc_get_order( $created_suborder->ID );
     }
 
     /**
-     * Delete sub orders of needed.
+     * Delete sub orders if needed.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -73,7 +73,7 @@ class OrderMigrator extends OrderMigration {
     }
 
     /**
-     * Gets order data from wcfm order table for dokan.
+     * Gets order data from wc-vendors order table for dokan.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -157,22 +157,22 @@ class OrderMigrator extends OrderMigration {
      */
     public function process_refund( $child_order, $seller_id, $from_suborder = true ) {
         global $wpdb;
+
         $order            = wc_get_order( $child_order->get_id() );
         $new_total_amount = $order->get_total() - $order->get_total_refunded();
 
-        // insert on dokan sync table
-
+        // insert into dokan sync table
         $wpdb->update(
             $wpdb->prefix . 'dokan_orders',
-            array(
+            [
                 'order_total' => $new_total_amount,
-            ),
-            array(
+            ],
+            [
                 'order_id' => $child_order->get_id(),
-            ),
-            array(
+            ],
+            [
                 '%f',
-            )
+            ]
         );
     }
 }

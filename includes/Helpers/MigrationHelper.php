@@ -4,10 +4,7 @@ namespace WeDevs\DokanMigrator\Helpers;
 
 use WC_Order;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+! defined( 'ABSPATH' ) || exit;
 
 /**
  * Dokan migrator helper class

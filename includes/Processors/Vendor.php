@@ -2,10 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Processors;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+! defined( 'ABSPATH' ) || exit;
 
 use \WP_User_Query;
 use WeDevs\DokanMigrator\Abstracts\Processor;
@@ -94,7 +91,6 @@ class Vendor extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmVendorMigrator( $payload );
-
 
             case 'wcvendors':
                 return new WcVendorsVendorMigrator( $payload );

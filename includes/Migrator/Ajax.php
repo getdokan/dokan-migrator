@@ -2,10 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Migrator;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+! defined( 'ABSPATH' ) || exit;
 
 use Exception;
 use WeDevs\DokanMigrator\Helpers\MigrationHelper;

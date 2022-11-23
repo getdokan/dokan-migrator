@@ -2,10 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Processors;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
@@ -71,21 +68,22 @@ class Withdraw extends Processor {
                         $offset
                     )
                 );
+                // Items for wcfm.
 
             case 'wcvendors':
                 $withdraws = $wpdb->get_results(
                     $wpdb->prepare(
-                            "SELECT *
-                            FROM {$wpdb->prefix}pv_commission
-                            WHERE status='paid'
-                            ORDER BY id
-                            LIMIT %d
-                            OFFSET %d",
-                            $number,
-                            $offset
-                        )
-                    );
-
+                        "SELECT *
+                        FROM {$wpdb->prefix}pv_commission
+                        WHERE status='paid'
+                        ORDER BY id
+                        LIMIT %d
+                        OFFSET %d",
+                        $number,
+                        $offset
+                    )
+                );
+                // Items for wc-vendors.
         }
 
         if ( empty( $withdraws ) ) {
@@ -110,7 +108,6 @@ class Withdraw extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmWithdrawMigrator( $payload );
-
 
             case 'wcvendors':
                 return new WcVendorsWithdrawMigrator( $payload );

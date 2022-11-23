@@ -4,10 +4,7 @@ namespace WeDevs\DokanMigrator\Admin;
 
 use WeDevs\DokanMigrator\Helpers\MigrationHelper;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+! defined( 'ABSPATH' ) || exit;
 
 /**
  * Dokan Migrator Manager Class

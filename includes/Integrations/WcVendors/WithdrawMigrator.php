@@ -2,10 +2,12 @@
 
 namespace Wedevs\DokanMigrator\Integrations\WcVendors;
 
+! defined( 'ABSPATH' ) || exit;
+
 use WeDevs\DokanMigrator\Abstracts\WithdrawMigration;
 
 /**
- * Formats vendor data for migration to Dokan.
+ * Formats withdraw data for migration to Dokan.
  *
  * @since DOKAN_MIG_SINCE
  */
@@ -141,10 +143,9 @@ class WithdrawMigrator extends WithdrawMigration {
         $withdraw_mode      = ! empty( $this->withdraw->withdraw_mode ) ? $this->withdraw->withdraw_mode : '';
         $is_auto_withdrawal = ! empty( $this->withdraw->is_auto_withdrawal ) ? $this->withdraw->is_auto_withdrawal : '';
         $withdraw_paid_date = ! empty( $this->withdraw->time ) ? $this->withdraw->time : '';
-
-        $vendor_id  = ! empty( $this->withdraw->vendor_id ) ? $this->withdraw->vendor_id : '';
-        $product_id = ! empty( $this->withdraw->product_id ) ? $this->withdraw->product_id : '';
-        $qty        = ! empty( $this->withdraw->qty ) ? $this->withdraw->qty : '';
+        $vendor_id          = ! empty( $this->withdraw->vendor_id ) ? $this->withdraw->vendor_id : '';
+        $product_id         = ! empty( $this->withdraw->product_id ) ? $this->withdraw->product_id : '';
+        $qty                = ! empty( $this->withdraw->qty ) ? $this->withdraw->qty : '';
 
         $dokan_details                       = $this->meta_data;
         $dokan_details['email']              = get_userdata( $this->get_vendor_id() )->user_email;
@@ -162,7 +163,7 @@ class WithdrawMigrator extends WithdrawMigration {
     }
 
     /**
-     * Returns withdraw ip.
+     * Returns withdraw user ip.
      *
      * @since DOKAN_MIG_SINCE
      *

@@ -2,6 +2,8 @@
 
 namespace Wedevs\DokanMigrator\Integrations\WcVendors;
 
+! defined( 'ABSPATH' ) || exit;
+
 use WP_User;
 use WeDevs\DokanMigrator\Abstracts\VendorMigration;
 
@@ -54,7 +56,7 @@ class VendorMigrator extends VendorMigration {
     }
 
     /**
-     * Returns is vendor has selling capability.
+     * Returns vendor selling capability.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -69,7 +71,7 @@ class VendorMigrator extends VendorMigration {
     }
 
     /**
-     * Returns geo location address
+     * Returns geo location address.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -159,7 +161,7 @@ class VendorMigrator extends VendorMigration {
     }
 
     /**
-     * Returns if email show in store or not.
+     * Returns if show email in store.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -172,7 +174,7 @@ class VendorMigrator extends VendorMigration {
     }
 
     /**
-     * Returns  vendor address.
+     * Returns vendor's address.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -207,7 +209,7 @@ class VendorMigrator extends VendorMigration {
     }
 
     /**
-     * Returns banner id.
+     * Returns store banner id.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -221,7 +223,7 @@ class VendorMigrator extends VendorMigration {
 
 
     /**
-     * Returns applied commission in an vendor.
+     * Returns vendor icon.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -269,13 +271,11 @@ class VendorMigrator extends VendorMigration {
      * @return int
      */
     public function get_sore_ppp( $default ) {
-        $product_per_page = get_option( 'wcvendors_products_per_page' );
-
-        return $product_per_page ? $product_per_page : 10;
+        return get_option( 'wcvendors_products_per_page', 10 );
     }
 
     /**
-     * Returns applied commission in an vendor.
+     * Returns if terms and condition is enabled for store.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -288,7 +288,7 @@ class VendorMigrator extends VendorMigration {
     }
 
     /**
-     * Returns terms and comdition.
+     * Returns terms and conditions.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -301,7 +301,7 @@ class VendorMigrator extends VendorMigration {
     }
 
     /**
-     * Returns if min discount.
+     * Returns min order discount.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -314,7 +314,7 @@ class VendorMigrator extends VendorMigration {
     }
 
     /**
-     * Returns store seo.
+     * Returns store's seo.
      *
      * @since DOKAN_MIG_SINCE
      *

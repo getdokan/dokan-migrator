@@ -1,10 +1,7 @@
 <?php
 namespace WeDevs\DokanMigrator\Abstracts;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+! defined( 'ABSPATH' ) || exit;
 
 /**
  * Abstracts order migration class.
@@ -190,7 +187,7 @@ abstract class OrderMigration {
     public function sync_dokan_order_table( $dokan_order_data, $sub_order_id, $seller_id, $order_obj ) {
         $order_total  = $order_obj->get_total();
         $net_amount   = $dokan_order_data['net_sale'];
-        $created_date = ! empty( $dokan_order_data['commission_data'] ) ? reset( $dokan_order_data['commission_data'] )['created'] : dokan_current_datetime()->format('Y-m-d H:i:s');
+        $created_date = ! empty( $dokan_order_data['commission_data'] ) ? reset( $dokan_order_data['commission_data'] )['created'] : dokan_current_datetime()->format( 'Y-m-d H:i:s' );
 
         global $wpdb;
 

@@ -2,10 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Integrations\Wcfm;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+! defined( 'ABSPATH' ) || exit;
 
 use WC_order;
 use WC_Order_Item_Shipping;
