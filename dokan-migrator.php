@@ -38,7 +38,7 @@
  * **********************************************************************
  */
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Dokan_Migrator class

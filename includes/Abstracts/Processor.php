@@ -2,7 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Abstracts;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * This class defines the methods for vendor, order and withdraw handler.

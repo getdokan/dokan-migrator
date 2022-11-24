@@ -2,7 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Processors;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 use \WP_User_Query;
 use WeDevs\DokanMigrator\Abstracts\Processor;

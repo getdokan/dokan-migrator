@@ -4,7 +4,7 @@ namespace WeDevs\DokanMigrator\Helpers;
 
 use WC_Order;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Dokan migrator helper class

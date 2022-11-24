@@ -2,7 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Admin;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Dokan Migrator Menu Class

@@ -2,7 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Migrator;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Assets class for dokan migrator.

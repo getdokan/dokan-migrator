@@ -2,7 +2,7 @@
 
 namespace Wedevs\DokanMigrator\Integrations\WcVendors;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 use WP_User;
 use WeDevs\DokanMigrator\Abstracts\VendorMigration;

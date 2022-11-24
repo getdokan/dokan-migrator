@@ -2,7 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Migrator;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 use WeDevs\DokanMigrator\Migrator\Ajax;
 use WeDevs\DokanMigrator\Migrator\Assets;

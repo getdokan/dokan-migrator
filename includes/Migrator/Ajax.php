@@ -2,7 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Migrator;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 use Exception;
 use WeDevs\DokanMigrator\Helpers\MigrationHelper;

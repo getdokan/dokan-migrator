@@ -2,7 +2,7 @@
 
 namespace Wedevs\DokanMigrator\Integrations\WcVendors;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 use WeDevs\DokanMigrator\Abstracts\WithdrawMigration;
 

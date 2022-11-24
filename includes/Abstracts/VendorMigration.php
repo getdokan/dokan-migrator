@@ -2,7 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Abstracts;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 abstract class VendorMigration {
 

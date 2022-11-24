@@ -2,7 +2,7 @@
 
 namespace WeDevs\DokanMigrator\Processors;
 
-! defined( 'ABSPATH' ) || exit;
+defined( 'ABSPATH' ) || exit;
 
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
