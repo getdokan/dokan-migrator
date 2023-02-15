@@ -147,7 +147,7 @@ class VendorMigrator extends VendorMigration {
      * @return string
      */
     public function get_phone( $default ) {
-        $this->get_profile_settings_val( 'phone' );
+        return $this->get_profile_settings_val( 'phone' );
     }
 
     /**

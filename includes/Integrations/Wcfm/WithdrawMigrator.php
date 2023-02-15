@@ -117,7 +117,17 @@ class WithdrawMigrator extends WithdrawMigration {
      * @return string
      */
     public function get_withdraw_payment_method() {
-        return ! empty( $this->withdraw->payment_method ) ? $this->withdraw->payment_method : '';
+        // by_cash, stripe_split, stripe are not supported to dokan.
+        $dokan_payment_method = array(
+            'paypal'        => 'paypal',
+            'skrill'        => 'skrill',
+            'bank_transfer' => 'bank',
+            'wirecard'      => 'dokan-moip-connect',
+        );
+
+        $payment_method = ! empty( $this->withdraw->payment_method ) ? $this->withdraw->payment_method : '';
+
+        return isset( $dokan_payment_method[ $payment_method ] ) ? $dokan_payment_method[ $payment_method ] : $payment_method;
     }
 
     /**
