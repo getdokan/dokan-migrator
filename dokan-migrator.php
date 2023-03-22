@@ -90,6 +90,8 @@ final class Dokan_Migrator {
 
         // load the addon
         add_action( 'dokan_loaded', array( $this, 'plugin_init' ) );
+
+        $this->init_appsero_tracker();
     }
 
     /**
@@ -181,6 +183,32 @@ final class Dokan_Migrator {
             return $this->container[ $prop ];
         }
     }
+
+    /**
+	 * Initiates Appsero services.
+	 *
+	 * @since DOKAN_MIG_SINCE
+	 *
+	 * @return void
+	 */
+	public function init_appsero_tracker() {
+		if ( ! class_exists( '\Appsero\Client' ) ) {
+            return;
+        }
+
+        $client   = new \Appsero\Client( 'Appsero key for dokan migrator plugin', 'Dokan Migrator', DOKAN_MIGRATOR_FILE );
+        $insights = $client->insights();
+
+		$insights->add_extra(
+            function() {
+                return array(
+                    'dokan_migrator_version' => DOKAN_MIGRATOR_PLUGIN_VERSION,
+				);
+            }
+        );
+
+        $insights->init();
+	}
 }
 
 /**
