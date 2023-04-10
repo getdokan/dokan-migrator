@@ -27,7 +27,6 @@ Building a multi-vendor store from scratch is tough enough, but moving from an a
 
 Like the rest of Dokan settings and functions, the Dokan Migrator plugin is created to provide advanced options in easy solutions. Whether you are new to WordPress technicalities or an expert, experienced tech-savvy person, this migrator guarantees hassle free implementation. Just a single click allows you to start the process with a dashboard to review the existing data on your marketplace before allowing the plugin to bundle the data and move it to Dokan.
 
-
 **MIGRATING TO AND USING DOKAN**
 
 When you activate the Dokan Migrator plugin (ensure that Dokan Lite is active as well), a banner on the plugin will notify you to migrate with a clickable link. When you click, you will be redirected to a dashboard to review the existing data (of vendors, orders and withdrawals) that will be migrated upon your approval.
