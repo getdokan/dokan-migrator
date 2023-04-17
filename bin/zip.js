@@ -14,6 +14,7 @@ const pluginFiles = [
     'templates/',
     'changelog.txt',
     'readme.txt',
+    'appsero.json',
     'dokan-migrator.php',
 ];
 
@@ -21,7 +22,6 @@ const removeFiles = [
     'src',
     'composer.json',
     'composer.lock',
-    'appsero.json',
 ];
 
 const allowedVendorFiles = {};
