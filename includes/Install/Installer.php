@@ -40,7 +40,7 @@ class Installer {
      */
     public function add_version_info() {
         if ( empty( get_option( 'dokan_migrator_installed_time' ) ) ) {
-            $current_time = dokan_current_datetime()->getTimestamp();
+            $current_time = current_datetime()->getTimestamp();
             update_option( 'dokan_migrator_installed_time', $current_time );
         }
 

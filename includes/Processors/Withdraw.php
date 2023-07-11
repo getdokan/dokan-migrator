@@ -29,7 +29,7 @@ class Withdraw extends Processor {
 
         switch ( $plugin ) {
             case 'wcfmmarketplace':
-                return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request" );
+                return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request WHERE withdraw_status!='requested'" );
 
             case 'wcvendors':
                 return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}pv_commission WHERE status='paid'" );
@@ -61,6 +61,7 @@ class Withdraw extends Processor {
                     $wpdb->prepare(
                         "SELECT *
                         FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request
+                        WHERE withdraw_status!='requested'
                         ORDER BY ID
                         LIMIT %d
                         OFFSET %d",

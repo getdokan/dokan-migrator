@@ -13,13 +13,15 @@ const pluginFiles = [
     'languages/',
     'templates/',
     'changelog.txt',
+    'readme.txt',
+    'appsero.json',
     'dokan-migrator.php',
 ];
 
 const removeFiles = [
     'src',
     'composer.json',
-    'composer.lock'
+    'composer.lock',
 ];
 
 const allowedVendorFiles = {};
