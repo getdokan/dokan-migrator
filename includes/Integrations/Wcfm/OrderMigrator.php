@@ -2,18 +2,20 @@
 
 namespace WeDevs\DokanMigrator\Integrations\Wcfm;
 
-defined( 'ABSPATH' ) || exit;
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 use WC_order;
 use WC_Order_Item_Shipping;
 use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 use Automattic\WooCommerce\Utilities\NumberUtil;
-use WeDevs\DokanMigrator\Helpers\MigrationHelper;
 
 /**
  * Order migration class.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class OrderMigrator extends OrderMigration {
 
@@ -34,7 +36,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Create sub order if needed
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $seller_id
      * @param array $seller_products
@@ -47,7 +49,7 @@ class OrderMigrator extends OrderMigration {
          * Dokan meta key for order items as those data will be parsed while creating
          * sub orders.
          */
-        MigrationHelper::map_shipping_method_item_meta( $this->order );
+        $this->map_shipping_method_item_meta();
         dokan()->order->create_sub_order( $this->order, $seller_id, $seller_products );
 
         $res = get_posts(
@@ -66,9 +68,43 @@ class OrderMigrator extends OrderMigration {
     }
 
     /**
+     * Converts the order item meta key according to
+     * Dokan meta key as those data will be parsed
+     * while creating sub orders.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function map_shipping_method_item_meta() {
+        if ( ! $this->order instanceof WC_Order ) {
+            return;
+        }
+
+        $shipping_methods = $this->order->get_shipping_methods();
+        if ( empty( $shipping_methods ) ) {
+            return;
+        }
+
+        foreach ( $shipping_methods as $method_item_id => $shipping_object ) {
+            $seller_id = wc_get_order_item_meta( $method_item_id, 'vendor_id', true );
+
+            if ( ! $seller_id ) {
+                continue;
+            }
+
+            wc_update_order_item_meta(
+                $method_item_id,
+                'seller_id',
+                wc_get_order_item_meta( $method_item_id, 'vendor_id', true )
+            );
+        }
+    }
+
+    /**
      * Delete sub orders of needed.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -79,7 +115,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Gets order data from wcfm order table for dokan.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $parent_order_id
      * @param int $seller_id
@@ -142,7 +178,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Process refund for a child order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param WC_Order $child_order
      * @param integer $seller_id
@@ -299,7 +335,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Rename vendor shipping for an order
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param object $order
      *
@@ -340,7 +376,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Retrieves WCFM refund requests.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $vendor_id
      * @param int $order_id
@@ -363,7 +399,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Retrieves WCFM refund meta data for a specific meta key.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param integer $refund_id
      * @param sting   $meta_key
@@ -387,7 +423,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Split shipping amount for all vendors if wcfm processing an order as admin shipping.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param WC_Order_Item_Shipping $applied_shipping_method
      * @param int                    $order_id

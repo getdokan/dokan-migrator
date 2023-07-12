@@ -11,14 +11,14 @@ use WeDevs\DokanMigrator\Migrator\Assets;
  * Migrator class.
  * Migration process works in this class.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class Manager {
 
     /**
      * Which import type is going to be migrated.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var string
      */
@@ -27,7 +27,7 @@ class Manager {
     /**
      * Get vendors starting from $offset( 1,2,3....,10,.......th ) vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var integer
      */
@@ -36,7 +36,7 @@ class Manager {
     /**
      * Number of vendors to be migrated.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var integer
      */
@@ -45,7 +45,7 @@ class Manager {
     /**
      * Total count of the data to be imported.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var integer
      */
@@ -54,7 +54,7 @@ class Manager {
     /**
      * Total count of migrated data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var integer
      */
@@ -63,7 +63,7 @@ class Manager {
     /**
      * Dokan email classes.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var array
      */
@@ -72,7 +72,7 @@ class Manager {
     /**
      * Dokan email templates.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var array
      */
@@ -81,7 +81,7 @@ class Manager {
     /**
      * Dokan email actions.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var array
      */
@@ -90,7 +90,7 @@ class Manager {
     /**
      * Class constructor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -105,7 +105,7 @@ class Manager {
     /**
      * Sets import type.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $import_type
      *
@@ -118,7 +118,7 @@ class Manager {
     /**
      * Sets required data for execution.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param @param array{number:int,offset:int,total_count:int,total_migrated:int} $data
      *
@@ -155,7 +155,7 @@ class Manager {
     /**
      * Decide which import type is going to be migrated and run the migration process.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $import_type Type of the element being migrated. The values can be `vendor`, `order`, `withdraw`.
      * @param string $plugin Handle of the plugin which is being migrated
@@ -200,7 +200,7 @@ class Manager {
     /**
      * Retrives the class name of the migrator based on the import type.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $import_type
      *
@@ -219,7 +219,7 @@ class Manager {
     /**
      * Update successfully migration data into database option table based on vendor or order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $data
      *
@@ -234,7 +234,7 @@ class Manager {
     /**
      * Get the migration status of vendor or order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return boolean
      */
@@ -246,7 +246,7 @@ class Manager {
     /**
      * Preventing email notifications from dokan and woocommerce.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -279,7 +279,7 @@ class Manager {
     /**
      * Resting email classes.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */

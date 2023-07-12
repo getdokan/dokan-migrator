@@ -7,14 +7,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * This class defines the methods for vendor, order and withdraw handler.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 abstract class Processor {
 
     /**
      * Returns count of items vendor or order or withdraw.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $plugin
      *
@@ -25,7 +25,7 @@ abstract class Processor {
     /**
      * Returns array of items vendor or order or withdraw.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $plugin
      *
@@ -36,7 +36,7 @@ abstract class Processor {
     /**
      * Return class to handle migration.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $plugin
      * @param object $payload

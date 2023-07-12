@@ -7,14 +7,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Assets class for dokan migrator.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class Assets {
 
     /**
      * Assets class constructor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      */
     public function __construct() {
         add_action( 'init', [ $this, 'setup_assets' ] );
@@ -23,7 +23,7 @@ class Assets {
     /**
      * Sets up assets.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -36,7 +36,7 @@ class Assets {
     /**
      * Registers scripts.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */

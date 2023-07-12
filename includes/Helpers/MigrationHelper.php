@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
  * Dokan migrator helper class
  * This class holds the helper methods for dokan migration.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class MigrationHelper {
 
     /**
      * Last migrated data, vendor/order/withdraw. and migratable plugin.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array{last_migrated:string,migratable:string,migration_success:bool,set_title:string}
      */
@@ -37,7 +37,7 @@ class MigrationHelper {
     /**
      * Deactivate wcfm plugins.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -73,7 +73,7 @@ class MigrationHelper {
     /**
      * Get post by post name
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $name
      * @param string $post_type
@@ -94,7 +94,7 @@ class MigrationHelper {
     /**
      * Get get migration title.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $plugin
      *
@@ -122,7 +122,7 @@ class MigrationHelper {
     /**
      * Returns migratable plugin name like: wcfm, wcvendors, wcmarketplace, .......
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */

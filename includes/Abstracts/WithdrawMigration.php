@@ -7,14 +7,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Withdraw abstract class.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 abstract class WithdrawMigration {
 
     /**
      * Sets single withdraw item data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param object $withdraw_data
      */
@@ -23,7 +23,7 @@ abstract class WithdrawMigration {
     /**
      * Returns vendor id.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return int
      */
@@ -32,7 +32,7 @@ abstract class WithdrawMigration {
     /**
      * Returns withdraw amount.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return int|float
      */
@@ -41,7 +41,7 @@ abstract class WithdrawMigration {
     /**
      * Returns withdraw created date.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -50,7 +50,7 @@ abstract class WithdrawMigration {
     /**
      * Returns withdraw status.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -59,7 +59,7 @@ abstract class WithdrawMigration {
     /**
      * Returns withdraw payment method.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -68,7 +68,7 @@ abstract class WithdrawMigration {
     /**
      * Returns withdraw note
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -77,7 +77,7 @@ abstract class WithdrawMigration {
     /**
      * Returns withdraw details.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -86,7 +86,7 @@ abstract class WithdrawMigration {
     /**
      * Returns withdraw ip.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -95,7 +95,7 @@ abstract class WithdrawMigration {
     /**
      * Runs the withdraw migration process.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param Object $withdraw
      *
@@ -141,7 +141,7 @@ abstract class WithdrawMigration {
     /**
      * Updates dokan vendor balance table for withdraw.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $dokan_order_data
      * @param int $sub_order_id

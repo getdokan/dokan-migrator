@@ -9,14 +9,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Dokan Migrator Manager Class
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class Manager {
 
     /**
      * Class constructor
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -32,7 +32,7 @@ class Manager {
     /**
      * Inits class for admin.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -43,7 +43,7 @@ class Manager {
     /**
      * Inits hooks.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -54,7 +54,7 @@ class Manager {
     /**
      * Show activate vendor dashboard notice
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
