@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @class Dokan_Migrator The class that holds the entire Dokan_Migrator plugin
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 final class Dokan_Migrator {
 
@@ -69,7 +69,7 @@ final class Dokan_Migrator {
     /**
      * Holds various class instances
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var array
      */
@@ -78,7 +78,7 @@ final class Dokan_Migrator {
     /**
      * Class constructor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      */
     private function __construct() {
         require_once __DIR__ . '/vendor/autoload.php';
@@ -100,7 +100,7 @@ final class Dokan_Migrator {
      * Checks for an existing instance
      * and if it doesn't find one, creates it.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return self
      */
@@ -115,7 +115,7 @@ final class Dokan_Migrator {
     /**
      * Define all dokan migrator constant
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -133,7 +133,7 @@ final class Dokan_Migrator {
     /**
      * Executes on plugin activation.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -144,7 +144,7 @@ final class Dokan_Migrator {
     /**
      * Init the plugin.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -156,7 +156,7 @@ final class Dokan_Migrator {
     /**
      * Load plugin classes.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -172,7 +172,7 @@ final class Dokan_Migrator {
     /**
      * Magic getter to bypass referencing objects
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $prop
      *
@@ -187,7 +187,7 @@ final class Dokan_Migrator {
     /**
 	 * Initiates Appsero services.
 	 *
-	 * @since DOKAN_MIG_SINCE
+	 * @since 1.0.0
 	 *
 	 * @return void
 	 */
@@ -214,7 +214,7 @@ final class Dokan_Migrator {
 /**
  * Load Dokan migrator plugin.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  *
  * @return \Dokan_Migrator
  */

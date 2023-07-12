@@ -10,14 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Dokan Migrator Menu Class
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class Menu {
 
     /**
      * Class constructor
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -44,7 +44,7 @@ class Menu {
     /**
      * Enqueue migration script and styles.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */

@@ -13,14 +13,14 @@ use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigra
 /**
  * Withdraw migration handler class.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class Withdraw extends Processor {
 
     /**
      * Returns count of items vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $plugin
      *
@@ -41,7 +41,7 @@ class Withdraw extends Processor {
     /**
      * Returns array of items vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array
      * @throws \Exception
@@ -80,7 +80,7 @@ class Withdraw extends Processor {
     /**
      * Return class to handle migration.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $plugin
      * @param object $payload
@@ -100,7 +100,7 @@ class Withdraw extends Processor {
     /**
      * Removes old withdraw data from table.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -113,7 +113,7 @@ class Withdraw extends Processor {
     /**
      * Throws error on empty data or unsupported plugin.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      * @throws \Exception
