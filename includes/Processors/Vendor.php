@@ -14,14 +14,14 @@ use WeDevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
 /**
  * Vendor migration handler class.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class Vendor extends Processor {
 
     /**
      * Returns count of items vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $plugin
      *
@@ -40,7 +40,7 @@ class Vendor extends Processor {
     /**
      * Returns array of items vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array
      * @throws \Exception
@@ -74,7 +74,7 @@ class Vendor extends Processor {
     /**
      * Return class to handle migration.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $plugin
      * @param object $payload
@@ -94,7 +94,7 @@ class Vendor extends Processor {
     /**
      * Throws error on empty data or unsupported plugin.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      * @throws \Exception

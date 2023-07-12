@@ -5,7 +5,7 @@ namespace WeDevs\DokanMigrator\Install;
 /**
  * Dokan migrator installer class
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  *
  * @author weDevs
  */
@@ -14,7 +14,7 @@ class Installer {
     /**
      * Class constructor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      */
     public function __construct() {
         $this->do_install();
@@ -23,7 +23,7 @@ class Installer {
     /**
      * Adds installer data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -34,7 +34,7 @@ class Installer {
     /**
      * Adds plugin installation time.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return boolean
      */

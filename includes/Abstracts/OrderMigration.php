@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Abstracts order migration class.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 abstract class OrderMigration {
 
@@ -30,7 +30,7 @@ abstract class OrderMigration {
     /**
      * Process refund for a child order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param integer $child_order
      * @param integer $seller_id
@@ -43,7 +43,7 @@ abstract class OrderMigration {
     /**
      * Gets order data for dokan.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $parent_order_id
      * @param int $seller_id
@@ -55,7 +55,7 @@ abstract class OrderMigration {
     /**
      * Create sub order if needed
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $seller_id
      * @param array $seller_products
@@ -67,7 +67,7 @@ abstract class OrderMigration {
     /**
      * Delete sub orders of needed.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -76,7 +76,7 @@ abstract class OrderMigration {
     /**
      * Returns true if the order has sub orders.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return boolean
      */
@@ -87,7 +87,7 @@ abstract class OrderMigration {
     /**
      * Returns parent orders child orders.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array
      */
@@ -105,7 +105,7 @@ abstract class OrderMigration {
     /**
      * Removes all sub orders of a parent order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -123,7 +123,7 @@ abstract class OrderMigration {
     /**
      * Removes existing data from dokan order table.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $order_id
      * @param int $seller_id
@@ -143,7 +143,7 @@ abstract class OrderMigration {
     /**
      * Removes existing data from dokan order table.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $order_id
      * @param int $seller_id
@@ -163,7 +163,7 @@ abstract class OrderMigration {
     /**
      * Removes existing data from dokan refund table.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $order_id
      * @param int $seller_id
@@ -178,7 +178,7 @@ abstract class OrderMigration {
     /**
      * Updates dokan order table with new order id.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $dokan_order_data
      * @param int $sub_order_id
@@ -242,7 +242,7 @@ abstract class OrderMigration {
     /**
      * Runs the order migration process.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
@@ -312,7 +312,7 @@ abstract class OrderMigration {
     /**
      * Updates dokan refund table.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $data
      *
@@ -395,7 +395,7 @@ abstract class OrderMigration {
     /**
      * Checks and returns if an order has refund.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param \WC_Order $order
      *

@@ -12,14 +12,14 @@ use WeDevs\DokanMigrator\Abstracts\VendorMigration;
 /**
  * Formats vendor data for migration to Dokan.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.0.0
  */
 class VendorMigrator extends VendorMigration {
 
     /**
      * WCFM vendor profile settings key.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Class constructor
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param \WP_User $vendor
      */
@@ -41,7 +41,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns store name
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -54,7 +54,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns store description
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -65,7 +65,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns is vendor has selling capability.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -79,7 +79,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns geo location address
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -90,7 +90,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor location latitude.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -101,7 +101,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor location longitude.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -112,7 +112,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor social data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array
      */
@@ -123,7 +123,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor payment data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array
      */
@@ -140,7 +140,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor phone number.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -153,7 +153,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns if email show in store or not.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -166,7 +166,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns  vendor address.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -179,7 +179,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor location.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -192,7 +192,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns banner id.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $default
      *
@@ -206,7 +206,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns applied commission in an vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -219,7 +219,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns vendor gravatar.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -232,7 +232,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns if show more p tab.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param mixed $default
      *
@@ -245,7 +245,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns applied commission in an vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $default
      *
@@ -258,7 +258,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns applied commission in an vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -271,7 +271,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns terms and comdition.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -284,7 +284,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns if min discount.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -297,7 +297,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Returns store seo.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $default
      *
@@ -310,7 +310,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Get vendor commission setting from wcfm to dokan.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array
      */
@@ -336,7 +336,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Get value from meta data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $key
      * @param string $default
@@ -350,7 +350,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Get value from wcfm profile settings.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $key
      * @param string $default
@@ -366,7 +366,7 @@ class VendorMigrator extends VendorMigration {
     /**
      * Formats and returns seo data for dokan.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $store_seo
      *

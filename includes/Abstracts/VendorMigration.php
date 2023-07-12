@@ -12,7 +12,7 @@ abstract class VendorMigration {
     /**
      * Vendor data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var \WP_User
      */
@@ -21,7 +21,7 @@ abstract class VendorMigration {
     /**
      * Vendor id.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var integer
      */
@@ -30,7 +30,7 @@ abstract class VendorMigration {
     /**
      * Vendor meta data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @var array
      */
@@ -39,7 +39,7 @@ abstract class VendorMigration {
     /**
      * Returns store name
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -48,7 +48,7 @@ abstract class VendorMigration {
     /**
      * Returns store description
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -57,7 +57,7 @@ abstract class VendorMigration {
     /**
      * Returns is vendor has selling capability.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -66,7 +66,7 @@ abstract class VendorMigration {
     /**
      * Returns geo location address
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -75,7 +75,7 @@ abstract class VendorMigration {
     /**
      * Returns vendor location latitude.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -84,7 +84,7 @@ abstract class VendorMigration {
     /**
      * Returns vendor location longitude.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return string
      */
@@ -93,7 +93,7 @@ abstract class VendorMigration {
     /**
      * Returns applied commission in an vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array dokan_admin_percentage, dokan_admin_percentage_type, dokan_admin_additional_fee
      */
@@ -102,7 +102,7 @@ abstract class VendorMigration {
     /**
      * Returns vendor social data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $default
      *
@@ -113,7 +113,7 @@ abstract class VendorMigration {
     /**
      * Returns vendor payment array.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $default
      *
@@ -124,7 +124,7 @@ abstract class VendorMigration {
     /**
      * Returns vendor phone number.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -135,7 +135,7 @@ abstract class VendorMigration {
     /**
      * Returns if email show in store or not.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -146,7 +146,7 @@ abstract class VendorMigration {
     /**
      * Returns  vendor address.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -157,7 +157,7 @@ abstract class VendorMigration {
     /**
      * Returns vendor location.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -168,7 +168,7 @@ abstract class VendorMigration {
     /**
      * Returns banner id.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $default
      *
@@ -179,7 +179,7 @@ abstract class VendorMigration {
     /**
      * Returns applied commission in an vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -190,7 +190,7 @@ abstract class VendorMigration {
     /**
      * Returns vendor gravatar.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -201,7 +201,7 @@ abstract class VendorMigration {
     /**
      * Returns if show more p tab.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param mixed $default
      *
@@ -212,7 +212,7 @@ abstract class VendorMigration {
     /**
      * Returns applied commission in an vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param int $default
      *
@@ -223,7 +223,7 @@ abstract class VendorMigration {
     /**
      * Returns applied commission in an vendor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -234,7 +234,7 @@ abstract class VendorMigration {
     /**
      * Returns terms and comdition.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -245,7 +245,7 @@ abstract class VendorMigration {
     /**
      * Returns if min discount.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $default
      *
@@ -256,7 +256,7 @@ abstract class VendorMigration {
     /**
      * Returns store seo.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param array $default
      *
@@ -303,7 +303,7 @@ abstract class VendorMigration {
     /**
      * Dokan profile settings array.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return array
      */
@@ -340,7 +340,7 @@ abstract class VendorMigration {
     /**
      * Get specific user meta data.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @param string $key
      * @param string $default
@@ -354,7 +354,7 @@ abstract class VendorMigration {
     /**
      * Runs vendors migration process.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.0.0
      *
      * @return void
      */
