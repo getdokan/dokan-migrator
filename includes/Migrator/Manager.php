@@ -183,8 +183,8 @@ class Manager {
 
         $args = [
             'migrated'       => count( $data ),
-            'next'           => count( $data ) + $this->offset,
-            'total_migrated' => count( $data ) + $this->total_migrated,
+            'next'           => count( $data ) + (int) $this->offset,
+            'total_migrated' => count( $data ) + (int) $this->total_migrated,
         ];
 
         $progress = ( $args['total_migrated'] * 100 ) / $this->total_count;

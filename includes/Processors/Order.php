@@ -70,8 +70,8 @@ class Order extends Processor {
 					FROM wp_posts p
 					INNER JOIN {$wpdb->prefix}wcfm_marketplace_orders ON p.ID = {$wpdb->prefix}wcfm_marketplace_orders.order_id
 					ORDER BY p.ID DESC
-					LIMIT 3
-					OFFSET 0
+					LIMIT {$number}
+					OFFSET {$offset}
 					"
 			    );
 				break;

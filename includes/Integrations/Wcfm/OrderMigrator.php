@@ -26,7 +26,7 @@ class OrderMigrator extends OrderMigration {
      *
      * @param \WP_Post|\stdClass $order
      */
-    public function __construct( \WP_Post $order ) {
+    public function __construct( $order ) {
         $this->order_id = $order->ID;
         $this->order    = wc_get_order( $this->order_id );
 
