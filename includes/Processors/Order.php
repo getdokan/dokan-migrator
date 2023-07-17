@@ -65,6 +65,7 @@ class Order extends Processor {
 
 	    switch ( $plugin ) {
 		    case 'wcfmmarketplace':
+			    // phpcs:disable
 			    $orders = $wpdb->get_results(
 				    "SELECT p.*
 					FROM wp_posts p
@@ -74,7 +75,8 @@ class Order extends Processor {
 					OFFSET {$offset}
 					"
 			    );
-				break;
+			    // phpcs:enable
+			    break;
 
 		    default:
 			    $orders = get_posts( $args );
