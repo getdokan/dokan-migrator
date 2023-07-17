@@ -29,7 +29,18 @@ class Order extends Processor {
     public static function get_total( $plugin ) {
         global $wpdb;
 
-        return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}posts WHERE post_type='shop_order' AND post_parent=0" );
+	    switch ( $plugin ) {
+		    case 'wcfmmarketplace':
+			    return (int) $wpdb->get_var(
+				    "SELECT COUNT(DISTINCT p.ID)
+					FROM wp_posts p
+					INNER JOIN {$wpdb->prefix}wcfm_marketplace_orders ON p.ID = {$wpdb->prefix}wcfm_marketplace_orders.order_id
+					"
+			    );
+
+		    default:
+			    return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}posts WHERE post_type='shop_order' AND post_parent=0" );
+	    }
     }
 
     /**
@@ -41,16 +52,33 @@ class Order extends Processor {
      * @throws \Exception
      */
     public static function get_items( $plugin, $number, $offset ) {
+		global $wpdb;
         $args = array(
             'post_type'      => 'shop_order',
-            'orderby'        => 'ASC',
+            'orderby'        => 'ID',
+            'order'          => 'DESC',
             'post_status'    => 'any',
             'offset'         => $offset,
             'posts_per_page' => $number,
             'post_parent'    => 0,
         );
 
-        $orders = get_posts( $args );
+	    switch ( $plugin ) {
+		    case 'wcfmmarketplace':
+			    $orders = $wpdb->get_results(
+				    "SELECT p.*
+					FROM wp_posts p
+					INNER JOIN {$wpdb->prefix}wcfm_marketplace_orders ON p.ID = {$wpdb->prefix}wcfm_marketplace_orders.order_id
+					ORDER BY p.ID DESC
+					LIMIT 3
+					OFFSET 0
+					"
+			    );
+				break;
+
+		    default:
+			    $orders = get_posts( $args );
+	    }
 
         if ( empty( $orders ) ) {
             self::throw_error();
