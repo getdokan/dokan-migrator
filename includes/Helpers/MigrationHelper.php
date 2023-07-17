@@ -1,6 +1,11 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Helpers;
+namespace WeDevs\DokanMigrator\Helpers;
+
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 /**
  * Dokan migrator helper class
@@ -15,20 +20,18 @@ class MigrationHelper {
      *
      * @since 1.0.0
      *
-     * @return void
+     * @return array{last_migrated:string,migratable:string,migration_success:bool,set_title:string}
      */
     public static function get_last_migrated() {
         $last_migrated     = get_option( 'dokan_migrator_last_migrated', 'vendor' );
         $migration_success = get_option( 'dokan_migration_success', false );
         $migratable        = self::get_migratable_plugin();
 
-        wp_send_json_success(
-            array(
-                'last_migrated'     => $last_migrated,
-                'migratable'        => $migratable,
-                'migration_success' => $migration_success,
-                'set_title'         => self::get_migration_title( $migratable ),
-            )
+        return array(
+            'last_migrated'     => $last_migrated,
+            'migratable'        => $migratable,
+            'migration_success' => $migration_success,
+            'set_title'         => self::get_migration_title( $migratable ),
         );
     }
 
@@ -149,7 +152,7 @@ class MigrationHelper {
      * @param string $name
      * @param string $post_type
      *
-     * @return \Wp_Post
+     * @return \WP_Post|null
      */
     public static function get_post_by_name( $name, $post_type = 'page' ) {
         $query = new \WP_Query(
@@ -176,7 +179,7 @@ class MigrationHelper {
 
         switch ( $plugin ) {
             case 'wcfmmarketplace':
-                $title = __( 'Migrate Wcfm To Dokan.', 'dokan-migrator' );
+                $title = __( 'Migrate Wcfm To Dokan', 'dokan-migrator' );
                 break;
 
             case 'yithvendors':

@@ -1,10 +1,14 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Migrator;
+namespace WeDevs\DokanMigrator\Migrator;
 
-use Wedevs\DokanMigrator\Handlers\OrderMigrationHandler;
-use Wedevs\DokanMigrator\Handlers\VendorMigrationHandler;
-use Wedevs\DokanMigrator\Handlers\WithdrawMigrationHandler;
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+use WeDevs\DokanMigrator\Migrator\Ajax;
+use WeDevs\DokanMigrator\Migrator\Assets;
 
 /**
  * Migrator class.
@@ -17,12 +21,16 @@ class Manager {
     /**
      * Which import type is going to be migrated.
      *
+     * @since 1.0.0
+     *
      * @var string
      */
-    private $import = 'vendor';
+    private $import_type = 'vendor';
 
     /**
      * Get vendors starting from $offset( 1,2,3....,10,.......th ) vendor.
+     *
+     * @since 1.0.0
      *
      * @var integer
      */
@@ -31,12 +39,16 @@ class Manager {
     /**
      * Number of vendors to be migrated.
      *
+     * @since 1.0.0
+     *
      * @var integer
      */
     private $number = 10;
 
     /**
      * Total count of the data to be imported.
+     *
+     * @since 1.0.0
      *
      * @var integer
      */
@@ -45,67 +57,97 @@ class Manager {
     /**
      * Total count of migrated data.
      *
+     * @since 1.0.0
+     *
      * @var integer
      */
     private $total_migrated = 0;
 
     /**
-     * Vendor handler class instance
+     * Dokan email classes.
      *
-     * @var Class
+     * @since 1.0.0
+     *
+     * @var array
      */
-    private $vendor_handler = null;
+    public static $email_classes = [];
 
     /**
-     * Order handler class instance
+     * Dokan email templates.
      *
-     * @var Class
+     * @since 1.0.0
+     *
+     * @var array
      */
-    private $order_handler = null;
+    public static $templates = [];
 
     /**
-     * Withdraw handler class instance
+     * Dokan email actions.
      *
-     * @var Class
+     * @since 1.0.0
+     *
+     * @var array
      */
-    private $withdraw_handler = null;
+    public static $actions = [];
 
     /**
      * Class constructor.
      *
      * @since 1.0.0
+     *
+     * @return void
      */
     public function __construct() {
-        $this->vendor_handler   = new VendorMigrationHandler();
-        $this->order_handler    = new OrderMigrationHandler();
-        $this->withdraw_handler = new WithdrawMigrationHandler();
+        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+            new Ajax();
+        }
+
+        new Assets();
+    }
+
+    /**
+     * Sets import type.
+     *
+     * @since 1.0.0
+     *
+     * @param string $import_type
+     *
+     * @return void
+     */
+    protected function set_import_type( $import_type ) {
+        $this->import_type = ! empty( $import_type ) ? $import_type : $this->import_type;
+    }
+
+    /**
+     * Sets required data for execution.
+     *
+     * @since 1.0.0
+     *
+     * @param @param array{number:int,offset:int,total_count:int,total_migrated:int} $data
+     *
+     * @return void
+     */
+    protected function set_data( $data ) {
+        $this->number         = ! empty( $data['number'] ) ? intval( $data['number'] ) : $this->number;
+        $this->offset         = ! empty( $data['offset'] ) ? intval( $data['offset'] ) : $this->offset;
+        $this->total_count    = ! empty( $data['total_count'] ) ? intval( $data['total_count'] ) : $this->total_count;
+        $this->total_migrated = ! empty( $data['total_migrated'] ) ? intval( $data['total_migrated'] ) : $this->total_migrated;
     }
 
     /**
      * Get the total count of the data to be imported.
      *
-     * @param string $import Import type vendor or order.
+     * @param string $import_type Import type- `vendor` or `order` or `withdraw`.
      *
      * @return void
      */
-    public function get_total( $import = 'vendor', $migratable ) {
+    public function get_total( $import_type, $migratable ) {
         $total_count = 0;
 
-        switch ( $import ) {
-            case 'vendor':
-                $total_count = $this->vendor_handler->get_total( $migratable );
-                break;
+        $this->set_import_type( $import_type );
 
-            case 'order':
-                $total_count = $this->order_handler->get_total( $migratable );
-                break;
-
-            case 'withdraw':
-                $total_count = $this->withdraw_handler->get_total( $migratable );
-                break;
-        }
-
-        $old_migrated_status = self::get_migration_status( $import, $total_count );
+        $total_count         = call_user_func( [ $this->processor_class( $import_type ), 'get_total' ], $migratable );
+        $old_migrated_status = self::get_migration_status( $import_type, $total_count );
 
         return [
             'total_count'         => $total_count,
@@ -118,140 +160,63 @@ class Manager {
      *
      * @since 1.0.0
      *
+     * @param string $import_type Type of the element being migrated. The values can be `vendor`, `order`, `withdraw`.
+     * @param string $plugin Handle of the plugin which is being migrated
+     * @param array{number:int,offset:int,total_count:int,total_migrated:int} $data
+     *
      * @return void
+     * @throws \Exception
      */
-    public function migrate( $import, $number, $offset, $total_count, $total_migrated, $migratable ) {
-        $this->import         = $import;
-        $this->number         = $number;
-        $this->offset         = $offset;
-        $this->total_count    = $total_count;
-        $this->total_migrated = $total_migrated;
+    public function migrate( $import_type, $plugin, $data ) {
+        $this->set_import_type( $import_type );
+        $this->set_data( $data );
+        $this->prevent_email_notification();
 
-        switch ( $import ) {
-            case 'vendor':
-                return $this->migrate_vendor( $migratable );
+        $processor = $this->processor_class( $import_type );
 
-            case 'order':
-                return $this->migrate_order( $migratable );
+        $data = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset );
 
-            case 'withdraw':
-                return $this->migrate_withdraw( $migratable );
-
-            default:
-                throw new \Exception( 'Invalid import type' );
+        foreach ( $data as $value ) {
+            $migrator = call_user_func( [ $processor, 'get_migration_class' ], $plugin, $value );
+            $migrator->process_migration();
         }
+
+        $args = [
+            'migrated'       => count( $data ),
+            'next'           => count( $data ) + $this->offset,
+            'total_migrated' => count( $data ) + $this->total_migrated,
+        ];
+
+        $progress = ( $args['total_migrated'] * 100 ) / $this->total_count;
+
+        if ( $progress < 100 ) {
+            $this->update_migration_status( $args, $import_type );
+        } else {
+            delete_option( "dokan_migrator_{$import_type}_status" );
+        }
+
+        $this->reset_email_data();
+
+        return $args;
     }
 
     /**
-     * Migrate vendor data.
+     * Retrives the class name of the migrator based on the import type.
      *
      * @since 1.0.0
      *
-     * @param string $migratable
+     * @param string $import_type
      *
-     * @return void
+     * @return string
+     * @throws \Exception
      */
-    public function migrate_vendor( $migratable ) {
-        $users = $this->vendor_handler->get_items( $migratable, $this->number, $this->offset );
-
-        if ( ! empty( $users ) ) {
-            foreach ( $users as $user ) {
-                $vendor_migrator = $this->vendor_handler->get_migration_class( $migratable );
-                $vendor_migrator->process_migration( $user );
-            }
-
-            $data = [
-                'migrated'       => count( $users ),
-                'next'           => count( $users ) + $this->offset,
-                'total_migrated' => count( $users ) + $this->total_migrated,
-            ];
-
-            $progress = ( $data['total_migrated'] * 100 ) / $this->total_count;
-
-            $progress >= 100 ? delete_option( 'dokan_migrator_' . $this->import . '_status' ) : $this->update_migration_status( $data, $this->import );
-
-            return $data;
-        } else {
-            delete_option( 'dokan_migration_completed' );
-            throw new \Exception( 'No vendors found to migrate to dokan.' );
+    public function processor_class( $import_type ) {
+        if ( ! in_array( $import_type, [ 'vendor', 'order', 'withdraw' ], true ) ) {
+            throw new \Exception( __( 'Invalid import type', 'dokan-migrator' ) );
         }
-    }
 
-    /**
-     * Migrate order data.
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public function migrate_order( $migratable ) {
-        $orders = $this->order_handler->get_items( $migratable, $this->number, $this->offset );
-
-        if ( ! empty( $orders ) ) {
-            foreach ( $orders as $order ) {
-                $order_migrator = $this->order_handler->get_migration_class( $migratable );
-                $order_migrator->process_migration( $order );
-            }
-
-            $data = [
-                'migrated'       => count( $orders ),
-                'next'           => count( $orders ) + $this->offset,
-                'total_migrated' => count( $orders ) + $this->total_migrated,
-            ];
-
-            $progress = ( $data['total_migrated'] * 100 ) / $this->total_count;
-
-            $progress >= 100 ? delete_option( 'dokan_migrator_' . $this->import . '_status' ) : $this->update_migration_status( $data, $this->import );
-
-            return $data;
-        } else {
-            throw new \Exception( 'No orders found to migrate to dokan.' );
-        }
-    }
-
-    /**
-     * Migrate withdraw data.
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public function migrate_withdraw( $migratable ) {
-        $withwraws = $this->withdraw_handler->get_items( $migratable, $this->number, $this->offset );
-
-        0 === (int) $this->offset ? $this->remove_existing_withdraw_data() : '';
-
-        if ( ! empty( $withwraws ) ) {
-            foreach ( $withwraws as $withwraw ) {
-                $withwraws_migrator = $this->withdraw_handler->get_migration_class( $migratable );
-
-                $withwraws_migrator->set_withdraw_data( $withwraw );
-                $withwraws_migrator->process_migration();
-            }
-
-            $data = [
-                'migrated'       => count( $withwraws ),
-                'next'           => count( $withwraws ) + $this->offset,
-                'total_migrated' => count( $withwraws ) + $this->total_migrated,
-            ];
-
-            $progress = ( $data['total_migrated'] * 100 ) / $this->total_count;
-
-            if ( $progress >= 100 ) {
-                delete_option( 'dokan_migrator_' . $this->import . '_status' );
-                delete_option( 'dokan_migrator_last_migrated' );
-            } else {
-                $this->update_migration_status( $data, $this->import );
-            }
-            update_option( 'dokan_migration_completed', 'yes' );
-
-            return $data;
-        } else {
-            delete_option( 'dokan_migrator_last_migrated' );
-            update_option( 'dokan_migration_completed', 'yes' );
-            update_option( 'dokan_migration_success', 'yes' );
-            throw new \Exception( 'No withdraws found to migrate to dokan.' );
-        }
+        $class = ucfirst( $import_type );
+        return "\\WeDevs\\DokanMigrator\\Processors\\$class";
     }
 
     /**
@@ -280,16 +245,67 @@ class Manager {
         return get_option( 'dokan_migrator_' . $type . '_status' );
     }
 
+
     /**
-     * Remove old withdraw data from table.
+     * Preventing email notifications from dokan and woocommerce.
      *
      * @since 1.0.0
      *
      * @return void
      */
-    public function remove_existing_withdraw_data() {
-        global $wpdb;
+    public function prevent_email_notification() {
+        add_filter(
+            'woocommerce_email_classes',
+            function ( $data ) {
+                self::$email_classes = $data;
+                return [];
+            },
+            35
+        );
+        add_filter(
+            'woocommerce_template_directory',
+            function ( $data ) {
+                self::$templates = $data;
+                return [];
+            },
+            15
+        );
+        add_filter(
+            'woocommerce_email_actions',
+            function ( $data ) {
+                self::$actions = $data;
+                return [];
+            }
+        );
+    }
 
-        $wpdb->query( "DELETE FROM {$wpdb->prefix}dokan_withdraw WHERE 1" );
+    /**
+     * Resting email classes.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function reset_email_data() {
+        add_filter(
+            'woocommerce_email_classes',
+            function ( $data ) {
+                return array_unique( array_merge( self::$email_classes, $data ) );
+            },
+            35
+        );
+        add_filter(
+            'woocommerce_template_directory',
+            function ( $data ) {
+                return array_unique( array_merge( self::$templates, $data ) );
+            },
+            15
+        );
+        add_filter(
+            'woocommerce_email_actions',
+            function ( $data ) {
+                return array_unique( array_merge( self::$actions, $data ) );
+            }
+        );
     }
 }

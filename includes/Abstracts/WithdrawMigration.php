@@ -1,6 +1,11 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Abstracts;
+namespace WeDevs\DokanMigrator\Abstracts;
+
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 /**
  * Withdraw abstract class.
@@ -94,6 +99,8 @@ abstract class WithdrawMigration {
      * Runs the withdraw migration process.
      *
      * @since 1.0.0
+     *
+     * @param Object $withdraw
      *
      * @return void
      */

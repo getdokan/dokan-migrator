@@ -1,8 +1,13 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Integrations\Wcfm;
+namespace WeDevs\DokanMigrator\Integrations\Wcfm;
 
-use Wedevs\DokanMigrator\Abstracts\WithdrawMigration;
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+use WeDevs\DokanMigrator\Abstracts\WithdrawMigration;
 
 /**
  * Formats vendor data for migration to Dokan.
@@ -31,6 +36,15 @@ class WithdrawMigrator extends WithdrawMigration {
      * @var int
      */
     private $withdraw_id = '';
+
+    /**
+     * Class constructor.
+     *
+     * @param object $withdraw
+     */
+    public function __construct( $withdraw ) {
+        $this->set_withdraw_data( $withdraw );
+    }
 
     /**
      * Sets single withdraw item data.
@@ -103,7 +117,17 @@ class WithdrawMigrator extends WithdrawMigration {
      * @return string
      */
     public function get_withdraw_payment_method() {
-        return ! empty( $this->withdraw->payment_method ) ? $this->withdraw->payment_method : '';
+        // by_cash, stripe_split, stripe are not supported to dokan.
+        $dokan_payment_method = array(
+            'paypal'        => 'paypal',
+            'skrill'        => 'skrill',
+            'bank_transfer' => 'bank',
+            'wirecard'      => 'dokan-moip-connect',
+        );
+
+        $payment_method = ! empty( $this->withdraw->payment_method ) ? $this->withdraw->payment_method : '';
+
+        return isset( $dokan_payment_method[ $payment_method ] ) ? $dokan_payment_method[ $payment_method ] : $payment_method;
     }
 
     /**

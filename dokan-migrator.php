@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Dokan Migrator
- * Plugin URI: http://wedevs.com/
- * Description: An e-commerce marketplace migration plugin for WordPress. Powered by WooCommerce and weDevs.
+ * Plugin URI: http://WeDevs.com/
+ * Description: An e-commerce marketplace migration plugin for WordPress. Powered by WooCommerce and WeDevs.
  * Version: 1.0.0
- * Author: weDevs
- * Author URI: https://wedevs.com/
+ * Author: WeDevs
+ * Author URI: https://WeDevs.com/
  * Domain Path: /languages/
  * License: GPL2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -13,7 +13,7 @@
  * WC tested up to: 6.2.0
  * Text Domain: dokan-migrator
  *
- * Copyright (c) 2016 weDevs (email: info@wedevs.com). All rights reserved.
+ * Copyright (c) 2022 WeDevs (email: info@WeDevs.com). All rights reserved.
  *
  * Released under the GPL license
  * http://www.opensource.org/licenses/gpl-license.php
@@ -60,27 +60,6 @@ final class Dokan_Migrator {
     public $version = '1.0.0';
 
     /**
-     * Dokan email classes.
-     *
-     * @var string
-     */
-    public static $email_class = [];
-
-    /**
-     * Dokan email templates.
-     *
-     * @var string
-     */
-    public static $template = [];
-
-    /**
-     * Dokan email actions.
-     *
-     * @var string
-     */
-    public static $actions = [];
-
-    /**
      * Instance of self
      *
      * @var Dokan_Migrator
@@ -98,22 +77,32 @@ final class Dokan_Migrator {
 
     /**
      * Class constructor.
+     *
+     * @since 1.0.0
      */
-    public function __construct() {
+    private function __construct() {
         require_once __DIR__ . '/vendor/autoload.php';
 
         // Define constants.
         $this->define_constants();
 
+        register_activation_hook( __FILE__, [ $this, 'activate' ] );
+
         // load the addon
         add_action( 'dokan_loaded', array( $this, 'plugin_init' ) );
+
+        $this->init_appsero_tracker();
     }
 
     /**
-     * Initializes the WeDevs_Dokan() class
+     * Initializes the class
      *
-     * Checks for an existing WeDevs_WeDevs_Dokan() instance
+     * Checks for an existing instance
      * and if it doesn't find one, creates it.
+     *
+     * @since 1.0.0
+     *
+     * @return self
      */
     public static function init() {
         if ( self::$instance === null ) {
@@ -134,127 +123,50 @@ final class Dokan_Migrator {
         define( 'DOKAN_MIGRATOR_PLUGIN_VERSION', $this->version );
         define( 'DOKAN_MIGRATOR_FILE', __FILE__ );
         define( 'DOKAN_MIGRATOR_DIR', dirname( DOKAN_MIGRATOR_FILE ) );
+        define( 'DOKAN_MIGRATOR_FILE_PATH', plugin_dir_path( DOKAN_MIGRATOR_FILE ) );
+        define( 'DOKAN_MIGRATOR_TEMPLATE_PATH', DOKAN_MIGRATOR_FILE_PATH . 'templates/' );
         define( 'DOKAN_MIGRATOR_INC', DOKAN_MIGRATOR_DIR . '/includes' );
         define( 'DOKAN_MIGRATOR_PLUGIN_ASSETS_DRI', DOKAN_MIGRATOR_DIR . '/assets' );
         define( 'DOKAN_MIGRATOR_PLUGIN_ASSETS', plugins_url( 'assets', DOKAN_MIGRATOR_FILE ) );
     }
 
     /**
+     * Executes on plugin activation.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function activate() {
+        new WeDevs\DokanMigrator\Install\Installer();
+    }
+
+    /**
      * Init the plugin.
+     *
+     * @since 1.0.0
      *
      * @return void
      */
     public function plugin_init() {
-        self::prevent_email_notification();
         // Initialize the action hooks
         $this->init_classes();
-
-        $this->show_admin_notice();
-    }
-
-    /**
-     * Show needed admin notice.
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public function show_admin_notice() {
-        add_action( 'admin_notices', [ $this, 'show_dokan_dashboard_activate_notice' ] );
-    }
-
-    /**
-     * Show activate vendor dashboard notice
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public function show_dokan_dashboard_activate_notice() {
-        if ( get_option( 'dokan_migration_completed', false ) ) {
-            require_once plugin_dir_path( __FILE__ ) . 'templates/template-active-vendor-dashboard.php';
-        }
-    }
-
-    /**
-     * Preventing email notifications from dokan and woocommerce.
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public static function prevent_email_notification() {
-        add_filter(
-            'woocommerce_email_classes',
-            function ( $data ) {
-                self::$email_class = $data;
-                return [];
-            },
-            35
-        );
-        add_filter(
-            'woocommerce_template_directory',
-            function ( $data ) {
-                self::$template = $data;
-                return [];
-            },
-            15
-        );
-        add_filter(
-            'woocommerce_email_actions',
-            function ( $data ) {
-                self::$actions = $data;
-                return [];
-            }
-        );
-    }
-
-    /**
-     * Resting email classes.
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public static function reset_email_data() {
-        add_filter(
-            'woocommerce_email_classes',
-            function ( $data ) {
-                return self::$email_class;
-            },
-            35
-        );
-        add_filter(
-            'woocommerce_template_directory',
-            function ( $data ) {
-                return self::$template;
-            },
-            15
-        );
-        add_filter(
-            'woocommerce_email_actions',
-            function ( $data ) {
-                return self::$actions;
-            }
-        );
     }
 
     /**
      * Load plugin classes.
      *
+     * @since 1.0.0
+     *
      * @return void
      */
     private function init_classes() {
         if ( is_admin() ) {
-            new \Wedevs\DokanMigrator\Admin\Menu();
+            $this->container['admin'] = new \WeDevs\DokanMigrator\Admin\Manager();
         }
 
-        $this->container['migrator'] = new \Wedevs\DokanMigrator\Migrator\Manager();
+        $this->container['migrator'] = new \WeDevs\DokanMigrator\Migrator\Manager();
         $this->container = apply_filters( 'dokan_migrator_get_class_container', $this->container );
-
-        if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-            new \Wedevs\DokanMigrator\Ajax();
-        }
     }
 
     /**
@@ -271,10 +183,38 @@ final class Dokan_Migrator {
             return $this->container[ $prop ];
         }
     }
+
+    /**
+	 * Initiates Appsero services.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function init_appsero_tracker() {
+		if ( ! class_exists( '\Appsero\Client' ) ) {
+            return;
+        }
+
+        $client   = new \Appsero\Client( 'Appsero key for dokan migrator plugin', 'Dokan Migrator', DOKAN_MIGRATOR_FILE );
+        $insights = $client->insights();
+
+		$insights->add_extra(
+            function() {
+                return array(
+                    'dokan_migrator_version' => DOKAN_MIGRATOR_PLUGIN_VERSION,
+				);
+            }
+        );
+
+        $insights->init();
+	}
 }
 
 /**
  * Load Dokan migrator plugin.
+ *
+ * @since 1.0.0
  *
  * @return \Dokan_Migrator
  */

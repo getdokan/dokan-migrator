@@ -1,8 +1,13 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Integrations\Wcfm;
+namespace WeDevs\DokanMigrator\Integrations\Wcfm;
 
-use Wedevs\DokanMigrator\Abstracts\VendorMigration;
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+use WeDevs\DokanMigrator\Abstracts\VendorMigration;
 
 /**
  * Formats vendor data for migration to Dokan.
@@ -14,9 +19,24 @@ class VendorMigrator extends VendorMigration {
     /**
      * WCFM vendor profile settings key.
      *
+     * @since 1.0.0
+     *
      * @var string
      */
-    private $vendor_profile = 'wcfmmp_profile_settings';
+    private static $vendor_profile = 'wcfmmp_profile_settings';
+
+    /**
+     * Class constructor
+     *
+     * @since 1.0.0
+     *
+     * @param \WP_User $vendor
+     */
+    public function __construct( \WP_User $vendor ) {
+        $this->vendor    = $vendor;
+        $this->meta_data = get_user_meta( $vendor->ID );
+        $this->vendor_id = $vendor->ID;
+    }
 
     /**
      * Returns store name
@@ -127,7 +147,7 @@ class VendorMigrator extends VendorMigration {
      * @return string
      */
     public function get_phone( $default ) {
-        $this->get_profile_settings_val( 'phone' );
+        return $this->get_profile_settings_val( 'phone' );
     }
 
     /**
@@ -321,7 +341,7 @@ class VendorMigrator extends VendorMigration {
      * @param string $key
      * @param string $default
      *
-     * @return any
+     * @return mixed
      */
     public function get_val( $key, $default = '' ) {
         return isset( $this->meta_data[ $key ] ) ? reset( $this->meta_data[ $key ] ) : $default;
@@ -335,10 +355,10 @@ class VendorMigrator extends VendorMigration {
      * @param string $key
      * @param string $default
      *
-     * @return any
+     * @return mixed
      */
     public function get_profile_settings_val( $key, $default = '' ) {
-        $wcfm_profile_settings = $this->get_val( 'wcfmmp_profile_settings', [] );
+        $wcfm_profile_settings = $this->get_val( static::$vendor_profile, [] );
         $wcfm_profile_settings = maybe_unserialize( $wcfm_profile_settings );
         return isset( $wcfm_profile_settings[ $key ] ) ? $wcfm_profile_settings[ $key ] : $default;
     }

@@ -1,5 +1,10 @@
 <?php
-namespace Wedevs\DokanMigrator\Abstracts;
+namespace WeDevs\DokanMigrator\Abstracts;
+
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
 /**
  * Abstracts order migration class.
@@ -13,7 +18,7 @@ abstract class OrderMigration {
      *
      * @var \WC_Order
      */
-    public $order = '';
+    public $order = null;
 
     /**
      * Current order object instance.
@@ -218,7 +223,7 @@ abstract class OrderMigration {
                 'credit'        => 0,
                 'status'        => 'wc-' . $order_obj->get_status(),
                 'trn_date'      => $created_date,
-                'balance_date'  => gmdate( 'Y-m-d h:i:s', strtotime( $created_date ) ),
+                'balance_date'  => dokan_current_datetime()->modify( $created_date )->format( 'Y-m-d H:i:s' ),
             ),
             array(
                 '%d',
@@ -235,168 +240,19 @@ abstract class OrderMigration {
     }
 
     /**
-     * Creates sub orders for each seller.
-     *
-     * @since 1.0.0
-     *
-     * @param int $seller_id
-     * @param array $seller_products
-     *
-     * @return \WC_Order
-     */
-    public function create_sub_order( $seller_id, $seller_products ) {
-        $bill_ship = array(
-            'billing_country',
-            'billing_first_name',
-            'billing_last_name',
-            'billing_company',
-            'billing_address_1',
-            'billing_address_2',
-            'billing_city',
-            'billing_state',
-            'billing_postcode',
-            'billing_email',
-            'billing_phone',
-            'shipping_country',
-            'shipping_first_name',
-            'shipping_last_name',
-            'shipping_company',
-            'shipping_address_1',
-            'shipping_address_2',
-            'shipping_city',
-            'shipping_state',
-            'shipping_postcode',
-        );
-
-        try {
-            $sub_order = new \WC_Order();
-
-            // save billing and shipping address
-            foreach ( $bill_ship as $key ) {
-                if ( is_callable( array( $sub_order, "set_{$key}" ) ) ) {
-                    $sub_order->{"set_{$key}"}( $this->order->{"get_{$key}"}() );
-                }
-            }
-
-            // now insert line items
-            dokan()->order->create_line_items( $sub_order, $seller_products );
-
-            // do shipping
-            $this->create_shipping( $sub_order, $this->order );
-
-            // do tax
-            dokan()->order->create_taxes( $sub_order, $this->order, $seller_products );
-
-            // add coupons if any
-            // ! Coupon has dependency on Dokan-pro plugin so if it's not installed coupon code will be skipped.
-            dokan()->order->create_coupons( $sub_order, $this->order, $seller_products );
-
-            // save other details
-            $sub_order->set_created_via( 'dokan' );
-            $sub_order->set_cart_hash( $this->order->get_cart_hash() );
-            $sub_order->set_customer_id( $this->order->get_customer_id() );
-            $sub_order->set_currency( $this->order->get_currency() );
-            $sub_order->set_prices_include_tax( $this->order->get_prices_include_tax() );
-            $sub_order->set_customer_ip_address( $this->order->get_customer_ip_address() );
-            $sub_order->set_customer_user_agent( $this->order->get_customer_user_agent() );
-            $sub_order->set_customer_note( $this->order->get_customer_note() );
-            $sub_order->set_payment_method( $this->order->get_payment_method() );
-            $sub_order->set_payment_method_title( $this->order->get_payment_method_title() );
-            $sub_order->update_meta_data( '_dokan_vendor_id', $seller_id );
-
-            // finally, let the order re-calculate itself and save
-            $sub_order->calculate_totals();
-
-            $sub_order->set_status( $this->order->get_status() );
-            $sub_order->set_parent_id( $this->order->get_id() );
-
-            $order_id = $sub_order->save();
-
-            // update total_sales count for sub-order
-            wc_update_total_sales_counts( $order_id );
-
-            return $sub_order;
-        } catch ( \Exception $e ) {
-            return new \WP_Error( 'dokan-suborder-error', $e->getMessage() );
-        }
-    }
-
-    /**
-     * Create shipping for a sub-order if neccessary
-     *
-     * @param \WC_Order $order
-     * @param \WC_Order $parent_order
-     *
-     * @since 1.0.0
-     *
-     * @return void
-     */
-    public function create_shipping( $order, $parent_order ) {
-        // Get all shipping methods for parent order
-        $shipping_methods = $parent_order->get_shipping_methods();
-        $order_seller_id  = absint( dokan_get_seller_id_by_order( $order->get_id() ) );
-
-        $applied_shipping_method = '';
-
-        if ( $shipping_methods ) {
-            foreach ( $shipping_methods as $method_item_id => $shipping_object ) {
-                $shipping_seller_id = absint( wc_get_order_item_meta( $method_item_id, 'vendor_id', true ) );
-
-                if ( $order_seller_id === $shipping_seller_id ) {
-                    $applied_shipping_method = $shipping_object;
-                    break;
-                }
-            }
-        }
-
-        $shipping_method = apply_filters( 'dokan_shipping_method', $applied_shipping_method, $order->get_id(), $parent_order );
-
-        // bail out if no shipping methods found
-        if ( ! $shipping_method ) {
-            return;
-        }
-
-        if ( is_a( $shipping_method, 'WC_Order_Item_Shipping' ) ) {
-            $item = new \WC_Order_Item_Shipping();
-
-            $item->set_props(
-                array(
-                    'method_title' => $shipping_method->get_name(),
-                    'method_id'    => $shipping_method->get_method_id(),
-                    'total'        => $shipping_method->get_total(),
-                    'taxes'        => $shipping_method->get_taxes(),
-                )
-            );
-
-            $metadata = $shipping_method->get_meta_data();
-
-            if ( $metadata ) {
-                foreach ( $metadata as $meta ) {
-                    $item->add_meta_data( $meta->key, $meta->value );
-                }
-            }
-
-            $order->add_item( $item );
-            $order->set_shipping_total( $shipping_method->get_total() );
-            $order->save();
-        }
-    }
-
-    /**
      * Runs the order migration process.
      *
-     * @param \WP_Post $order
-     *
      * @since 1.0.0
      *
      * @return void
      */
-    public function process_migration( \WP_Post $order ) {
-        $this->order_id = $order->ID;
-        $this->order    = wc_get_order( $order->ID );
-        $vendors        = dokan_get_sellers_by( $this->order_id );
+    public function process_migration() {
+        $vendors = dokan_get_sellers_by( $this->order_id );
 
         $this->reset_sub_orders_if_needed();
+
+        // Removing this action otherwise it will overwrite data id dokan_order table.
+        remove_action( 'dokan_checkout_update_order_meta', 'dokan_sync_insert_order' );
 
         // If we've only ONE seller update the order meta or else create a new order for each seller.
         if ( count( $vendors ) === 1 ) {
@@ -431,7 +287,8 @@ abstract class OrderMigration {
             }
         }
 
-        dokan_migrator()::reset_email_data();
+        // Adding the hook again after updating dokan_order table for wcfm.
+        add_action( 'dokan_checkout_update_order_meta', 'dokan_sync_insert_order' );
     }
 
     /**
@@ -444,6 +301,7 @@ abstract class OrderMigration {
      */
     public function update_commission_applied_data_in_order( $order, $commission_data ) {
         $commission = reset( $commission_data['commission_data'] );
+
         foreach ( $order->get_items() as $item_id => $item ) {
             wc_add_order_item_meta( $item_id, '_dokan_commission_rate', $commission['fixed'] );
             wc_add_order_item_meta( $item_id, '_dokan_commission_type', $commission['type'] );
@@ -456,15 +314,24 @@ abstract class OrderMigration {
      *
      * @since 1.0.0
      *
-     * @param array $dokan_order_data
-     * @param int $sub_order_id
-     * @param int $seller_id
-     * @param Object $order_obj
+     * @param array $data
      *
      * @return void
      */
-    public function dokan_sync_refund_table( $order_id, $seller_id, $refund_amount, $refund_reason, $item_qtys, $item_totals, $item_tax_totals, $restock_items, $date, $status, $method ) {
+    public function dokan_sync_refund_table( $data ) {
         global $wpdb;
+
+        $order_id        = $data['order_id'];
+        $seller_id       = $data['seller_id'];
+        $refund_amount   = $data['refund_amount'];
+        $refund_reason   = $data['refund_reason'];
+        $item_qtys       = $data['item_qtys'];
+        $item_totals     = $data['item_totals'];
+        $item_tax_totals = $data['item_tax_totals'];
+        $restock_items   = $data['restock_items'];
+        $date            = $data['date'];
+        $status          = $data['status'];
+        $method          = $data['method'];
 
         $wpdb->insert(
             $wpdb->prefix . 'dokan_refund',
@@ -486,12 +353,12 @@ abstract class OrderMigration {
                 '%d',
                 '%f',
                 '%s',
-                '%d',
-                '%d',
-                '%d',
-                '%d',
                 '%s',
                 '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%d',
                 '%s',
             )
         );

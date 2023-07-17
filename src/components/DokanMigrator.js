@@ -1,5 +1,4 @@
 import { useState, useEffect,} from 'react'
-import axios from 'axios'
 import { Progress, Spin, Button, Col, Card, Typography, Divider, } from "antd";
 
 const { Title, Text } = Typography;
@@ -52,8 +51,7 @@ const DokanMigrator = (props) => {
                     total_migrated: getMigrated
                 }
             )
-            .then(function (response) {
-                let resp = response.data ? response.data : response;
+            .then(function (resp) {
                 if ( resp.success ) {
                     setTotalMigrated(resp.data.process.total_migrated);
                     if ( resp.data.process && resp.data.process.migrated != 0 ) {
@@ -83,8 +81,7 @@ const DokanMigrator = (props) => {
                     nonce: nonce,
                 }
             )
-            .then(function (response) {
-                let resp = response.data ? response.data : response;
+            .then(function (resp) {
                 if ( resp.success ) {
                     let respNext = 0;
                     let respTotalMigrated = 0;
@@ -112,8 +109,7 @@ const DokanMigrator = (props) => {
 
         const sendRequest = async ( data ) => {
             data.migratable = props.migrate;
-
-            return await axios.post( ajaxurl, null, { params: data } );
+            return await jQuery.post( ajaxurl,data);
         }
 
         const updateProgressbar = () => {
