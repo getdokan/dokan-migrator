@@ -48,7 +48,7 @@ class Withdraw extends Processor {
      * @throws \Exception
      */
     public static function get_items( $plugin, $number, $offset ) {
-        global $wpdb;
+	    global $wpdb;
         $withdraws = [];
 
         if ( 0 === (int) $offset ) {
@@ -69,6 +69,7 @@ class Withdraw extends Processor {
                         $offset
                     )
                 );
+				break;
                 // Items for wcfm.
 
             case 'wcvendors':
@@ -84,7 +85,11 @@ class Withdraw extends Processor {
                         $offset
                     )
                 );
+				break;
                 // Items for wc-vendors.
+
+	        default:
+		        $withdraws = [];
         }
 
         if ( empty( $withdraws ) ) {
