@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
+use WeDevs\DokanMigrator\Integrations\YithMultiVendor\WithdrawMigrator as YithMultiVendorWithdrawMigrator;
 
 /**
  * Withdraw migration handler class.
@@ -32,6 +33,9 @@ class Withdraw extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request WHERE withdraw_status!='requested'" );
+
+	        case 'yithvendors':
+		        return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}yith_vendors_commissions WHERE status='paid' AND type='product'" );
 
             default:
                 return 0;
@@ -68,6 +72,10 @@ class Withdraw extends Processor {
                         $offset
                     )
                 );
+				break;
+
+	        case 'yithvendors':
+		        return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE status='paid' AND type='product' ORDER BY id LIMIT %d OFFSET %d", $number, $offset ) );
         }
 
         if ( empty( $withdraws ) ) {
@@ -92,6 +100,9 @@ class Withdraw extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmWithdrawMigrator( $payload );
+
+	        case 'yithvendors':
+		        return new YithMultiVendorWithdrawMigrator( $payload );
         }
 
         throw new \Exception( __( 'Migrator class not found', 'dokan-migrator' ) );

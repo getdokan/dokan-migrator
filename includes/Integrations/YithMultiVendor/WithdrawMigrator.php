@@ -1,8 +1,8 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Integrations\YithMultiVendor;
+namespace WeDevs\DokanMigrator\Integrations\YithMultiVendor;
 
-use Wedevs\DokanMigrator\Abstracts\WithdrawMigration;
+use WeDevs\DokanMigrator\Abstracts\WithdrawMigration;
 
 /**
  * Formats vendor data for migration to Dokan.
@@ -31,6 +31,17 @@ class WithdrawMigrator extends WithdrawMigration {
      * @var int
      */
     private $withdraw_id = '';
+
+	/**
+	 * Class constructor.
+	 *
+	 * @since DOKAN_MIG_SINCE
+	 *
+	 * @param object $withdraw
+	 */
+	public function __construct( $withdraw ) {
+		$this->set_withdraw_data( $withdraw );
+	}
 
     /**
      * Sets single withdraw item data.

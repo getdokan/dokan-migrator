@@ -1,8 +1,8 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Integrations\YithMultiVendor;
+namespace WeDevs\DokanMigrator\Integrations\YithMultiVendor;
 
-use Wedevs\DokanMigrator\Abstracts\VendorMigration;
+use WeDevs\DokanMigrator\Abstracts\VendorMigration;
 
 /**
  * Formats vendor data for migration to Dokan.
@@ -10,6 +10,19 @@ use Wedevs\DokanMigrator\Abstracts\VendorMigration;
  * @since 1.0.0
  */
 class VendorMigrator extends VendorMigration {
+
+	/**
+	 * Class constructor
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_User $vendor
+	 */
+	public function __construct( \WP_User $vendor ) {
+		$this->vendor    = $vendor;
+		$this->meta_data = get_user_meta( $vendor->ID );
+		$this->vendor_id = $vendor->ID;
+	}
 
     /**
      * Returns vendor data from term, term taxonomy and term meta table.

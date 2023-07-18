@@ -1,8 +1,8 @@
 <?php
 
-namespace Wedevs\DokanMigrator\Integrations\YithMultiVendor;
+namespace WeDevs\DokanMigrator\Integrations\YithMultiVendor;
 
-use Wedevs\DokanMigrator\Abstracts\OrderMigration;
+use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 
 /**
  * Order migration class.
@@ -10,6 +10,18 @@ use Wedevs\DokanMigrator\Abstracts\OrderMigration;
  * @since 1.0.0
  */
 class OrderMigrator extends OrderMigration {
+
+	/**
+	 * Class constructor.
+	 *
+	 * @since DOKAN_MIG_SINCE
+	 *
+	 * @param \WP_Post $order
+	 */
+	public function __construct( \WP_Post $order ) {
+		$this->order_id = $order->ID;
+		$this->order    = wc_get_order( $this->order_id );
+	}
 
     /**
      * Create sub order if needed
