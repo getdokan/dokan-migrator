@@ -7,7 +7,7 @@ use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 /**
  * Order migration class.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class OrderMigrator extends OrderMigration {
 
@@ -26,7 +26,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Create sub order if needed
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param int $seller_id
      * @param array $seller_products
@@ -62,7 +62,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Spliting shipping amount and saving.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param \Wc_Order $child_order
      * @param \Wc_Order $parent_order
@@ -126,7 +126,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Delete sub orders of needed.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -137,7 +137,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Gets order data from wcfm order table for dokan.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param int $parent_order_id
      * @param int $seller_id
@@ -215,7 +215,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Process refund for a child order.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @param \Wc_Order $child_order
      * @param integer $seller_id
