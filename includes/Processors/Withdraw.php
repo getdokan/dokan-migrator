@@ -75,7 +75,7 @@ class Withdraw extends Processor {
 				break;
 
 	        case 'yithvendors':
-		        $withdraws =  $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE status='paid' AND type='product' ORDER BY id LIMIT %d OFFSET %d", $number, $offset ) );
+		        $withdraws = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE status='paid' AND type='product' ORDER BY id LIMIT %d OFFSET %d", $number, $offset ) );
 				break;
 	        // Items for wcfm.
         }
