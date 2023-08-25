@@ -48,6 +48,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @class Dokan_Migrator The class that holds the entire Dokan_Migrator plugin
  *
+ * @property WeDevs\DokanMigrator\Migrator\Manager $migrator Instance of migrator class.
+ *
  * @since 1.0.0
  */
 final class Dokan_Migrator {

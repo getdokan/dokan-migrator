@@ -7,6 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+use WeDevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
+use WeDevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
+use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
 use WeDevs\DokanMigrator\Migrator\Ajax;
 use WeDevs\DokanMigrator\Migrator\Assets;
 
@@ -164,7 +167,7 @@ class Manager {
      * @param string $plugin Handle of the plugin which is being migrated
      * @param array{number:int,offset:int,total_count:int,total_migrated:int} $data
      *
-     * @return void
+     * @return array
      * @throws \Exception
      */
     public function migrate( $import_type, $plugin, $data ) {
@@ -174,17 +177,20 @@ class Manager {
 
         $processor = $this->processor_class( $import_type );
 
-        $data = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset );
+        $data_to_migrate = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset );
 
-        foreach ( $data as $value ) {
+        foreach ( $data_to_migrate as $value ) {
+	        /**
+	         * @var $migrator WcfmOrderMigrator|WcfmVendorMigrator|WcfmWithdrawMigrator
+	         */
             $migrator = call_user_func( [ $processor, 'get_migration_class' ], $plugin, $value );
             $migrator->process_migration();
         }
 
         $args = [
-            'migrated'       => count( $data ),
-            'next'           => count( $data ) + $this->offset,
-            'total_migrated' => count( $data ) + $this->total_migrated,
+            'migrated'       => count( $data_to_migrate ),
+            'next'           => count( $data_to_migrate ) + $this->offset,
+            'total_migrated' => count( $data_to_migrate ) + $this->total_migrated,
         ];
 
         $progress = ( $args['total_migrated'] * 100 ) / $this->total_count;

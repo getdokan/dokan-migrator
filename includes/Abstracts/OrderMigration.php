@@ -2,6 +2,9 @@
 namespace WeDevs\DokanMigrator\Abstracts;
 
 // don't call the file directly
+use stdClass;
+use WC_Order;
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
@@ -16,7 +19,7 @@ abstract class OrderMigration {
     /**
      * Current order object instance.
      *
-     * @var \WC_Order
+     * @var WC_Order
      */
     public $order = null;
 
@@ -60,7 +63,7 @@ abstract class OrderMigration {
      * @param int $seller_id
      * @param array $seller_products
      *
-     * @return \WC_Order
+     * @return WC_Order
      */
     abstract public function create_sub_order_if_needed( $seller_id, $seller_products, $parent_order_id );
 
@@ -89,17 +92,14 @@ abstract class OrderMigration {
      *
      * @since 1.0.0
      *
-     * @return array
+     * @return stdClass|WC_Order[]
      */
     public function get_sub_orders() {
-        $args = array(
-            'post_parent' => $this->order_id,
-            'post_type'   => 'shop_order',
-            'numberposts' => -1,
-            'post_status' => 'any',
-        );
-
-        return get_children( $args );
+        return wc_get_orders(
+		    [
+			    'parent' => $this->order_id
+		    ]
+	    );
     }
 
     /**
@@ -112,10 +112,10 @@ abstract class OrderMigration {
     public function reset_sub_orders() {
         if ( $this->has_sub_order() ) {
             foreach ( $this->get_sub_orders() as $child ) {
-                wp_delete_post( $child->ID, true );
-                $this->clear_dokan_vendor_balance_table( $child->ID );
-                $this->clear_dokan_order_table( $child->ID, $child->post_author );
-                $this->clear_dokan_refund_table( $child->ID );
+                wp_delete_post( $child->get_id(), true );
+                $this->clear_dokan_vendor_balance_table( $child->get_id() );
+                $this->clear_dokan_order_table( $child->get_id(), $child->get_user()->ID );
+                $this->clear_dokan_refund_table( $child->get_id() );
             }
         }
     }
@@ -397,7 +397,7 @@ abstract class OrderMigration {
      *
      * @since 1.0.0
      *
-     * @param \WC_Order $order
+     * @param WC_Order $order
      *
      * @return boolean
      */
