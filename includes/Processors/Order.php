@@ -40,14 +40,14 @@ class Order extends Processor {
      * @throws \Exception
      */
     public static function get_items( $plugin, $number, $offset ) {
-	    $args = array(
-		    'order'  => 'ASC',
-		    'paged'  => $offset + 1,
-		    'limit'  => $number,
-		    'parent' => 0,
-	    );
+        $args = array(
+            'order'  => 'ASC',
+            'paged'  => $offset + 1,
+            'limit'  => $number,
+            'parent' => 0,
+        );
 
-	    $orders = dokan()->order->all( $args );
+        $orders = dokan()->order->all( $args );
 
         if ( empty( $orders ) ) {
             self::throw_error();
