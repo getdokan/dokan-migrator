@@ -95,11 +95,7 @@ abstract class OrderMigration {
      * @return stdClass|WC_Order[]
      */
     public function get_sub_orders() {
-        return wc_get_orders(
-		    [
-			    'parent' => $this->order_id
-		    ]
-	    );
+        return dokan()->order->get_child_orders( $this->order_id );
     }
 
     /**
@@ -112,7 +108,7 @@ abstract class OrderMigration {
     public function reset_sub_orders() {
         if ( $this->has_sub_order() ) {
             foreach ( $this->get_sub_orders() as $child ) {
-                wp_delete_post( $child->get_id(), true );
+                $child->delete( true );
                 $this->clear_dokan_vendor_balance_table( $child->get_id() );
                 $this->clear_dokan_order_table( $child->get_id(), $child->get_user()->ID );
                 $this->clear_dokan_refund_table( $child->get_id() );

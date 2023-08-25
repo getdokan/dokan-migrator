@@ -27,14 +27,7 @@ class Order extends Processor {
      * @return integer
      */
     public static function get_total( $plugin ) {
-	    $orders = dokan()->order->all(
-		    [
-			    'return' => 'ids',
-			    'limit'  => - 1,
-		    ]
-	    );
-
-	    return count( $orders );
+        return ( int ) dokan()->order->all( [ 'return' => 'count', ] );
     }
 
     /**

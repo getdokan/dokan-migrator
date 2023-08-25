@@ -316,13 +316,13 @@ class VendorMigrator extends VendorMigration {
      */
     public function get_commission() {
         $accepted_commission_types = array( 'percent', 'fixed' );
-        $dokan_commission = [
+        $dokan_commission          = [
             'dokan_admin_percentage'      => '', // WCFM fixed value, commission_fixed
             'dokan_admin_percentage_type' => '', // WCFM commission type, commission_mode
             'dokan_admin_additional_fee'  => '', // WCFM percentage value, commission_percent
         ];
-        $commission = $this->get_profile_settings_val( 'commission', [] );
-        $commission_type = isset( $commission['commission_mode'] ) ? $commission['commission_mode'] : 'global';
+        $commission                = $this->get_profile_settings_val( 'commission', [] );
+        $commission_type           = isset( $commission['commission_mode'] ) ? $commission['commission_mode'] : 'global';
 
         if ( in_array( $commission_type, $accepted_commission_types, true ) ) {
             $dokan_commission['dokan_admin_percentage']      = isset( $commission['commission_fixed'] ) ? $commission['commission_fixed'] : '';

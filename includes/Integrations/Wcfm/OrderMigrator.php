@@ -52,18 +52,17 @@ class OrderMigrator extends OrderMigration {
         $this->map_shipping_method_item_meta();
         dokan()->order->create_sub_order( $this->order, $seller_id, $seller_products );
 
-	    $res = dokan()->order->all(
-			[
-				'limit' => 1,
-				'parent'    => $this->order->get_id(),
-				'meta_key'    => '_dokan_vendor_id', // phpcs:ignore WordPress.DB.SlowDBQuery
-				'meta_value'  => $seller_id, // phpcs:ignore WordPress.DB.SlowDBQuery
-			]
-	    );
+        $res = dokan()->order->all(
+            [
+                'limit'     => 1,
+                'parent'    => $this->order->get_id(),
+                'seller_id' => $seller_id,
+            ]
+        );
 
-	    /**
-	     * @var $created_suborder WC_Order|\WC_Order_Refund
-	     */
+        /**
+         * @var $created_suborder WC_Order|\WC_Order_Refund
+         */
         $created_suborder = reset( $res );
 
         return $created_suborder;
