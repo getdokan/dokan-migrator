@@ -158,21 +158,21 @@ final class Dokan_Migrator {
         $this->init_classes();
     }
 
-	/**
-	 * Load plugin classes.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	private function init_classes() {
+    /**
+     * Load plugin classes.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    private function init_classes() {
         if ( is_admin() ) {
             $this->container['admin'] = new \WeDevs\DokanMigrator\Admin\Manager();
         }
 
         $this->container['migrator'] = new \WeDevs\DokanMigrator\Migrator\Manager();
         $this->container             = apply_filters( 'dokan_migrator_get_class_container', $this->container );
-	}
+    }
 
     /**
      * Magic getter to bypass referencing objects
