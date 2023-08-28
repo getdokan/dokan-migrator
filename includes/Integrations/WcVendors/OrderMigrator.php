@@ -20,9 +20,9 @@ class OrderMigrator extends OrderMigration {
      *
      * @since DOKAN_MIG_SINCE
      *
-     * @param \WP_Post $order
+     * @param \WC_Order $order
      */
-    public function __construct( \WP_Post $order ) {
+    public function __construct( \WC_Order $order ) {
         $this->order_id = $order->ID;
         $this->order    = $order;
     }
