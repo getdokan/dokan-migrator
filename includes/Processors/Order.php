@@ -29,18 +29,16 @@ class Order extends Processor {
     public static function get_total( $plugin ) {
         global $wpdb;
 
-	    switch ( $plugin ) {
+        switch ( $plugin ) {
 		    case 'wcfmmarketplace':
-			    return (int) $wpdb->get_var(
-				    "SELECT COUNT(DISTINCT p.ID)
-					FROM wp_posts p
-					INNER JOIN {$wpdb->prefix}wcfm_marketplace_orders ON p.ID = {$wpdb->prefix}wcfm_marketplace_orders.order_id
-					"
-			    );
+                $total = (int) $wpdb->get_var( "SELECT COUNT( DISTINCT order_id ) FROM {$wpdb->prefix}wcfm_marketplace_orders" );
+                break;
 
 		    default:
-			    return (int) dokan()->order->all( [ 'return' => 'count' ] );
+                $total = 0;
 	    }
+
+        return $total;
     }
 
     /**
@@ -53,41 +51,24 @@ class Order extends Processor {
      * @throws \Exception
      */
     public static function get_items( $plugin, $number, $offset ) {
-		global $wpdb;
+        global $wpdb;
         $args = array(
-            'post_type'      => 'shop_order',
-            'orderby'        => 'ID',
-            'order'          => 'DESC',
-            'post_status'    => 'any',
-            'offset'         => $offset,
-            'posts_per_page' => $number,
-            'post_parent'    => 0,
+            'order'  => 'ASC',
+            'paged'  => $offset + 1,
+            'limit'  => $number,
+            'parent' => 0,
         );
 
 	    switch ( $plugin ) {
 		    case 'wcfmmarketplace':
-			    // phpcs:disable
-			    $orders = $wpdb->get_results(
-				    "SELECT p.*
-					FROM wp_posts p
-					INNER JOIN {$wpdb->prefix}wcfm_marketplace_orders ON p.ID = {$wpdb->prefix}wcfm_marketplace_orders.order_id
-					ORDER BY p.ID DESC
-					LIMIT {$number}
-					OFFSET {$offset}
-					"
-			    );
-			    // phpcs:enable
+                $wcfm_orders = $wpdb->get_results( "SELECT DISTINCT order_id FROM {$wpdb->prefix}wcfm_marketplace_orders LIMIT {$number} OFFSET {$offset}", ARRAY_A );
+                $wcfm_orders = array_map( function( $item ) { return $item['order_id']; }, $wcfm_orders );
+
+                $orders = dokan()->order->all( [ 'include' => $wcfm_orders ] );
 			    break;
 
 		    default:
-                $args = array(
-                    'order'  => 'ASC',
-                    'paged'  => $offset + 1,
-                    'limit'  => $number,
-                    'parent' => 0,
-                );
-
-                $orders = dokan()->order->all( $args );
+                $orders = [];
 	    }
 
         if ( empty( $orders ) ) {
