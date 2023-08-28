@@ -31,7 +31,7 @@ class Order extends Processor {
 
         switch ( $plugin ) {
 		    case 'wcfmmarketplace':
-                $total = ( int ) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( DISTINCT order_id ) FROM {$wpdb->prefix}wcfm_marketplace_orders" ) );
+                $total = (int) $wpdb->get_var( "SELECT COUNT( DISTINCT order_id ) FROM {$wpdb->prefix}wcfm_marketplace_orders" );
                 break;
 
 		    default:
@@ -62,7 +62,9 @@ class Order extends Processor {
 	    switch ( $plugin ) {
 		    case 'wcfmmarketplace':
                 $wcfm_orders = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT order_id FROM {$wpdb->prefix}wcfm_marketplace_orders LIMIT %d OFFSET {$offset}", $number ), ARRAY_A );
-                $wcfm_orders = array_map( function( $item ) { return $item['order_id']; }, $wcfm_orders );
+                $wcfm_orders = array_map( function ( $item ) {
+                    return $item['order_id'];
+                }, $wcfm_orders );
 
                 $orders = dokan()->order->all( [ 'include' => $wcfm_orders ] );
 			    break;
