@@ -25,7 +25,18 @@ class Order extends Processor {
      * @return integer
      */
     public static function get_total( $plugin ) {
-        return (int) dokan()->order->all( [ 'return' => 'count' ] );
+        global $wpdb;
+
+        switch ( $plugin ) {
+		    case 'wcfmmarketplace':
+                $total = (int) $wpdb->get_var( "SELECT COUNT( DISTINCT order_id ) FROM {$wpdb->prefix}wcfm_marketplace_orders" );
+                break;
+
+		    default:
+                $total = 0;
+	    }
+
+        return $total;
     }
 
     /**
@@ -38,6 +49,7 @@ class Order extends Processor {
      * @throws \Exception
      */
     public static function get_items( $plugin, $number, $offset ) {
+        global $wpdb;
         $args = array(
             'order'  => 'ASC',
             'paged'  => $offset + 1,
@@ -45,7 +57,26 @@ class Order extends Processor {
             'parent' => 0,
         );
 
-        $orders = dokan()->order->all( $args );
+        switch ( $plugin ) {
+            case 'wcfmmarketplace':
+                $wcfm_orders = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT order_id FROM {$wpdb->prefix}wcfm_marketplace_orders LIMIT %d OFFSET %d", $number, $offset ), ARRAY_A );
+                $wcfm_orders = array_map(
+                    function ( $item ) {
+                        return $item['order_id'];
+                    },
+                    $wcfm_orders
+                );
+
+                $orders = dokan()->order->all(
+                    [
+                        'include' => $wcfm_orders,
+                    ]
+                );
+                break;
+
+            default:
+                $orders = [];
+        }
 
         if ( empty( $orders ) ) {
             self::throw_error();
