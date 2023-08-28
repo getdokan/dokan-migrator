@@ -24,7 +24,7 @@ class OrderMigrator extends OrderMigration {
      */
     public function __construct( \WP_Post $order ) {
         $this->order_id = $order->ID;
-        $this->order    = wc_get_order( $this->order_id );
+        $this->order    = $order;
     }
 
     /**
@@ -46,19 +46,20 @@ class OrderMigrator extends OrderMigration {
         MigrationHelper::map_shipping_method_item_meta( $this->order );
         dokan()->order->create_sub_order( $this->order, $seller_id, $seller_products );
 
-        $posts = get_posts(
-            array(
-                'numberposts' => 1,
-                'post_status' => 'any',
-                'post_type'   => 'shop_order',
-                'post_parent' => $this->order->get_id(),
-                'meta_key'    => '_dokan_vendor_id', // phpcs:ignore WordPress.DB.SlowDBQuery
-                'meta_value'  => $seller_id, // phpcs:ignore WordPress.DB.SlowDBQuery
-            )
+        $res = dokan()->order->all(
+            [
+                'limit'     => 1,
+                'parent'    => $this->order->get_id(),
+                'seller_id' => $seller_id,
+            ]
         );
-        $created_suborder = reset( $posts );
 
-        return wc_get_order( $created_suborder->ID );
+        /**
+         * @var $created_suborder WC_Order|\WC_Order_Refund
+         */
+        $created_suborder = reset( $res );
+
+        return $created_suborder;
     }
 
     /**

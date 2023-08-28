@@ -7,6 +7,9 @@ defined( 'ABSPATH' ) || exit;
 use WeDevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
 use WeDevs\DokanMigrator\Integrations\Wcfm\VendorMigrator as WcfmVendorMigrator;
 use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
+use WeDevs\DokanMigrator\Integrations\WcVendors\OrderMigrator as WcVendorsOrderMigrator;
+use WeDevs\DokanMigrator\Integrations\WcVendors\VendorMigrator as WcVendorsVendorMigrator;
+use WeDevs\DokanMigrator\Integrations\WcVendors\WithdrawMigrator as WcVendorsWithdrawMigrator;
 use WeDevs\DokanMigrator\Migrator\Ajax;
 use WeDevs\DokanMigrator\Migrator\Assets;
 
@@ -178,7 +181,7 @@ class Manager {
 
         foreach ( $data_to_migrate as $value ) {
 	        /**
-	         * @var $migrator WcfmOrderMigrator|WcfmVendorMigrator|WcfmWithdrawMigrator
+	         * @var $migrator WcfmOrderMigrator|WcfmVendorMigrator|WcfmWithdrawMigrator|WcVendorsVendorMigrator|WcVendorsOrderMigrator|WcVendorsWithdrawMigrator
 	         */
             $migrator = call_user_func( [ $processor, 'get_migration_class' ], $plugin, $value );
             $migrator->process_migration();

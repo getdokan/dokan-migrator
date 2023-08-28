@@ -11,6 +11,7 @@ use WC_order;
 use WC_Order_Item_Shipping;
 use WeDevs\DokanMigrator\Abstracts\OrderMigration;
 use Automattic\WooCommerce\Utilities\NumberUtil;
+use WeDevs\DokanMigrator\Helpers\MigrationHelper;
 
 /**
  * Order migration class.
@@ -49,7 +50,7 @@ class OrderMigrator extends OrderMigration {
          * Dokan meta key for order items as those data will be parsed while creating
          * sub orders.
          */
-        $this->map_shipping_method_item_meta();
+        MigrationHelper::map_shipping_method_item_meta( $this->order );
         dokan()->order->create_sub_order( $this->order, $seller_id, $seller_products );
 
         $res = dokan()->order->all(
@@ -66,40 +67,6 @@ class OrderMigrator extends OrderMigration {
         $created_suborder = reset( $res );
 
         return $created_suborder;
-    }
-
-    /**
-     * Converts the order item meta key according to
-     * Dokan meta key as those data will be parsed
-     * while creating sub orders.
-     *
-     * @since DOKAN_MIG_SINCE
-     *
-     * @return void
-     */
-    public function map_shipping_method_item_meta() {
-        if ( ! $this->order instanceof WC_Order ) {
-            return;
-        }
-
-        $shipping_methods = $this->order->get_shipping_methods();
-        if ( empty( $shipping_methods ) ) {
-            return;
-        }
-
-        foreach ( $shipping_methods as $method_item_id => $shipping_object ) {
-            $seller_id = wc_get_order_item_meta( $method_item_id, 'vendor_id', true );
-
-            if ( ! $seller_id ) {
-                continue;
-            }
-
-            wc_update_order_item_meta(
-                $method_item_id,
-                'seller_id',
-                wc_get_order_item_meta( $method_item_id, 'vendor_id', true )
-            );
-        }
     }
 
     /**
