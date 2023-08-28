@@ -45,6 +45,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @class Dokan_Migrator The class that holds the entire Dokan_Migrator plugin
  *
+ * @property WeDevs\DokanMigrator\Migrator\Manager $migrator Instance of migrator class.
+ *
  * @since 1.0.0
  */
 final class Dokan_Migrator {
@@ -84,6 +86,9 @@ final class Dokan_Migrator {
         $this->define_constants();
 
         register_activation_hook( __FILE__, [ $this, 'activate' ] );
+
+        // Add woocommerce HPOS support.
+        add_action( 'before_woocommerce_init', [ $this, 'add_plugin_hpos_support' ] );
 
         // load the addon
         add_action( 'dokan_loaded', array( $this, 'plugin_init' ) );
@@ -163,7 +168,7 @@ final class Dokan_Migrator {
         }
 
         $this->container['migrator'] = new \WeDevs\DokanMigrator\Migrator\Manager();
-        $this->container = apply_filters( 'dokan_migrator_get_class_container', $this->container );
+        $this->container             = apply_filters( 'dokan_migrator_get_class_container', $this->container );
     }
 
     /**
@@ -206,6 +211,19 @@ final class Dokan_Migrator {
 
         $insights->init();
 	}
+
+    /**
+     * Make dokan migrator plugin HPOS supported.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @return void
+     */
+    public function add_plugin_hpos_support() {
+        if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+        }
+    }
 }
 
 /**

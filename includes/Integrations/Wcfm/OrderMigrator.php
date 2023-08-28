@@ -24,11 +24,11 @@ class OrderMigrator extends OrderMigration {
      *
      * @since DOKAN_MIG_SINCE
      *
-     * @param \WP_Post $order
+     * @param \WC_Order $order
      */
-    public function __construct( \WP_Post $order ) {
-        $this->order_id = $order->ID;
-        $this->order    = wc_get_order( $this->order_id );
+    public function __construct( \WC_Order $order ) {
+        $this->order_id = $order->get_id();
+        $this->order    = $order;
 
         add_filter( 'dokan_shipping_method', [ $this, 'split_parent_order_shipping' ], 10, 3 );
     }
@@ -52,19 +52,20 @@ class OrderMigrator extends OrderMigration {
         $this->map_shipping_method_item_meta();
         dokan()->order->create_sub_order( $this->order, $seller_id, $seller_products );
 
-        $res = get_posts(
-            array(
-                'numberposts' => 1,
-                'post_status' => 'any',
-                'post_type'   => 'shop_order',
-                'post_parent' => $this->order->get_id(),
-                'meta_key'    => '_dokan_vendor_id', // phpcs:ignore WordPress.DB.SlowDBQuery
-                'meta_value'  => $seller_id, // phpcs:ignore WordPress.DB.SlowDBQuery
-            )
+        $res = dokan()->order->all(
+            [
+                'limit'     => 1,
+                'parent'    => $this->order->get_id(),
+                'seller_id' => $seller_id,
+            ]
         );
+
+        /**
+         * @var $created_suborder WC_Order|\WC_Order_Refund
+         */
         $created_suborder = reset( $res );
 
-        return wc_get_order( $created_suborder->ID );
+        return $created_suborder;
     }
 
     /**
