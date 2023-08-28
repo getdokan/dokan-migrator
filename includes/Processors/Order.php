@@ -39,7 +39,7 @@ class Order extends Processor {
 			    );
 
 		    default:
-			    return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}posts WHERE post_type='shop_order' AND post_parent=0" );
+			    return (int) dokan()->order->all( [ 'return' => 'count' ] );
 	    }
     }
 
@@ -48,7 +48,8 @@ class Order extends Processor {
      *
      * @since 1.0.0
      *
-     * @return array
+     * @return \WC_Order[]
+     *
      * @throws \Exception
      */
     public static function get_items( $plugin, $number, $offset ) {
@@ -79,7 +80,14 @@ class Order extends Processor {
 			    break;
 
 		    default:
-			    $orders = get_posts( $args );
+                $args = array(
+                    'order'  => 'ASC',
+                    'paged'  => $offset + 1,
+                    'limit'  => $number,
+                    'parent' => 0,
+                );
+
+                $orders = dokan()->order->all( $args );
 	    }
 
         if ( empty( $orders ) ) {
@@ -97,7 +105,7 @@ class Order extends Processor {
      * @param string $plugin
      * @param object $payload
      *
-     * @return object
+     * @return object|WcfmOrderMigrator
      * @throws \Exception
      */
     public static function get_migration_class( $plugin, $payload ) {
