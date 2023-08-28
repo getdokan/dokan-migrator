@@ -61,6 +61,7 @@ class Order extends Processor {
 
         switch ( $plugin ) {
             case 'wcfmmarketplace':
+                $orders = [];
                 $wcfm_orders = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT order_id FROM {$wpdb->prefix}wcfm_marketplace_orders LIMIT %d OFFSET %d", $number, $offset ), ARRAY_A );
                 $wcfm_orders = array_map(
                     function ( $item ) {
@@ -69,11 +70,13 @@ class Order extends Processor {
                     $wcfm_orders
                 );
 
-                $orders = dokan()->order->all(
-                    [
-                        'include' => $wcfm_orders,
-                    ]
-                );
+                if ( ! empty( $wcfm_orders ) ) {
+                    $orders = dokan()->order->all(
+                        [
+                            'include' => $wcfm_orders,
+                        ]
+                    );
+                }
                 break;
 
             default:
