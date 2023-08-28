@@ -28,9 +28,7 @@ class Order extends Processor {
      * @return integer
      */
     public static function get_total( $plugin ) {
-        global $wpdb;
-
-        return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}posts WHERE post_type='shop_order' AND post_parent=0" );
+        return (int) dokan()->order->all( [ 'return' => 'count', 'parent' => 0, ] );
     }
 
     /**
@@ -38,20 +36,19 @@ class Order extends Processor {
      *
      * @since 1.0.0
      *
-     * @return array
+     * @return \WC_Order[]
+     *
      * @throws \Exception
      */
     public static function get_items( $plugin, $number, $offset ) {
         $args = array(
-            'post_type'      => 'shop_order',
-            'orderby'        => 'ASC',
-            'post_status'    => 'any',
-            'offset'         => $offset,
-            'posts_per_page' => $number,
-            'post_parent'    => 0,
+            'order'  => 'ASC',
+            'paged'  => $offset + 1,
+            'limit'  => $number,
+            'parent' => 0,
         );
 
-        $orders = get_posts( $args );
+        $orders = dokan()->order->all( $args );
 
         if ( empty( $orders ) ) {
             self::throw_error();
@@ -68,7 +65,7 @@ class Order extends Processor {
      * @param string $plugin
      * @param object $payload
      *
-     * @return object
+     * @return object|WcfmOrderMigrator
      * @throws \Exception
      */
     public static function get_migration_class( $plugin, $payload ) {
