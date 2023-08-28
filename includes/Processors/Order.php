@@ -33,7 +33,7 @@ class Order extends Processor {
                 break;
 
 		    case 'wcvendors':
-                $total = (int) dokan()->order->all( [ 'return' => 'count' ] );;
+                $total = (int) dokan()->order->all( [ 'return' => 'count' ] );
                 break;
 
 		    default:
