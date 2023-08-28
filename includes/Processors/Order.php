@@ -42,6 +42,7 @@ class Order extends Processor {
                         'parent' => 0,
                     ]
                 );
+                break;
 
 		    default:
                 $total = 0;
@@ -86,6 +87,10 @@ class Order extends Processor {
                         ]
                     );
                 }
+                break;
+
+            case 'yithvendors':
+                $orders = dokan()->order->all( $args );
                 break;
 
             default:
