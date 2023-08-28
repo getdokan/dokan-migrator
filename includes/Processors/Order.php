@@ -71,7 +71,7 @@ class Order extends Processor {
 
                 $orders = dokan()->order->all(
                     [
-                        'include' => $wcfm_orders
+                        'include' => $wcfm_orders,
                     ]
                 );
                 break;
