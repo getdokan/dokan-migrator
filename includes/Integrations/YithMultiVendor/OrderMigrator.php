@@ -16,11 +16,11 @@ class OrderMigrator extends OrderMigration {
 	 *
 	 * @since DOKAN_MIG_SINCE
 	 *
-	 * @param \WP_Post $order
+	 * @param \WC_Order $order
 	 */
-	public function __construct( \WP_Post $order ) {
+	public function __construct( \WC_Order $order ) {
 		$this->order_id = $order->ID;
-		$this->order    = wc_get_order( $this->order_id );
+		$this->order    = $order;
 	}
 
     /**
@@ -34,25 +34,23 @@ class OrderMigrator extends OrderMigration {
      * @return \WC_Order
      */
     public function create_sub_order_if_needed( $seller_id, $seller_products, $parent_order_id ) {
-        $args = array(
-            'posts_per_page' => -1,
-            'order'          => 'DESC',
-            'post_parent'    => $parent_order_id,
-            'post_type'      => 'shop_order',
-        );
+        $orders = dokan()->order->get_child_orders( $parent_order_id );
+        $parent_order = dokan()->order->get( $parent_order_id );
 
-        $sub_orders = get_children( $args, ARRAY_A );
+        $child_order = null;
 
-        $current_order = $parent_order_id;
+        foreach ( $orders as $order ) {
+            $order_items = $order->get_items();
+            foreach ( $order_items as $product_item ) {
+                $post = get_post( $product_item->get_product_id(), ARRAY_A );
+                $author = $post['post_author'];
 
-        foreach ( $sub_orders as $id => $sub_order ) {
-            if ( absint( $sub_order['post_author'] ) === $seller_id ) {
-                $current_order = $id;
+                if ( absint( $author ) === absint( $seller_id ) ) {
+                    $child_order = $order;
+                    break;
+                }
             }
         }
-
-        $child_order = wc_get_order( $current_order );
-        $parent_order = wc_get_order( $parent_order_id );
 
         $this->add_splited_shipping( $child_order, $parent_order );
 
@@ -135,7 +133,7 @@ class OrderMigrator extends OrderMigration {
     }
 
     /**
-     * Gets order data from wcfm order table for dokan.
+     * Gets order data from yith order table for dokan.
      *
      * @since DOKAN_MIG_SINCE
      *
@@ -146,7 +144,7 @@ class OrderMigrator extends OrderMigration {
      */
     public function get_dokan_order_data( $parent_order_id, $seller_id ) {
         global $wpdb;
-        $wc_order = wc_get_order( $parent_order_id );
+        $wc_order = dokan()->order->get( $parent_order_id );
 
         $net_amount  = 0;
         $order_total = $wc_order->get_total();
@@ -157,17 +155,10 @@ class OrderMigrator extends OrderMigration {
             $order_total = $order_total - $wc_order->get_total_refunded();
         }
 
-        $args = array(
-            'posts_per_page' => -1,
-            'order'          => 'DESC',
-            'post_parent'    => $parent_order_id,
-            'post_type'      => 'shop_order',
-        );
+        $sub_orders = dokan()->order->get_child_orders( $parent_order_id );
 
-        $sub_orders = get_children( $args, ARRAY_A );
-
-        foreach ( $sub_orders as $id => $sub_order ) {
-            $orders = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE user_id = %d AND order_id=%d", $seller_id, $id ) );
+        foreach ( $sub_orders as $sub_order ) {
+            $orders = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE user_id = %d AND order_id=%d", $seller_id, $sub_order->get_id() ) );
 
             foreach ( $orders as $order ) {
                 $net_amount += $order->amount - abs( $order->amount_refunded );
@@ -195,7 +186,27 @@ class OrderMigrator extends OrderMigration {
         if ( count( $sub_orders ) === 1 ) {
             // update post type
             $sub_order = reset( $sub_orders );
-            set_post_type( $sub_order['ID'], 'dep_yith_order' );
+            set_post_type( $sub_order->get_id(), 'dep_yith_order' );
+
+            // If HPOS enabled
+            if ( class_exists( \Automattic\WooCommerce\Utilities\OrderUtil::class ) && \Automattic\WooCommerce\Utilities\OrderUtil::custom_orders_table_usage_is_enabled() ) {
+                global $wpdb;
+
+                $wpdb->update(
+                    $wpdb->prefix . 'wc_orders',
+                    [ 'type' => 'dep_yith_order' ],
+                    [ 'id' => $sub_order->get_id() ]
+                );
+            }
+
+            $wc_order->update_meta_data( 'has_sub_order', 0 );
+            $wc_order->save();
+        } else {
+            foreach ( $sub_orders as $sub_order ) {
+                $sub_order_seller_id = dokan_get_seller_id_by_order( $sub_order->get_id() );
+                $sub_order->update_meta_data( '_dokan_vendor_id', $sub_order_seller_id );
+                $sub_order->save();
+            }
         }
 
         foreach ( $commissions as $com ) {
@@ -225,7 +236,7 @@ class OrderMigrator extends OrderMigration {
      */
     public function process_refund( $child_order, $seller_id, $from_suborder = true ) {
         global $wpdb;
-        $order = wc_get_order( $child_order->get_id() );
+        $order = dokan()->order->get( $child_order->get_id() );
         $new_total_amount = $order->get_total() - $order->get_total_refunded();
 
         // insert on dokan sync table
