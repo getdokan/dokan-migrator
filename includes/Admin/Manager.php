@@ -65,7 +65,7 @@ class Manager {
 
         $data = MigrationHelper::get_last_migrated();
 
-        if ( 'yes' !== $data['migration_success'] ) {
+        if ( 'yes' !== $data['migration_success'] && ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'dokan-migrator' ) ) {
             require_once DOKAN_MIGRATOR_TEMPLATE_PATH . 'template-alert-migrate-to-dokan.php';
         }
     }
