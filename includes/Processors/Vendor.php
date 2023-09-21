@@ -46,7 +46,7 @@ class Vendor extends Processor {
      * @return array
      * @throws \Exception
      */
-    public static function get_items( $plugin, $number, $offset ) {
+    public static function get_items( $plugin, $number, $offset, $paged ) {
         $args = [
             'number' => $number,
             'offset' => $offset,

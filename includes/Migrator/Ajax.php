@@ -79,6 +79,7 @@ class Ajax {
         $args       = [
             'number'         => ! empty( $_REQUEST['number'] ) ? absint( $_REQUEST['number'] ) : 10, // phpcs:ignore WordPress.Security.NonceVerification
             'offset'         => ! empty( $_REQUEST['offset'] ) ? absint( $_REQUEST['offset'] ) : 0, // phpcs:ignore WordPress.Security.NonceVerification
+            'paged'          => ! empty( $_REQUEST['paged'] ) ? absint( $_REQUEST['paged'] ) : 0, // phpcs:ignore WordPress.Security.NonceVerification
             'total_count'    => ! empty( $_REQUEST['total_count'] ) ? absint( $_REQUEST['total_count'] ) : 0, // phpcs:ignore WordPress.Security.NonceVerification
             'total_migrated' => ! empty( $_REQUEST['total_migrated'] ) ? absint( $_REQUEST['total_migrated'] ) : 0, // phpcs:ignore WordPress.Security.NonceVerification
         ];
