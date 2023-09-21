@@ -46,8 +46,8 @@ class Withdraw extends Processor {
      * @return array
      * @throws \Exception
      */
-    public static function get_items( $plugin, $number, $offset ) {
-        global $wpdb;
+    public static function get_items( $plugin, $number, $offset, $paged ) {
+	    global $wpdb;
         $withdraws = [];
 
         if ( 0 === (int) $offset ) {

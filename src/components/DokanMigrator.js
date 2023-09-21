@@ -38,7 +38,7 @@ const DokanMigrator = (props) => {
         },[isLoading]);
 
         // Functions.
-        const migrateVendorsHandler = ( from = offset, totalItem = totalCount, getMigrated = totalMigrated ) => {
+        const migrationHandler = ( from = offset, totalItem = totalCount, getMigrated = totalMigrated, pageNum = 1 ) => {
             setIsLoading(true);
             sendRequest(
                 {
@@ -47,6 +47,7 @@ const DokanMigrator = (props) => {
                     import: importType,
                     number: number,
                     offset: from,
+                    paged: pageNum,
                     total_count: totalItem,
                     total_migrated: getMigrated
                 }
@@ -56,7 +57,8 @@ const DokanMigrator = (props) => {
                     setTotalMigrated(resp.data.process.total_migrated);
                     if ( resp.data.process && resp.data.process.migrated != 0 ) {
                         setOffset(resp.data.process.next);
-                        migrateVendorsHandler( resp.data.process.next, totalItem, resp.data.process.total_migrated );
+
+                        migrationHandler( resp.data.process.next, totalItem, resp.data.process.total_migrated, pageNum + 1 );
                     }
                 } else {
                     setIsLoading(false);
@@ -96,7 +98,7 @@ const DokanMigrator = (props) => {
                     props.lastCompleted ? setTotalMigrated( resp.data.migrate.total_count  ) : setTotalMigrated(respTotalMigrated);
 
                     ! startMigration ? setIsLoading(false) : '';
-                    startMigration ? migrateVendorsHandler( respNext, resp.data.migrate.total_count, respTotalMigrated ) : '';
+                    startMigration ? migrationHandler( respNext, resp.data.migrate.total_count, respTotalMigrated, 1 ) : '';
 
                 } else {
                     console.error(resp.data.message);
