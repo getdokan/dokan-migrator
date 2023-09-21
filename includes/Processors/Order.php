@@ -52,12 +52,6 @@ class Order extends Processor {
      */
     public static function get_items( $plugin, $number, $offset ) {
         global $wpdb;
-        $args = array(
-            'order'  => 'ASC',
-            'paged'  => $offset + 1,
-            'limit'  => $number,
-            'parent' => 0,
-        );
 
         switch ( $plugin ) {
             case 'wcfmmarketplace':
