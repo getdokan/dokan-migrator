@@ -65,6 +65,7 @@ class Manager {
 
         $data = MigrationHelper::get_last_migrated();
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if ( 'yes' !== $data['migration_success'] && ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'dokan-migrator' ) ) {
             require_once DOKAN_MIGRATOR_TEMPLATE_PATH . 'template-alert-migrate-to-dokan.php';
         }
