@@ -40,6 +40,15 @@ class Manager {
     private $offset = 0;
 
     /**
+     * Get data page id
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @var integer
+     */
+    private $paged = 1;
+
+    /**
      * Number of vendors to be migrated.
      *
      * @since 1.0.0
@@ -133,6 +142,7 @@ class Manager {
     protected function set_data( $data ) {
         $this->number         = ! empty( $data['number'] ) ? intval( $data['number'] ) : $this->number;
         $this->offset         = ! empty( $data['offset'] ) ? intval( $data['offset'] ) : $this->offset;
+        $this->paged          = ! empty( $data['paged'] ) ? intval( $data['paged'] ) : $this->paged;
         $this->total_count    = ! empty( $data['total_count'] ) ? intval( $data['total_count'] ) : $this->total_count;
         $this->total_migrated = ! empty( $data['total_migrated'] ) ? intval( $data['total_migrated'] ) : $this->total_migrated;
     }
@@ -180,7 +190,7 @@ class Manager {
 	     */
         $processor = $this->processor_class( $import_type );
 
-        $data_to_migrate = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset );
+        $data_to_migrate = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset, $this->paged );
 
         foreach ( $data_to_migrate as $value ) {
 	        /**
@@ -194,6 +204,7 @@ class Manager {
             'migrated'       => count( $data_to_migrate ),
             'next'           => count( $data_to_migrate ) + $this->offset,
             'total_migrated' => count( $data_to_migrate ) + $this->total_migrated,
+            'paged'          => $this->paged,
         ];
 
         $progress = ( $args['total_migrated'] * 100 ) / $this->total_count;

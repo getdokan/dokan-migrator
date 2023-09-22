@@ -60,11 +60,11 @@ class Order extends Processor {
      *
      * @throws \Exception
      */
-    public static function get_items( $plugin, $number, $offset ) {
+    public static function get_items( $plugin, $number, $offset, $paged ) {
         global $wpdb;
         $args = array(
             'order'  => 'ASC',
-            'paged'  => $offset + 1,
+            'paged'  => $paged,
             'limit'  => $number,
             'parent' => 0,
         );
