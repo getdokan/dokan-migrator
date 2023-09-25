@@ -11,17 +11,17 @@ use WeDevs\DokanMigrator\Abstracts\OrderMigration;
  */
 class OrderMigrator extends OrderMigration {
 
-	/**
-	 * Class constructor.
-	 *
-	 * @since DOKAN_MIG_SINCE
-	 *
-	 * @param \WC_Order $order
-	 */
-	public function __construct( \WC_Order $order ) {
-		$this->order_id = $order->ID;
-		$this->order    = $order;
-	}
+    /**
+     * Class constructor.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @param \WC_Order $order
+     */
+    public function __construct( \WC_Order $order ) {
+        $this->order_id = $order->get_id();
+        $this->order    = $order;
+    }
 
     /**
      * Create sub order if needed
@@ -75,7 +75,7 @@ class OrderMigrator extends OrderMigration {
         if ( $shipping_methods ) {
             foreach ( $shipping_methods as $method_item_id => $shipping_object ) {
                 $shipping_method = $shipping_object;
-                    break;
+                break;
             }
         }
 
@@ -161,7 +161,10 @@ class OrderMigrator extends OrderMigration {
             $orders = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}yith_vendors_commissions WHERE user_id = %d AND order_id=%d", $seller_id, $sub_order->get_id() ) );
 
             foreach ( $orders as $order ) {
-                $net_amount += $order->amount - abs( $order->amount_refunded );
+                $refunded_amount = isset( $order->amount_refunded ) ? $order->amount_refunded : 0;
+
+                $current_net_amount = isset( $order->amount ) ? $order->amount : 0;
+                $net_amount += $current_net_amount - $refunded_amount;
 
                 $res_commission = [
                     'type'             => 'percent',
@@ -174,7 +177,12 @@ class OrderMigrator extends OrderMigration {
                 ];
 
                 $unit_commissin_rate_admin  = 100 - ( $order->rate * 100 );
-                $new_admin_commissin        = ( $wc_order->get_subtotal() * $unit_commissin_rate_admin ) / 100;
+
+                if ( $current_net_amount ) {
+                    $new_admin_commissin = $sub_order->get_subtotal() - $current_net_amount;
+                } else {
+                    $new_admin_commissin = ( $sub_order->get_subtotal() * $unit_commissin_rate_admin ) / 100;
+                }
 
                 $res_commission['percentage']       = $unit_commissin_rate_admin;
                 $res_commission['admin_commission'] = $new_admin_commissin;
