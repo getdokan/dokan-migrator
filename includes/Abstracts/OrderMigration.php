@@ -77,6 +77,15 @@ abstract class OrderMigration {
     abstract public function reset_sub_orders_if_needed();
 
     /**
+     * Get seller by order/order id
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @return void
+     */
+    abstract public function get_seller_by_order( $order_id );
+
+    /**
      * Returns true if the order has sub orders.
      *
      * @since 1.0.0
@@ -243,7 +252,7 @@ abstract class OrderMigration {
      * @return void
      */
     public function process_migration() {
-        $vendors = dokan_get_sellers_by( $this->order_id );
+        $vendors = $this->get_seller_by_order( $this->order_id );
 
         $this->reset_sub_orders_if_needed();
 

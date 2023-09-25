@@ -442,7 +442,7 @@ class OrderMigrator extends OrderMigration {
         }
 
         $applied_shipping_method = reset( $parent_order->get_shipping_methods() );
-        $vendors                 = dokan_get_sellers_by( $parent_order->get_id() );
+        $vendors                 = $this->get_seller_by_order( $parent_order->get_id() );
 
         // Here we are dividing the shipping and shipping-tax amount of parent order into the vendors suborders.
         $shipping_tax_amount = [
@@ -481,5 +481,16 @@ class OrderMigrator extends OrderMigration {
         $item->add_meta_data( 'Items', $text );
 
         return $item;
+    }
+
+    /**
+     * Returns all sellers of an order.
+     *
+     * @param int $order_id
+     *
+     * @return array
+     */
+    public function get_seller_by_order( $order_id ) {
+        return dokan_get_sellers_by( $order_id );
     }
 }
