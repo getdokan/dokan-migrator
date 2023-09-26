@@ -23,7 +23,7 @@ class OrderMigrator extends OrderMigration {
      * @param \WC_Order $order
      */
     public function __construct( \WC_Order $order ) {
-        $this->order_id = $order->ID;
+        $this->order_id = $order->get_id();
         $this->order    = $order;
     }
 
