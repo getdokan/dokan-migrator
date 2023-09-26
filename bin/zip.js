@@ -1,134 +1,147 @@
-const fs       = require('fs-extra');
-const path     = require('path');
-const { exec } = require('child_process');
-const util     = require('util');
-const chalk    = require('Chalk');
-const _        = require('lodash');
-
-const asyncExec = util.promisify( exec );
+const fs = require( 'fs-extra' );
+const path = require( 'path' );
+const { exec } = require( 'child_process' );
+const chalk = require( 'Chalk' );
+const _ = require( 'lodash' );
 
 const pluginFiles = [
     'assets/',
     'includes/',
     'languages/',
     'templates/',
+    'vendor/',
     'changelog.txt',
     'readme.txt',
-    'appsero.json',
     'dokan-migrator.php',
-];
-
-const removeFiles = [
-    'src',
     'composer.json',
     'composer.lock',
 ];
 
-const allowedVendorFiles = {};
+const removeFiles = [ 'assets/src', 'composer.json', 'composer.lock' ];
+
+const allowedVendorFiles = {
+    'appsero/client': [ 'src' ],
+    'jakeasmith/http_build_url': [ 'src' ],
+};
 
 const { version } = JSON.parse( fs.readFileSync( 'package.json' ) );
 
-// Removing old files.
-fs.removeSync( 'build/*.zip' );
-
 exec(
-    'rm -rf versions && rm *.zip',
+    'rm -rf *',
     {
         cwd: 'build',
     },
-    () => {
-        const planDir      = `build`; // Production build directory.
-        const dest         = `${ planDir }/dokan-migrator`; // Temporary folder name after coping all the files here.
-        const composerfile = `composer.json`;
-
-        // Removing the old build folder.
-        fs.removeSync( planDir );
-
-        console.log( `🗜  Started making the zip...` );
-
-        const fileList = [ ...pluginFiles ];
-
-        // Making build folder.
-        fs.mkdirp( dest );
-
-        // Coping all the files into build folder.
-        fileList.forEach( ( file ) => {
-            fs.copySync( file, `${ dest }/${ file }`);
-        } );
-
-        // copy composer.json file
-        try {
-            if (fs.pathExistsSync(composerfile)) {
-                fs.copySync(composerfile, `${dest}/composer.json`);
-            } else {
-                fs.copySync(`composer.json`, `${dest}/composer.json`);
-            }
-        } catch (err) {
-            console.error(err);
+    ( error ) => {
+        if ( error ) {
+            console.log(
+                chalk.yellow(
+                    `⚠️ Could not find the build directory.`
+                )
+            );
+            console.log(
+                chalk.green(
+                    `🗂 Creating the build directory ...`
+                )
+            );
+            // Making build folder.
+            fs.mkdirp( 'build' );
         }
 
-        console.log(`📂 Finished copying files.`);
+        const dest = 'build/dokan-migrator'; // Temporary folder name after coping all the files here.
+        fs.mkdirp( dest );
 
-        asyncExec(
+        console.log( `🗜 Started making the zip ...` );
+        try {
+            console.log( `⚙️ Copying plugin files ...` );
+
+            // Coping all the files into build folder.
+            pluginFiles.forEach( ( file ) => {
+                fs.copySync( file, `${ dest }/${ file }` );
+            } );
+            console.log( `📂 Finished copying files.` );
+        } catch ( err ) {
+            console.error( chalk.red( '❌ Could not copy plugin files.' ), err );
+            return;
+        }
+
+        exec(
             'composer install --optimize-autoloader --no-dev',
             {
-                cwd: dest,
+                cwd: dest
             },
-            () => {
+            ( error ) => {
+                if ( error ) {
+                    console.log(
+                        chalk.red(
+                            `❌ Could not install composer in ${ dest } directory.`
+                        )
+                    );
+                    console.log( chalk.bgRed.black( error ) );
+
+                    return;
+                }
+
                 console.log(
-                    `⚡️ Installed composer packages in ${dest} directory.`
+                    `⚡️ Installed composer packages in ${ dest } directory.`
                 );
 
                 // Removing files that is not needed in the production now.
-                removeFiles.forEach((file) => {
-                    fs.removeSync(`${dest}/${file}`);
-                });
-
-                Object.keys( allowedVendorFiles ).forEach( ( composerPackage ) => {
-                    const packagePath = path.resolve(
-                        `${ dest }/vendor/${ composerPackage }`
-                    );
-
-                    if ( !fs.existsSync( packagePath ) ) {
-                        return;
-                    }
-
-                    const list = fs.readdirSync( packagePath );
-                    const deletables = _.difference(
-                        list,
-                        allowedVendorFiles[ composerPackage ]
-                    );
-
-                    deletables.forEach( ( deletable ) => {
-                        fs.removeSync( path.resolve( packagePath, deletable ) );
-                    } );
+                removeFiles.forEach( ( file ) => {
+                    fs.removeSync( `${ dest }/${ file }` );
                 } );
+
+                Object.keys( allowedVendorFiles ).forEach(
+                    ( composerPackage ) => {
+                        const packagePath = path.resolve(
+                            `${ dest }/vendor/${ composerPackage }`
+                        );
+
+                        if ( ! fs.existsSync( packagePath ) ) {
+                            return;
+                        }
+
+                        const list = fs.readdirSync( packagePath );
+                        const deletables = _.difference(
+                            list,
+                            allowedVendorFiles[ composerPackage ]
+                        );
+
+                        deletables.forEach( ( deletable ) => {
+                            fs.removeSync(
+                                path.resolve( packagePath, deletable )
+                            );
+                        } );
+                    }
+                );
 
                 // Output zip file name.
-                const zipFile = `dokan-migrator-${ version }.zip`;
+                const zipFile = `dokan-migrator-v${ version }.zip`;
 
-                console.log(`📦 Making zip file ${ zipFile }...`);
+                console.log( `📦 Making the zip file ${ zipFile } ...` );
 
                 // Making the zip file here.
-                asyncExec(
+                exec(
                     `zip ${ zipFile } dokan-migrator -rq`,
                     {
-                        cwd: planDir,
+                        cwd: 'build'
                     },
-                    () => {
+                    ( error ) => {
+                        if ( error ) {
+                            console.log(
+                                chalk.red( `❌ Could not make ${ zipFile }.` )
+                            );
+                            console.log( chalk.bgRed.black( error ) );
+
+                            return;
+                        }
+
                         fs.removeSync( dest );
-                        console.log( chalk.green( `✅ ${zipFile} is ready. 🎉` ) );
+                        console.log(
+                            chalk.green( `✅  ${ zipFile } is ready. 🎉` )
+                        );
                     }
-                ).catch( ( error ) => {
-                    console.log( chalk.red( `Could not make ${ zipFile }.`) );
-                    console.log( error );
-                } );
+                );
             }
-        ).catch( ( error ) => {
-            console.log(
-                chalk.red( `Could not install composer in ${dest} directory.` )
-            );
-            console.log( error );
-        } );
+        );
     }
 );
