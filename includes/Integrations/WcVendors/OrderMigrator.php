@@ -176,4 +176,17 @@ class OrderMigrator extends OrderMigration {
             ]
         );
     }
+
+    /**
+     * Returns all sellers of an order.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @param int $order_id
+     *
+     * @return array
+     */
+    public function get_seller_by_order( $order_id ) {
+        return dokan_get_sellers_by( $order_id );
+    }
 }
