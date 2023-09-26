@@ -86,7 +86,7 @@ class OrderMigrator extends OrderMigration {
 
         if ( is_a( $shipping_method, 'WC_Order_Item_Shipping' ) ) {
             $item = new \WC_Order_Item_Shipping();
-            $vendors = dokan_get_sellers_by( $parent_order->get_id() );
+            $vendors = $this->get_seller_by_order( $parent_order->get_id() );
             $vendors = count( $vendors );
 
             $taxes = $shipping_method->get_taxes();
@@ -261,5 +261,56 @@ class OrderMigrator extends OrderMigration {
                 '%f',
             )
         );
+    }
+
+    /**
+     * Returns all sellers of an order.
+     *
+     * @since DOKAN_MIG_SINCE
+     *
+     * @param int $order_id
+     *
+     * @return array
+     */
+    public function get_seller_by_order( $order_id ) {
+        global $wpdb;
+        $taxonomy = 'yith_shop_vendor';
+        if ( function_exists( 'YITH_Vendors' ) && method_exists( YITH_Vendors::class, 'get_taxonomy_name' ) ) {
+            $taxonomy = YITH_Vendors ()->get_taxonomy_name();
+        }
+
+        $user_taxonomy = 'yith_product_vendor';
+        if ( function_exists( 'YITH_Vendors' ) && method_exists( YITH_Vendors::class, 'get_user_meta_key' ) ) {
+            $user_taxonomy = YITH_Vendors ()->get_user_meta_key();
+        }
+
+        $order = dokan()->order->get( $this->order_id );
+
+        foreach ( $order->get_items() as $order_item ) {
+            $terms = wp_get_post_terms ( $order_item->get_product_id(), $taxonomy );
+
+            if ( empty( $terms ) || is_wp_error( $terms ) ) {
+                continue;
+            }
+
+            /**
+             * @var \WP_Term $vendor_term
+             */
+            $vendor_term = array_shift ( $terms );
+            // phpcs:ignore
+            $user_meta = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}usermeta WHERE meta_key='{$user_taxonomy}' AND meta_value='%s'", $vendor_term->term_id ) );
+
+            if ( ! isset( $user_meta->user_id ) ) {
+                continue;
+            }
+
+            $arg = array(
+                'ID' => $order_item->get_product_id(),
+                'post_author' => $user_meta->user_id,
+            );
+            wp_update_post( $arg );
+        }
+
+        return dokan_get_sellers_by( $order_id );
     }
 }
