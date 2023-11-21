@@ -30,11 +30,14 @@ abstract class Processor {
      *
      * @since 1.0.0
      *
-     * @param string $plugin
+     * @param string  $plugin
+     * @param integer $number
+     * @param integer $offset
+     * @param integer $paged
      *
      * @return array
      */
-    abstract public static function get_items( $plugin, $number, $offset );
+    abstract public static function get_items( $plugin, $number, $offset, $paged );
 
     /**
      * Return class to handle migration.
