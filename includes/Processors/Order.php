@@ -50,7 +50,7 @@ class Order extends Processor {
      *
      * @throws \Exception
      */
-    public static function get_items( $plugin, $number, $offset ) {
+    public static function get_items( $plugin, $number, $offset, $paged ) {
         global $wpdb;
 
         switch ( $plugin ) {
