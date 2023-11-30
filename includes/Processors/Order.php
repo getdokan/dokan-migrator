@@ -28,11 +28,11 @@ class Order extends Processor {
         global $wpdb;
 
         switch ( $plugin ) {
-		    case 'wcfmmarketplace':
+            case 'wcfmmarketplace':
                 $total = (int) $wpdb->get_var( "SELECT COUNT( DISTINCT order_id ) FROM {$wpdb->prefix}wcfm_marketplace_orders" );
                 break;
 
-		    case 'wcvendors':
+            case 'wcvendors':
                 $total = (int) dokan()->order->all(
                     [
                         'return' => 'count',
@@ -41,9 +41,9 @@ class Order extends Processor {
                 );
                 break;
 
-		    default:
+            default:
                 $total = 0;
-	    }
+        }
 
         return $total;
     }
@@ -59,6 +59,7 @@ class Order extends Processor {
      */
     public static function get_items( $plugin, $number, $offset, $paged ) {
         global $wpdb;
+
         $args = array(
             'order'  => 'ASC',
             'paged'  => $paged,
