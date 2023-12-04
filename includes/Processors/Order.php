@@ -35,7 +35,7 @@ class Order extends Processor {
                 $total = (int) $wpdb->get_var( "SELECT COUNT( DISTINCT order_id ) FROM {$wpdb->prefix}wcfm_marketplace_orders" );
                 break;
 
-            case 'yithvendors':
+        case 'yithvendors':
                 $total = (int) dokan()->order->all(
                     [
                         'return' => 'count',
@@ -43,7 +43,7 @@ class Order extends Processor {
                     ]
                 );
                 break;
-
+            
 		    default:
                 $total = 0;
 	    }
