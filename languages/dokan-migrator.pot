@@ -1,4 +1,4 @@
-# Copyright (c) 2022 weDevs Pte. Ltd. All Rights Reserved.
+# Copyright (c) 2023 weDevs Pte. Ltd. All Rights Reserved.
 msgid ""
 msgstr ""
 "Project-Id-Version: Dokan Migrator 1.0.0\n"
@@ -8,9 +8,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-18T06:15:22+00:00\n"
+"POT-Creation-Date: 2023-09-25T06:00:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: dokan-migrator\n"
 
 #. Plugin Name of the plugin
@@ -35,49 +35,73 @@ msgstr ""
 msgid "https://WeDevs.com/"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:57
+#: includes/Helpers/MigrationHelper.php:63
 msgid "Dokan vendor dashboard activated."
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:91
+#: includes/Helpers/MigrationHelper.php:75
+msgid "Page Installation"
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:76
+msgid "Triggering fron dokan migrator"
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:77
+msgid "Install Dokan Pages"
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:105
+msgid "Dashboard"
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:111
+msgid "Store List"
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:178
 msgid "Migrate to dokan"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:95
+#: includes/Helpers/MigrationHelper.php:182
 msgid "Migrate Wcfm To Dokan"
+msgstr ""
+
+#: includes/Helpers/MigrationHelper.php:186
+msgid "Migrate YITH WooCommerce Multi Vendor To Dokan."
 msgstr ""
 
 #: includes/Migrator/Ajax.php:59
 msgid "Item count successfull."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:93
+#: includes/Migrator/Ajax.php:94
 msgid "Import successfull."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:117
+#: includes/Migrator/Ajax.php:118
 msgid "Nonce verification failed!"
 msgstr ""
 
-#: includes/Migrator/Manager.php:215
+#: includes/Migrator/Manager.php:235
 msgid "Invalid import type"
 msgstr ""
 
-#: includes/Processors/Order.php:79
-#: includes/Processors/Vendor.php:91
-#: includes/Processors/Withdraw.php:96
+#: includes/Processors/Order.php:127
+#: includes/Processors/Vendor.php:109
+#: includes/Processors/Withdraw.php:110
 msgid "Migrator class not found"
 msgstr ""
 
-#: includes/Processors/Order.php:94
+#: includes/Processors/Order.php:142
 msgid "No orders found to migrate to dokan."
 msgstr ""
 
-#: includes/Processors/Vendor.php:104
+#: includes/Processors/Vendor.php:122
 msgid "No vendors found to migrate to dokan."
 msgstr ""
 
-#: includes/Processors/Withdraw.php:124
+#: includes/Processors/Withdraw.php:138
 msgid "No withdraws found to migrate to dokan."
 msgstr ""
 

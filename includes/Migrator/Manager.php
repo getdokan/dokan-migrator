@@ -152,7 +152,7 @@ class Manager {
      *
      * @param string $import_type Import type- `vendor` or `order` or `withdraw`.
      *
-     * @return void
+     * @return array
      */
     public function get_total( $import_type, $migratable ) {
         $total_count = 0;
@@ -185,6 +185,9 @@ class Manager {
         $this->set_data( $data );
         $this->prevent_email_notification();
 
+	    /**
+	     * @var $processor \WeDevs\DokanMigrator\Processors\Order|\WeDevs\DokanMigrator\Processors\Vendor|\WeDevs\DokanMigrator\Processors\Withdraw
+	     */
         $processor = $this->processor_class( $import_type );
 
         $data_to_migrate = call_user_func( [ $processor, 'get_items' ], $plugin, $this->number, $this->offset, $this->paged );

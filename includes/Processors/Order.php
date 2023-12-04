@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
+use WeDevs\DokanMigrator\Integrations\YithMultiVendor\OrderMigrator as YithMultiVendorOrderMigrator;
 
 /**
  * Vendor migration handler class.
@@ -34,6 +35,15 @@ class Order extends Processor {
                 $total = (int) $wpdb->get_var( "SELECT COUNT( DISTINCT order_id ) FROM {$wpdb->prefix}wcfm_marketplace_orders" );
                 break;
 
+        case 'yithvendors':
+                $total = (int) dokan()->order->all(
+                    [
+                        'return' => 'count',
+                        'parent' => 0,
+                    ]
+                );
+                break;
+            
 		    default:
                 $total = 0;
 	    }
@@ -52,6 +62,12 @@ class Order extends Processor {
      */
     public static function get_items( $plugin, $number, $offset, $paged ) {
         global $wpdb;
+        $args = array(
+            'order'  => 'ASC',
+            'paged'  => $paged,
+            'limit'  => $number,
+            'parent' => 0,
+        );
 
         switch ( $plugin ) {
             case 'wcfmmarketplace':
@@ -71,6 +87,10 @@ class Order extends Processor {
                         ]
                     );
                 }
+                break;
+
+            case 'yithvendors':
+                $orders = dokan()->order->all( $args );
                 break;
 
             default:
@@ -99,6 +119,9 @@ class Order extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmOrderMigrator( $payload );
+
+	        case 'yithvendors':
+		        return new YithMultiVendorOrderMigrator( $payload );
         }
 
         throw new \Exception( __( 'Migrator class not found', 'dokan-migrator' ) );

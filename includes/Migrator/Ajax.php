@@ -49,7 +49,7 @@ class Ajax {
         $this->verify_nonce();
 
         $import     = ! empty( $_POST['import'] ) ? sanitize_text_field( wp_unslash( $_POST['import'] ) ) : 'vendor'; // phpcs:ignore WordPress.Security.NonceVerification
-        $migratable = ! empty( $_POST['migratable'] ) ? boolval( wp_unslash( $_POST['migratable'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification
+        $migratable = ! empty( $_POST['migratable'] ) ? sanitize_text_field( wp_unslash( $_POST['migratable'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification
 
         try {
             $data = dokan_migrator()->migrator->get_total( $import, $migratable );

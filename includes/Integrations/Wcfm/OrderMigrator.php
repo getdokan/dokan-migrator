@@ -486,6 +486,8 @@ class OrderMigrator extends OrderMigration {
     /**
      * Returns all sellers of an order.
      *
+     * @since DOKAN_MIG_SINCE
+     *
      * @param int $order_id
      *
      * @return array
