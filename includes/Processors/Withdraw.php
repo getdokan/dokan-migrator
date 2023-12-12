@@ -2,13 +2,11 @@
 
 namespace WeDevs\DokanMigrator\Processors;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\WithdrawMigrator as WcfmWithdrawMigrator;
+use WeDevs\DokanMigrator\Integrations\WcVendors\WithdrawMigrator as WcVendorsWithdrawMigrator;
 
 /**
  * Withdraw migration handler class.
@@ -32,6 +30,9 @@ class Withdraw extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request WHERE withdraw_status!='requested'" );
+
+            case 'wcvendors':
+                return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}pv_commission WHERE status='paid'" );
 
             default:
                 return 0;
@@ -68,6 +69,27 @@ class Withdraw extends Processor {
                         $offset
                     )
                 );
+				break;
+                // Items for wcfm.
+
+            case 'wcvendors':
+                $withdraws = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT *
+                        FROM {$wpdb->prefix}pv_commission
+                        WHERE status='paid'
+                        ORDER BY id
+                        LIMIT %d
+                        OFFSET %d",
+                        $number,
+                        $offset
+                    )
+                );
+				break;
+                // Items for wc-vendors.
+
+	        default:
+		        $withdraws = [];
         }
 
         if ( empty( $withdraws ) ) {
@@ -92,6 +114,9 @@ class Withdraw extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmWithdrawMigrator( $payload );
+
+            case 'wcvendors':
+                return new WcVendorsWithdrawMigrator( $payload );
         }
 
         throw new \Exception( __( 'Migrator class not found', 'dokan-migrator' ) );

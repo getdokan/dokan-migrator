@@ -2,13 +2,11 @@
 
 namespace WeDevs\DokanMigrator\Processors;
 
-// don't call the file directly
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 use WeDevs\DokanMigrator\Abstracts\Processor;
 use WeDevs\DokanMigrator\Integrations\Wcfm\OrderMigrator as WcfmOrderMigrator;
+use WeDevs\DokanMigrator\Integrations\WcVendors\OrderMigrator as WcVendorsOrderMigrator;
 
 /**
  * Vendor migration handler class.
@@ -30,13 +28,22 @@ class Order extends Processor {
         global $wpdb;
 
         switch ( $plugin ) {
-		    case 'wcfmmarketplace':
+            case 'wcfmmarketplace':
                 $total = (int) $wpdb->get_var( "SELECT COUNT( DISTINCT order_id ) FROM {$wpdb->prefix}wcfm_marketplace_orders" );
                 break;
 
-		    default:
+            case 'wcvendors':
+                $total = (int) dokan()->order->all(
+                    [
+                        'return' => 'count',
+                        'parent' => 0,
+                    ]
+                );
+                break;
+
+            default:
                 $total = 0;
-	    }
+        }
 
         return $total;
     }
@@ -52,6 +59,13 @@ class Order extends Processor {
      */
     public static function get_items( $plugin, $number, $offset, $paged ) {
         global $wpdb;
+
+        $args = array(
+            'order'  => 'ASC',
+            'paged'  => $paged,
+            'limit'  => $number,
+            'parent' => 0,
+        );
 
         switch ( $plugin ) {
             case 'wcfmmarketplace':
@@ -71,6 +85,10 @@ class Order extends Processor {
                         ]
                     );
                 }
+                break;
+
+            case 'wcvendors':
+                $orders = dokan()->order->all( $args );
                 break;
 
             default:
@@ -99,6 +117,9 @@ class Order extends Processor {
         switch ( $plugin ) {
             case 'wcfmmarketplace':
                 return new WcfmOrderMigrator( $payload );
+
+            case 'wcvendors':
+                return new WcVendorsOrderMigrator( $payload );
         }
 
         throw new \Exception( __( 'Migrator class not found', 'dokan-migrator' ) );

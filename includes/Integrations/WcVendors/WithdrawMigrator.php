@@ -1,20 +1,22 @@
 <?php
 
-namespace WeDevs\DokanMigrator\Integrations\Wcfm;
+namespace Wedevs\DokanMigrator\Integrations\WcVendors;
 
 defined( 'ABSPATH' ) || exit;
 
 use WeDevs\DokanMigrator\Abstracts\WithdrawMigration;
 
 /**
- * Formats vendor data for migration to Dokan.
+ * Formats withdraw data for migration to Dokan.
  *
- * @since 1.0.0
+ * @since DOKAN_MIG_SINCE
  */
 class WithdrawMigrator extends WithdrawMigration {
 
     /**
      * Current withdraw data.
+     *
+     * @since DOKAN_MIG_SINCE
      *
      * @var object
      */
@@ -23,6 +25,8 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Current withdraw metadata.
      *
+     * @since DOKAN_MIG_SINCE
+     *
      * @var array
      */
     private $meta_data = '';
@@ -30,12 +34,16 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Current withdraw id.
      *
+     * @since DOKAN_MIG_SINCE
+     *
      * @var int
      */
     private $withdraw_id = '';
 
     /**
      * Class constructor.
+     *
+     * @since DOKAN_MIG_SINCE
      *
      * @param object $withdraw
      */
@@ -46,11 +54,11 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Sets single withdraw item data.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      */
     public function set_withdraw_data( $withdraw_data ) {
-        $this->withdraw = $withdraw_data;
-        $this->withdraw_id = $withdraw_data->ID;
+        $this->withdraw    = $withdraw_data;
+        $this->withdraw_id = ! empty( $withdraw_data->ID ) ? $withdraw_data->ID : $withdraw_data->id;
 
         $this->meta_data = $this->get_withdraw_meta_data();
     }
@@ -58,7 +66,7 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns vendor id.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return int
      */
@@ -69,79 +77,62 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Returns withdraw amount.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return int|float
      */
     public function get_withdraw_amount() {
-        return ! empty( $this->withdraw->withdraw_amount ) ? $this->withdraw->withdraw_amount : '';
+        return $this->withdraw->total_due + $this->withdraw->total_shipping + $this->withdraw->tax;
     }
 
     /**
      * Returns withdraw created date.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
     public function get_withdraw_created_date() {
-        return ! empty( $this->withdraw->created ) ? $this->withdraw->created : '';
+        return ! empty( $this->withdraw->time ) ? $this->withdraw->time : '';
     }
 
     /**
      * Returns withdraw status.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
     public function get_withdraw_status() {
-        $dokan_withdraw_status = array(
-            'completed' => 1,
-            'requested' => 0,
-            'cancelled' => 2,
-        );
-        $withdraw_status = ! empty( $this->withdraw->withdraw_status ) ? $this->withdraw->withdraw_status : '';
-
-        return $dokan_withdraw_status[ $withdraw_status ];
+        return 1;
     }
 
     /**
      * Returns withdraw payment method.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
     public function get_withdraw_payment_method() {
-        // by_cash, stripe_split, stripe are not supported to dokan.
-        $dokan_payment_method = array(
-            'paypal'        => 'paypal',
-            'skrill'        => 'skrill',
-            'bank_transfer' => 'bank',
-            'wirecard'      => 'dokan-moip-connect',
-        );
-
-        $payment_method = ! empty( $this->withdraw->payment_method ) ? $this->withdraw->payment_method : '';
-
-        return isset( $dokan_payment_method[ $payment_method ] ) ? $dokan_payment_method[ $payment_method ] : $payment_method;
+        return '';
     }
 
     /**
      * Returns withdraw note
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
     public function get_withdraw_note() {
-        return ! empty( $this->withdraw->withdraw_note ) ? $this->withdraw->withdraw_note : '';
+        return 'Made by dokan migrator.';
     }
 
     /**
      * Returns withdraw details.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -151,7 +142,10 @@ class WithdrawMigrator extends WithdrawMigration {
         $withdraw_charges   = ! empty( $this->withdraw->withdraw_charges ) ? $this->withdraw->withdraw_charges : '';
         $withdraw_mode      = ! empty( $this->withdraw->withdraw_mode ) ? $this->withdraw->withdraw_mode : '';
         $is_auto_withdrawal = ! empty( $this->withdraw->is_auto_withdrawal ) ? $this->withdraw->is_auto_withdrawal : '';
-        $withdraw_paid_date = ! empty( $this->withdraw->withdraw_paid_date ) ? $this->withdraw->withdraw_paid_date : '';
+        $withdraw_paid_date = ! empty( $this->withdraw->time ) ? $this->withdraw->time : '';
+        $vendor_id          = ! empty( $this->withdraw->vendor_id ) ? $this->withdraw->vendor_id : '';
+        $product_id         = ! empty( $this->withdraw->product_id ) ? $this->withdraw->product_id : '';
+        $qty                = ! empty( $this->withdraw->qty ) ? $this->withdraw->qty : '';
 
         $dokan_details                       = $this->meta_data;
         $dokan_details['email']              = get_userdata( $this->get_vendor_id() )->user_email;
@@ -161,14 +155,17 @@ class WithdrawMigrator extends WithdrawMigration {
         $dokan_details['withdraw_mode']      = $withdraw_mode;
         $dokan_details['is_auto_withdrawal'] = $is_auto_withdrawal;
         $dokan_details['withdraw_paid_date'] = $withdraw_paid_date;
+        $dokan_details['vendor_id']          = $vendor_id;
+        $dokan_details['product_id']         = $product_id;
+        $dokan_details['qty']                = $qty;
 
         return maybe_serialize( $dokan_details );
     }
 
     /**
-     * Returns withdraw ip.
+     * Returns withdraw user ip.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return string
      */
@@ -179,21 +176,11 @@ class WithdrawMigrator extends WithdrawMigration {
     /**
      * Gets the withdraw meta data.
      *
-     * @since 1.0.0
+     * @since DOKAN_MIG_SINCE
      *
      * @return array
      */
     public function get_withdraw_meta_data() {
-        global $wpdb;
-
-        $meta_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}wcfm_marketplace_withdraw_request_meta WHERE withdraw_id = %d", $this->withdraw_id ) );
-
-        $result = [];
-
-        foreach ( $meta_data as $key => $value ) {
-            $result[ $value->key ] = $value->value;
-        }
-
-        return $result;
+        return [];
     }
 }
