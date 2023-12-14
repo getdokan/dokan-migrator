@@ -3,7 +3,7 @@
  * Plugin Name: Dokan Migrator
  * Plugin URI: http://WeDevs.com/
  * Description: An e-commerce marketplace migration plugin for WordPress. Powered by WooCommerce and WeDevs.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: WeDevs
  * Author URI: https://WeDevs.com/
  * Domain Path: /languages/
@@ -56,7 +56,7 @@ final class Dokan_Migrator {
      *
      * @var string
      */
-    public $version = '1.0.0';
+    public $version = '1.1.0';
 
     /**
      * Instance of self
@@ -198,7 +198,7 @@ final class Dokan_Migrator {
             return;
         }
 
-        $client   = new \Appsero\Client( 'Appsero key for dokan migrator plugin', 'Dokan Migrator', DOKAN_MIGRATOR_FILE );
+        $client   = new \Appsero\Client( '2852f2fd-66ff-4649-9b00-5f9ed953f8b9', 'Dokan Migrator', DOKAN_MIGRATOR_FILE );
         $insights = $client->insights();
 
 		$insights->add_extra(
@@ -215,7 +215,7 @@ final class Dokan_Migrator {
     /**
      * Make dokan migrator plugin HPOS supported.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @return void
      */

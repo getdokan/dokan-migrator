@@ -42,7 +42,7 @@ class Manager {
     /**
      * Get data page id
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @var integer
      */

@@ -152,7 +152,7 @@ class MigrationHelper {
      * @param WC_Order $order
      * @param string   $map_by
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @return void
      */
@@ -184,7 +184,7 @@ class MigrationHelper {
     /**
      * Split shipping amount for all vendors if wcfm processing an order as admin shipping.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param WC_Order_Item_Shipping $applied_shipping_method
      * @param int                    $order_id
