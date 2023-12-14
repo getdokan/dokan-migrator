@@ -16,14 +16,14 @@ use WeDevs\DokanMigrator\Helpers\MigrationHelper;
 /**
  * Order migration class.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.1.0
  */
 class OrderMigrator extends OrderMigration {
 
     /**
      * Class constructor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param \WC_Order $order
      */
@@ -37,7 +37,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Create sub order if needed
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param int $seller_id
      * @param array $seller_products
@@ -72,7 +72,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Delete sub orders of needed.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @return void
      */
@@ -83,7 +83,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Gets order data from wcfm order table for dokan.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param int $parent_order_id
      * @param int $seller_id
@@ -146,7 +146,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Process refund for a child order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param WC_Order $child_order
      * @param integer $seller_id
@@ -303,7 +303,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Rename vendor shipping for an order
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param object $order
      *
@@ -344,7 +344,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Retrieves WCFM refund requests.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param int $vendor_id
      * @param int $order_id
@@ -367,7 +367,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Retrieves WCFM refund meta data for a specific meta key.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param integer $refund_id
      * @param sting   $meta_key
@@ -391,7 +391,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Split shipping amount for all vendors if wcfm processing an order as admin shipping.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param WC_Order_Item_Shipping $applied_shipping_method
      * @param int                    $order_id
@@ -453,7 +453,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Returns all sellers of an order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param int $order_id
      *

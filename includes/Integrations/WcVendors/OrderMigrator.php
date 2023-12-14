@@ -11,14 +11,14 @@ use WC_Order;
 /**
  * Order migration class.
  *
- * @since DOKAN_MIG_SINCE
+ * @since 1.1.0
  */
 class OrderMigrator extends OrderMigration {
 
     /**
      * Class constructor.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param \WC_Order $order
      */
@@ -30,7 +30,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Create sub order if needed.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param int   $seller_id
      * @param array $seller_products
@@ -65,7 +65,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Delete sub orders if needed.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @return void
      */
@@ -76,7 +76,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Gets order data from wc-vendors order table for dokan.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param int $parent_order_id
      * @param int $seller_id
@@ -148,7 +148,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Process refund for a child order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param \Wc_Order $child_order
      * @param integer   $seller_id
@@ -180,7 +180,7 @@ class OrderMigrator extends OrderMigration {
     /**
      * Returns all sellers of an order.
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @param int $order_id
      *

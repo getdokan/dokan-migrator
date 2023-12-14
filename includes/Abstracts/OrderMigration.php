@@ -79,7 +79,7 @@ abstract class OrderMigration {
     /**
      * Get seller by order/order id
      *
-     * @since DOKAN_MIG_SINCE
+     * @since 1.1.0
      *
      * @return void
      */

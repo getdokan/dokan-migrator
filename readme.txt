@@ -3,9 +3,10 @@ Contributors: tareq1988, wedevs, nizamuddinbabu
 Donate link: https://tareq.co/donate/
 Tags: dokan, dokan migrator, multivendor marketplace
 Requires at least: 5.8
-Tested up to: 6.1.1
-Stable tag: 1.0.0
-Requires PHP: 7.2
+Tested up to: 6.4.2
+WC tested up to: 8.4.0
+Stable tag: 1.1.0
+Requires PHP: 7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +40,7 @@ Check out all the [features of Dokan](https://wedevs.com/dokan/features/) and mo
 
 - WCFM
 - WC Vendors
-- YITH
+- YITH (coming soon)
 
 **MIGRATE IN 3 EASY STEPS**
 
@@ -82,6 +83,17 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 == Changelog ==
 
+= v1.1.0 ( Dec 14, 2023 ) =
+
+- **new:** Introduced Wc Vendors plugin support to migrate to Dokan.
+- **new:** Introduced support for WooCommerce HPOS in the migration process of WCFM to Dokan, enhancing compatibility and functionality.
+- **update:** After completing the migration process, all supported plugins are now properly enlisted to facilitate complete and clean inactivation.
+- **update:** Enhanced the functionality of migratable orders and vendors, improving the overall migration process and user experience.
+- **Fix:** Resolved issues with the order list where orders already migrated were showing as migratable, leading to errors. Now, such orders are correctly excluded from the migration process.
+- **Fix:** Fixed the migration of vendor location data, ensuring accurate and complete data transfer.
+- **Fix:** Resolved issues with Dokan pages after migrating to Dokan, ensuring seamless integration and functionality.
+- **Fix:** Fixed the plugin key WC Vendors/WCFM when migration starts, allowing only the plugin migration functionalities to load properly, enhancing stability and performance.
+- **Fix:** Corrected the count of migratable orders during the WC Vendors to Dokan migration, ensuring accuracy in the migration dashboard.
 
 == Upgrade Notice ==
 
