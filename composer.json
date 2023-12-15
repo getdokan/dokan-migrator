@@ -16,7 +16,7 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.0.0|8.0",
+        "php": ">=7.4",
         "appsero/client": "dev-develop"
     },
     "require-dev": {
@@ -34,6 +34,9 @@
         ]
     },
     "config": {
+        "platform": {
+            "php": "7.4"
+        },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
