@@ -3,14 +3,14 @@
  * Plugin Name: Dokan Migrator
  * Plugin URI: http://WeDevs.com/
  * Description: An e-commerce marketplace migration plugin for WordPress. Powered by WooCommerce and WeDevs.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: WeDevs
  * Author URI: https://WeDevs.com/
  * Domain Path: /languages/
  * License: GPL2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * WC requires at least: 3.0
- * WC tested up to: 6.2.0
+ * WC requires at least: 6.2.0
+ * WC tested up to: 8.4.0
  * Text Domain: dokan-migrator
  *
  * Copyright (c) 2022 WeDevs (email: info@WeDevs.com). All rights reserved.
@@ -56,7 +56,7 @@ final class Dokan_Migrator {
      *
      * @var string
      */
-    public $version = '1.1.0';
+    public $version = '1.1.1';
 
     /**
      * Instance of self
