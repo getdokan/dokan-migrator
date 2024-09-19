@@ -117,7 +117,9 @@ class OrderMigrator extends OrderMigration {
                 'created'       => $order->created,
             ];
 
-            $unit_commissin_rate_vendor = ( $order->commission_amount / $order->item_sub_total ) * 100;
+            $non_zero_item_sub_total_amount = empty( $order->item_sub_total ) || $order->item_sub_total < 1 ? 1 : $order->item_sub_total;
+
+            $unit_commissin_rate_vendor = ( $order->commission_amount / $non_zero_item_sub_total_amount ) * 100;
             $unit_commissin_rate_admin  = 100 - $unit_commissin_rate_vendor;
             $new_admin_commissin        = ( $order->item_sub_total * $unit_commissin_rate_admin ) / 100;
 
@@ -217,7 +219,7 @@ class OrderMigrator extends OrderMigration {
                         $shipping_item_id = $vendor_shipping[ $vendor_id ]['shipping_item_id'];
                         $package_qty      = absint( $vendor_shipping[ $vendor_id ]['package_qty'] );
 
-                        ! $package_qty ? $package_qty = $line_item->get_quantity() : '';
+                        ! $package_qty ? $package_qty = $line_item->get_quantity() : 1;
 
                         $shipping_item = new \WC_Order_Item_Shipping( $shipping_item_id );
                         $refund_shipping_tax = $shipping_item->get_taxes();
@@ -410,12 +412,13 @@ class OrderMigrator extends OrderMigration {
 
         $applied_shipping_method = reset( $parent_order->get_shipping_methods() );
         $vendors                 = $this->get_seller_by_order( $parent_order->get_id() );
+        $vendors_count           = empty( count( $vendors ) ) ? 1 : count( $vendors );
 
         // Here we are dividing the shipping and shipping-tax amount of parent order into the vendors suborders.
         $shipping_tax_amount = [
-            'total' => [ $applied_shipping_method->get_total_tax() / count( $vendors ) ],
+            'total' => [ $applied_shipping_method->get_total_tax() / $vendors_count ],
         ];
-        $shipping_amount = $applied_shipping_method->get_total() / count( $vendors );
+        $shipping_amount = $applied_shipping_method->get_total() / $vendors_count;
 
         // Generating the shipping for vendor.
         $item = new WC_Order_Item_Shipping();

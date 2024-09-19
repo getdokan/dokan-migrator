@@ -119,7 +119,9 @@ class OrderMigrator extends OrderMigration {
                 'created'          => $order->time,
             ];
 
-            $unit_commissin_rate_vendor = ( $order->total_due / $wc_order->get_subtotal() ) * 100;
+            $non_zero_sub_total_amount = empty( $wc_order->get_subtotal() ) || $wc_order->get_subtotal() < 1 ? 1 : $wc_order->get_subtotal();
+
+            $unit_commissin_rate_vendor = ( $order->total_due / $non_zero_sub_total_amount ) * 100;
             $unit_commissin_rate_admin  = 100 - $unit_commissin_rate_vendor;
             $new_admin_commissin        = ( $wc_order->get_subtotal() * $unit_commissin_rate_admin ) / 100;
 
