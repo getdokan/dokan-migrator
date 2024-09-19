@@ -68,7 +68,7 @@ Note:  Ensure you click the “Activate Dokan Vendor Dashboard” button. It wil
 **CONTACT US**
 
 - Get free help from us [here](https://wedevs.com/contact/)
-- Report a bug or request a feature through [GitHub](https://github.com/weDevsOfficial/dokan).
+- Report a bug or request a feature through [GitHub](https://github.com/getdokan/dokan-migrator/issues).
 - Check out all functions of Dokan.
 
 == Installation ==
