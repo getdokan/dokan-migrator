@@ -203,12 +203,13 @@ class MigrationHelper {
 
         $applied_shipping_method = reset( $parent_order->get_shipping_methods() );
         $vendors                 = dokan_get_sellers_by( $parent_order->get_id() );
+        $vendors_count           = empty( count( $vendors ) ) ? 1 : count( $vendors );
 
         // Here we are dividing the shipping and shipping-tax amount of parent order into the vendors suborders.
         $shipping_tax_amount = [
-            'total' => [ $applied_shipping_method->get_total_tax() / count( $vendors ) ],
+            'total' => [ $applied_shipping_method->get_total_tax() / $vendors_count ],
         ];
-        $shipping_amount = $applied_shipping_method->get_total() / count( $vendors );
+        $shipping_amount = $applied_shipping_method->get_total() / $vendors_count;
 
         // Generating the shipping for vendor.
         $item = new WC_Order_Item_Shipping();
