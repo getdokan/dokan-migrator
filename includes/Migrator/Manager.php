@@ -204,7 +204,9 @@ class Manager {
             'paged'          => $this->paged,
         ];
 
-        $progress = ( $args['total_migrated'] * 100 ) / $this->total_count;
+        $total_count = empty( $this->total_count ) ? 1 : $this->total_count;
+
+        $progress = ( $args['total_migrated'] * 100 ) / $total_count;
 
         if ( $progress < 100 ) {
             $this->update_migration_status( $args, $import_type );
