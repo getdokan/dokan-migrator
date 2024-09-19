@@ -5,8 +5,8 @@ Tags: dokan, dokan migrator, multivendor marketplace
 Requires at least: 5.8
 Tested up to: 6.4.2
 WC tested up to: 8.4.0
-Stable tag: 1.1.1
-Requires PHP: 7.3
+Stable tag: 1.1.2
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,12 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 
 == Changelog ==
+
+= v1.1.2 ( Sep 19, 2024 ) =
+
+- **update:** Revised contact information in the readme for reporting bugs and feature requests.
+- **fix:** Safeguards implemented to ensure accurate financial calculations.
+- **fix:** Fixed calculations for vendor commission rates and shipping amounts to prevent division by zero errors.
 
 = v1.1.1 ( Dec 15, 2023 ) =
 

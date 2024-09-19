@@ -1,16 +1,16 @@
-# Copyright (c) 2023 weDevs Pte. Ltd. All Rights Reserved.
+# Copyright (c) 2024 weDevs Pte. Ltd. All Rights Reserved.
 msgid ""
 msgstr ""
-"Project-Id-Version: Dokan Migrator 1.1.1\n"
+"Project-Id-Version: Dokan Migrator 1.1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/weDevsOfficial/dokan-migrator/issues\n"
 "Last-Translator: support@wedevs.com\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-12-15T04:54:27+00:00\n"
+"POT-Creation-Date: 2024-09-19T09:37:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: dokan-migrator\n"
 
 #. Plugin Name of the plugin
@@ -20,7 +20,7 @@ msgid "Dokan Migrator"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "http://WeDevs.com/"
+msgid "https://dokan.co/wordpress/"
 msgstr ""
 
 #. Description of the plugin
@@ -28,11 +28,11 @@ msgid "An e-commerce marketplace migration plugin for WordPress. Powered by WooC
 msgstr ""
 
 #. Author of the plugin
-msgid "WeDevs"
+msgid "weDevs"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://WeDevs.com/"
+msgid "https://dokan.co/"
 msgstr ""
 
 #: includes/Helpers/MigrationHelper.php:70
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Nonce verification failed!"
 msgstr ""
 
-#: includes/Migrator/Manager.php:232
+#: includes/Migrator/Manager.php:234
 msgid "Invalid import type"
 msgstr ""
 
