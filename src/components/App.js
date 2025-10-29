@@ -1,13 +1,13 @@
 
 import "antd/dist/antd.css";
 import './App.css';
-import { Alert, Button, Card, Col, Row, notification, Modal } from 'antd';
+import { Alert, Button, Card, Col, Row, notification, Modal, Result } from 'antd';
 import { __ } from '@wordpress/i18n'
 
 import DokanMigrator from './DokanMigrator'
 
 import { useState, useEffect, } from 'react'
-import { CheckCircleFilled, SmileOutlined, WarningFilled, ExclamationCircleOutlined } from '@ant-design/icons';
+import { CheckCircleFilled, SmileOutlined, WarningFilled, ExclamationCircleOutlined, ReloadOutlined } from '@ant-design/icons';
 import StateLoader from './StateLoader'
 
 
@@ -240,40 +240,24 @@ function App() {
     }
 
     const successOrWarningUi = (message, success=false) => {
-      let color = success ? '#95de64' : '#ff7875';
-      return(
-        <div
-          style={{
-            width: '99%',
-            height: '450px',
-            background: '#FFF',
-            display: 'flex',
-            alignContent: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            marginTopL: '25px'
-          }}
-        >
-          {
-            success ?
-              <CheckCircleFilled style={{fontSize:'70px', marginBottom:'30px', color:color}} />
-            :
-              <WarningFilled style={{fontSize:'70px', marginBottom:'30px', color:color}} />
-          }
-          <h2 style={{color:color}}>{message}</h2>
+      const status = success ? 'success' : 'warning';
+      const subTitle = success
+        ? __('Everything looks great. If you need, you can re-run the migration.', 'dokan-migrator')
+        : __('We could not detect a compatible plugin to migrate from.', 'dokan-migrator');
 
-          { success && (
-            <div style={{ marginTop: '20px' }}>
-              <div style={{ marginBottom: '10px', textAlign: 'center' }}>
-                { __( 'Do you want to re-run the migration?', 'dokan-migrator' ) }
-              </div>
-              <Button type="primary" onClick={handleResetAndRestart} loading={resetLoading}>
-                { __( 'Re-run migration', 'dokan-migrator' ) }
+      return (
+        <Card style={{ width: '99%', marginTop: '25px' }} bodyStyle={{ padding: '48px 32px' }} className="dm-result-card">
+          <Result
+            status={status}
+            title={message}
+            subTitle={subTitle}
+            extra={success ? [
+              <Button key="rerun" type="link" size="small" icon={<ReloadOutlined />} onClick={handleResetAndRestart} loading={resetLoading} className="dm-rerun-link">
+                {__('Re-run migration', 'dokan-migrator')}
               </Button>
-            </div>
-          ) }
-        </div>
+            ] : null}
+          />
+        </Card>
       );
     }
 

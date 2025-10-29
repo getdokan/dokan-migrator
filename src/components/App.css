@@ -40,3 +40,20 @@ body{
     background-color: #52C519 !important;
     border-color: #52C519 !important;
 }
+.dm-result-card .ant-result-title{
+    font-weight: 600;
+}
+.dm-result-card .ant-result-subtitle{
+    color: rgba(0,0,0,0.55);
+}
+.dm-rerun-link{
+    color: rgba(0,0,0,0.65) !important;
+    padding: 0 4px;
+}
+.dm-rerun-link .anticon{
+    color: rgba(0,0,0,0.45);
+}
+.dm-result-card{
+    box-shadow: rgba(149, 157, 165, 0.15) 0px 8px 24px;
+    border-radius: 8px;
+}
