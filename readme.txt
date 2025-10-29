@@ -83,6 +83,15 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 == Changelog ==
 
+= v1.1.3 ( Oct 29, 2025 ) =
+
+- **new:** Added reset and restart migration functionality.
+- **new:** Added step selection so admins can choose which to migrate (Vendor, Order, Withdraw) with all selected by default.
+- **new:** Persist the selected steps in the database so preferences remain after reloads and returning later.
+- **new:** Introduced AJAX endpoints to support the UX and persistence.
+- **update:** Refined the success UI and de‑emphasized the “Re‑run migration” link for a cleaner, modern look.
+- **fix:** Improve compatibility with Dokan v3.7.19+ and handle sub-order reset.
+
 = v1.1.2 ( Sep 19, 2024 ) =
 
 - **update:** Revised contact information in the readme for reporting bugs and feature requests.
@@ -99,11 +108,11 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 - **new:** Introduced support for WooCommerce HPOS in the migration process of WCFM to Dokan, enhancing compatibility and functionality.
 - **update:** After completing the migration process, all supported plugins are now properly enlisted to facilitate complete and clean inactivation.
 - **update:** Enhanced the functionality of migratable orders and vendors, improving the overall migration process and user experience.
-- **Fix:** Resolved issues with the order list where orders already migrated were showing as migratable, leading to errors. Now, such orders are correctly excluded from the migration process.
-- **Fix:** Fixed the migration of vendor location data, ensuring accurate and complete data transfer.
-- **Fix:** Resolved issues with Dokan pages after migrating to Dokan, ensuring seamless integration and functionality.
-- **Fix:** Fixed the plugin key WC Vendors/WCFM when migration starts, allowing only the plugin migration functionalities to load properly, enhancing stability and performance.
-- **Fix:** Corrected the count of migratable orders during the WC Vendors to Dokan migration, ensuring accuracy in the migration dashboard.
+- **fix:** Resolved issues with the order list where orders already migrated were showing as migratable, leading to errors. Now, such orders are correctly excluded from the migration process.
+- **fix:** Fixed the migration of vendor location data, ensuring accurate and complete data transfer.
+- **fix:** Resolved issues with Dokan pages after migrating to Dokan, ensuring seamless integration and functionality.
+- **fix:** Fixed the plugin key WC Vendors/WCFM when migration starts, allowing only the plugin migration functionalities to load properly, enhancing stability and performance.
+- **fix:** Corrected the count of migratable orders during the WC Vendors to Dokan migration, ensuring accuracy in the migration dashboard.
 
 == Upgrade Notice ==
 
