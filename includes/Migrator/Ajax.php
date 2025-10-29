@@ -26,6 +26,8 @@ class Ajax {
         add_action( 'wp_ajax_dokan_migrator_active_vendor_dashboard', array( MigrationHelper::class, 'active_vendor_dashboard' ) );
         // Handle UI request to reset and restart migration
         add_action( 'wp_ajax_reset_and_restart_migration', array( $this, 'reset_and_restart_migration' ) );
+        // Save selected steps preference
+        add_action( 'wp_ajax_dokan_migrator_set_selected_steps', array( $this, 'set_selected_steps' ) );
     }
 
     /**
@@ -133,6 +135,8 @@ class Ajax {
             $deleted[$opt] = delete_option( $opt );
         }
 
+        // Do NOT delete user-selected steps. Those are preferences that should persist across resets.
+
         // Also clear installer metadata if requested by requirements (non-critical for reset flow).
         // Keeping this here to fully reset plugin-saved options as per instruction.
         $meta_options = [
@@ -149,6 +153,45 @@ class Ajax {
                 'deleted' => $deleted,
             ]
         );
+    }
+
+    /**
+     * Save user-selected migration steps in an option.
+     *
+     * @since 1.1.3
+     *
+     * @return void
+     */
+    public function set_selected_steps() {
+        $this->verify_nonce();
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( [ 'message' => __( 'You do not have permission to perform this action.', 'dokan-migrator' ) ] );
+        }
+
+        $raw = ! empty( $_POST['steps'] ) ? wp_unslash( $_POST['steps'] ) : '';
+        if ( is_string( $raw ) ) {
+            $decoded = json_decode( $raw, true );
+        } else {
+            $decoded = $raw; // Allow array form if sent that way.
+        }
+
+        $defaults = [ 'vendor' => true, 'order' => true, 'withdraw' => true ];
+        $steps    = is_array( $decoded ) ? array_merge( $defaults, $decoded ) : $defaults;
+
+        // Sanitize to booleans only for known keys
+        $clean = [];
+        foreach ( $defaults as $key => $def ) {
+            $val        = isset( $steps[ $key ] ) ? $steps[ $key ] : $def;
+            $clean[$key] = (bool) filter_var( $val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
+            if ( is_null( $clean[$key] ) ) {
+                $clean[$key] = (bool) $val;
+            }
+        }
+
+        update_option( 'dokan_migrator_selected_steps', $clean );
+
+        wp_send_json_success( [ 'message' => __( 'Selected steps saved.', 'dokan-migrator' ), 'selected_steps' => $clean ] );
     }
 
     /**

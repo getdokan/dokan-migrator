@@ -1,7 +1,7 @@
 
 import "antd/dist/antd.css";
 import './App.css';
-import { Alert, Button, Card, Col, Row, notification, Modal, Result } from 'antd';
+import { Alert, Button, Card, Col, Row, notification, Modal, Result, Checkbox, Tooltip } from 'antd';
 import { __ } from '@wordpress/i18n'
 
 import DokanMigrator from './DokanMigrator'
@@ -30,6 +30,7 @@ function App() {
     const [ migrationSuccess, setMigrationSuccess ] = useState(false);
     const [ title, setTitle ] = useState('Migrate to Dokan');
     const [ resetLoading, setResetLoading ] = useState(false);
+    const [ selectedSteps, setSelectedSteps ] = useState({ vendor: true, order: true, withdraw: true });
 
     useEffect(()=>{
       setStateLoading(true);
@@ -45,9 +46,12 @@ function App() {
         setMigratable( res.data.migratable != 'undefined' ? res.data.migratable : false );
         setMigrationSuccess( res.data.migration_success != 'undefined' ? res.data.migration_success : false );
         setTitle( res.data.set_title != 'undefined' ? res.data.set_title : 'Migrate to Dokan' );
+        if (res.data && res.data.selected_steps) {
+          setSelectedSteps(res.data.selected_steps);
+        }
 
         let oldData = {...lastCompleted};
-        switch (res.data) {
+        switch (res.data.last_migrated) {
           case 'order':
             oldData.vendor = true;
             break;
@@ -60,30 +64,55 @@ function App() {
 
         setLastCompleted(oldData);
         setStateLoading(false);
+
+        // Auto-resume if there is an in-progress step
+        if (res.data && res.data.in_progress) {
+          startMigration(res.data.in_progress);
+        }
       });
     },[]);
 
+    // Determine the next selected step in the canonical order
+    function getNextSelectedStep(current){
+      const order = ['vendor','order','withdraw'];
+      const idx = order.indexOf(current);
+      for (let i = idx + 1; i < order.length; i++){
+        if (selectedSteps[order[i]]) return order[i];
+      }
+      return '';
+    }
+
     function updateMigrationState( migrated ) {
-      switch (migrated) {
-        case 'vendor':
-          setOrderStarter(true);
-          break;
-
-        case 'order':
-          setWithdrawStarter(true);
-          break;
-
-        case 'withdraw':
-          setCompleted(true);
-          setEnableVendorDashboard(true);
-          openNotification();
-          break;
+      const next = getNextSelectedStep(migrated);
+      if (next === 'order') {
+        setOrderStarter(true);
+        return;
+      }
+      if (next === 'withdraw') {
+        setWithdrawStarter(true);
+        return;
       }
 
+      // No next step selected: finish
+      setCompleted(true);
+      setEnableVendorDashboard(true);
+      openNotification();
+    }
+
+    function getFirstSelectedStep(){
+      if (selectedSteps.vendor) return 'vendor';
+      if (selectedSteps.order) return 'order';
+      if (selectedSteps.withdraw) return 'withdraw';
+      return '';
     }
 
     function startMigration( start = type ) {
-      switch (start) {
+      let toStart = start;
+      // If requested step is not selected, fallback to the first selected
+      if (!selectedSteps[start]) {
+        toStart = getFirstSelectedStep();
+      }
+      switch (toStart) {
         case 'vendor':
           setVendorStarter(true);
           break;
@@ -94,6 +123,9 @@ function App() {
 
         case 'withdraw':
           setWithdrawStarter(true);
+          break;
+        default:
+          // nothing selected
           break;
       }
     }
@@ -171,49 +203,97 @@ function App() {
       });
     }
 
+    function saveSelectedSteps(next){
+      setSelectedSteps(next);
+      jQuery.post(dokan_migrator.ajax_url, {
+        action: 'dokan_migrator_set_selected_steps',
+        nonce: dokan_migrator.nonce,
+        steps: JSON.stringify(next)
+      }).done((res)=>{
+        if(res && res.success){
+          // ok
+        }
+      });
+    }
+
     const migrationCard = () => {
+      const options = [
+        { label: __('Vendor','dokan-migrator'), value: 'vendor' },
+        { label: __('Order','dokan-migrator'), value: 'order' },
+        { label: __('Withdraw','dokan-migrator'), value: 'withdraw' },
+      ];
+      const checked = Object.keys(selectedSteps).filter(k=>selectedSteps[k]);
+      const noneSelected = checked.length === 0;
+
       return(
         <Card
             style={{width: '99%', marginTop: '25px'}}
             title={title}
           >
+            <Row gutter={[16,16]} style={{ marginBottom: '8px' }}>
+              <Col span={24}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                  <span style={{ fontWeight: 500 }}>{__('Choose what to migrate:','dokan-migrator')}</span>
+                  <Checkbox.Group
+                    options={options}
+                    value={checked}
+                    onChange={(list)=>{
+                      const next = { vendor:false, order:false, withdraw:false };
+                      list.forEach(v=> next[v] = true);
+                      saveSelectedSteps(next);
+                    }}
+                  />
+                  { noneSelected && (
+                    <Tooltip title={__('Select at least one to start migration','dokan-migrator')}>
+                      <span style={{ color:'#faad14' }}>{__('No steps selected','dokan-migrator')}</span>
+                    </Tooltip>
+                  )}
+                </div>
+              </Col>
+            </Row>
             <Row  gutter={[16, 16]}>
-              <DokanMigrator
-                title={__( 'Vendor', 'dokan-migrator' )}
-                type="vendor"
-                url={dokan_migrator.ajax_url}
-                nonce={dokan_migrator.nonce}
-                number={10}
-                updateLoading={(data)=>setLoading(data)}
-                startAutoMigration={vendorStater}
-                updateMigrationState={updateMigrationState}
-                lastCompleted={lastCompleted.vendor}
-                migrate={migratable}
-              />
-              <DokanMigrator
-                title={__( 'Order', 'dokan-migrator' )}
-                type="order"
-                url={dokan_migrator.ajax_url}
-                nonce={dokan_migrator.nonce}
-                number={5}
-                updateLoading={(data)=>setLoading(data)}
-                startAutoMigration={orderStater}
-                updateMigrationState={updateMigrationState}
-                lastCompleted={lastCompleted.order}
-                migrate={migratable}
-              />
-              <DokanMigrator
-                title={__( 'Withdraw', 'dokan-migrator' )}
-                type="withdraw"
-                url={dokan_migrator.ajax_url}
-                nonce={dokan_migrator.nonce}
-                number={10}
-                updateLoading={(data)=>setLoading(data)}
-                startAutoMigration={withdrawStater}
-                updateMigrationState={updateMigrationState}
-                lastCompleted={lastCompleted.withdraw}
-                migrate={migratable}
-              />
+              { selectedSteps.vendor && (
+                <DokanMigrator
+                  title={__( 'Vendor', 'dokan-migrator' )}
+                  type="vendor"
+                  url={dokan_migrator.ajax_url}
+                  nonce={dokan_migrator.nonce}
+                  number={10}
+                  updateLoading={(data)=>setLoading(data)}
+                  startAutoMigration={vendorStater}
+                  updateMigrationState={updateMigrationState}
+                  lastCompleted={lastCompleted.vendor}
+                  migrate={migratable}
+                />
+              )}
+              { selectedSteps.order && (
+                <DokanMigrator
+                  title={__( 'Order', 'dokan-migrator' )}
+                  type="order"
+                  url={dokan_migrator.ajax_url}
+                  nonce={dokan_migrator.nonce}
+                  number={5}
+                  updateLoading={(data)=>setLoading(data)}
+                  startAutoMigration={orderStater}
+                  updateMigrationState={updateMigrationState}
+                  lastCompleted={lastCompleted.order}
+                  migrate={migratable}
+                />
+              )}
+              { selectedSteps.withdraw && (
+                <DokanMigrator
+                  title={__( 'Withdraw', 'dokan-migrator' )}
+                  type="withdraw"
+                  url={dokan_migrator.ajax_url}
+                  nonce={dokan_migrator.nonce}
+                  number={10}
+                  updateLoading={(data)=>setLoading(data)}
+                  startAutoMigration={withdrawStater}
+                  updateMigrationState={updateMigrationState}
+                  lastCompleted={lastCompleted.withdraw}
+                  migrate={migratable}
+                />
+              )}
             </Row>
             <Row  gutter={[16, 16]} style={{marginTop: '20px'}}>
               <Col span={24}>
@@ -230,7 +310,7 @@ function App() {
                 />
                 :''}
                 { ! completed ?
-                  <Button onClick={()=>startMigration(type)} type="primary" loading={loading}>{ __( 'Start migration', 'dokan-migrator' ) }</Button>
+                  <Button onClick={()=>startMigration(getFirstSelectedStep())} type="primary" disabled={noneSelected} loading={loading}>{ __( 'Start migration', 'dokan-migrator' ) }</Button>
                   : ''
                 }
               </Col>
