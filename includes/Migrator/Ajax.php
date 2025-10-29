@@ -111,7 +111,7 @@ class Ajax {
      * Handle reset and restart migration request.
      * Deletes all plugin options related to migration state.
      *
-     * @since 1.1.3
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -160,7 +160,7 @@ class Ajax {
     /**
      * Save user-selected migration steps in an option.
      *
-     * @since 1.1.3
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
@@ -199,7 +199,7 @@ class Ajax {
     /**
      * Mark overall migration as completed so success persists across reloads.
      *
-     * @since 1.1.4
+     * @since DOKAN_MIG_SINCE
      *
      * @return void
      */
