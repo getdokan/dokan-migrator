@@ -117,10 +117,13 @@ abstract class OrderMigration {
     public function reset_sub_orders() {
         if ( $this->has_sub_order() ) {
             foreach ( $this->get_sub_orders() as $child ) {
+                $child_id = $child->get_id();
                 $child->delete( true );
-                $this->clear_dokan_vendor_balance_table( $child->get_id() );
-                $this->clear_dokan_order_table( $child->get_id(), $child->get_user()->ID );
-                $this->clear_dokan_refund_table( $child->get_id() );
+                $this->clear_dokan_vendor_balance_table( $child_id );
+                $this->clear_dokan_refund_table( $child_id );
+
+                $child_user_id = $child->get_user() ? $child->get_user()->ID : null;
+                $this->clear_dokan_order_table( $child_id, $child_user_id );
             }
         }
     }
@@ -137,12 +140,15 @@ abstract class OrderMigration {
      */
     public function clear_dokan_order_table( $order_id, $seller_id ) {
         global $wpdb;
-        $wpdb->delete(
-            $wpdb->prefix . 'dokan_orders', array(
-                'order_id'  => $order_id,
-                'seller_id' => $seller_id,
-            )
+        $args = array(
+            'order_id'  => $order_id,
         );
+
+        if ( $seller_id ) {
+            $args['seller_id'] = $seller_id;
+        }
+        $wpdb->delete(
+            $wpdb->prefix . 'dokan_orders', $args );
     }
 
     /**

@@ -26,11 +26,23 @@ class MigrationHelper {
         $migration_success = get_option( 'dokan_migration_success', false );
         $migratable        = self::get_migratable_plugin();
 
+        // Determine if there is an in-progress step saved in options
+        $in_progress = '';
+        foreach ( [ 'vendor', 'order', 'withdraw' ] as $step ) {
+            $opt = get_option( 'dokan_migrator_' . $step . '_status' );
+            if ( ! empty( $opt ) ) {
+                $in_progress = $step;
+                break;
+            }
+        }
+
         return array(
             'last_migrated'     => $last_migrated,
             'migratable'        => $migratable,
             'migration_success' => $migration_success,
             'set_title'         => self::get_migration_title( $migratable ),
+            'selected_steps'    => get_option( 'dokan_migrator_selected_steps', [ 'vendor' => true, 'order' => true, 'withdraw' => true ] ),
+            'in_progress'       => $in_progress,
         );
     }
 
