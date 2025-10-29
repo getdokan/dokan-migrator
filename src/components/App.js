@@ -1,13 +1,13 @@
 
 import "antd/dist/antd.css";
 import './App.css';
-import { Alert, Button, Card, Col, Row, notification, } from 'antd';
+import { Alert, Button, Card, Col, Row, notification, Modal } from 'antd';
 import { __ } from '@wordpress/i18n'
 
 import DokanMigrator from './DokanMigrator'
 
 import { useState, useEffect, } from 'react'
-import { CheckCircleFilled, SmileOutlined, WarningFilled } from '@ant-design/icons';
+import { CheckCircleFilled, SmileOutlined, WarningFilled, ExclamationCircleOutlined } from '@ant-design/icons';
 import StateLoader from './StateLoader'
 
 
@@ -29,6 +29,7 @@ function App() {
     const [ stateLoading, setStateLoading ] = useState(true);
     const [ migrationSuccess, setMigrationSuccess ] = useState(false);
     const [ title, setTitle ] = useState('Migrate to Dokan');
+    const [ resetLoading, setResetLoading ] = useState(false);
 
     useEffect(()=>{
       setStateLoading(true);
@@ -118,6 +119,57 @@ function App() {
         placement: 'bottomRight'
       });
     };
+
+    function handleResetAndRestart() {
+      Modal.confirm({
+        title: __( 'Re-run migration?', 'dokan-migrator' ),
+        icon: <ExclamationCircleOutlined />,
+        content: __( 'This will reset previous migration progress and re-enable the migration steps. Do you want to continue?', 'dokan-migrator' ),
+        okText: __( 'Yes, re-run', 'dokan-migrator' ),
+        cancelText: __( 'Cancel', 'dokan-migrator' ),
+        onOk: () => {
+          setResetLoading(true);
+          setStateLoading(true);
+          return jQuery.post( dokan_migrator.ajax_url, {
+            action: 'reset_and_restart_migration',
+            nonce: dokan_migrator.nonce,
+          }).done((res) => {
+            if (res && res.success) {
+              setMigrationSuccess(false);
+              setCompleted(false);
+              setEnableVendorDashboard(false);
+              setLastCompleted({ vendor: false, order: false, withdraw: false });
+              setVendorStarter(false);
+              setOrderStarter(false);
+              setWithdrawStarter(false);
+              setType('vendor');
+              setTitle( __( 'Migrate to Dokan', 'dokan-migrator' ) );
+
+              notification.success({
+                message: __( 'Reset complete', 'dokan-migrator' ),
+                description: __( 'You can now re-run the migration.', 'dokan-migrator' ),
+                placement: 'bottomRight',
+              });
+            } else {
+              notification.error({
+                message: __( 'Reset failed', 'dokan-migrator' ),
+                description: (res && res.data && res.data.message) ? res.data.message : __( 'Unexpected error occurred.', 'dokan-migrator' ),
+                placement: 'bottomRight',
+              });
+            }
+          }).fail(() => {
+            notification.error({
+              message: __( 'Network error', 'dokan-migrator' ),
+              description: __( 'Could not contact the server. Please try again.', 'dokan-migrator' ),
+              placement: 'bottomRight',
+            });
+          }).always(() => {
+            setResetLoading(false);
+            setStateLoading(false);
+          });
+        },
+      });
+    }
 
     const migrationCard = () => {
       return(
@@ -210,6 +262,17 @@ function App() {
               <WarningFilled style={{fontSize:'70px', marginBottom:'30px', color:color}} />
           }
           <h2 style={{color:color}}>{message}</h2>
+
+          { success && (
+            <div style={{ marginTop: '20px' }}>
+              <div style={{ marginBottom: '10px', textAlign: 'center' }}>
+                { __( 'Do you want to re-run the migration?', 'dokan-migrator' ) }
+              </div>
+              <Button type="primary" onClick={handleResetAndRestart} loading={resetLoading}>
+                { __( 'Re-run migration', 'dokan-migrator' ) }
+              </Button>
+            </div>
+          ) }
         </div>
       );
     }

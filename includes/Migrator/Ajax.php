@@ -24,6 +24,8 @@ class Ajax {
         add_action( 'wp_ajax_dokan_migrator_import_data', array( $this, 'import' ) );
         add_action( 'wp_ajax_dokan_migrator_last_migrated', array( $this, 'get_last_migrated' ) );
         add_action( 'wp_ajax_dokan_migrator_active_vendor_dashboard', array( MigrationHelper::class, 'active_vendor_dashboard' ) );
+        // Handle UI request to reset and restart migration
+        add_action( 'wp_ajax_reset_and_restart_migration', array( $this, 'reset_and_restart_migration' ) );
     }
 
     /**
@@ -99,6 +101,54 @@ class Ajax {
                 )
             );
         }
+    }
+
+    /**
+     * Handle reset and restart migration request.
+     * Deletes all plugin options related to migration state.
+     *
+     * @since 1.1.3
+     *
+     * @return void
+     */
+    public function reset_and_restart_migration() {
+        $this->verify_nonce();
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( [ 'message' => __( 'You do not have permission to perform this action.', 'dokan-migrator' ) ] );
+        }
+
+        // List of options saved by this plugin that affect migration state.
+        $options = [
+            'dokan_migrator_last_migrated',
+            'dokan_migrator_vendor_status',
+            'dokan_migrator_order_status',
+            'dokan_migrator_withdraw_status',
+            'dokan_migration_completed',
+            'dokan_migration_success',
+        ];
+
+        $deleted = [];
+        foreach ( $options as $opt ) {
+            $deleted[$opt] = delete_option( $opt );
+        }
+
+        // Also clear installer metadata if requested by requirements (non-critical for reset flow).
+        // Keeping this here to fully reset plugin-saved options as per instruction.
+        $meta_options = [
+            'dokan_migrator_installed_time',
+            'dokan_migrator_plugin_version',
+        ];
+        foreach ( $meta_options as $opt ) {
+            delete_option( $opt );
+        }
+
+        wp_send_json_success(
+            [
+                'message' => __( 'Migration has been reset. You can re-run the migration now.', 'dokan-migrator' ),
+                'deleted' => $deleted,
+            ]
+        );
     }
 
     /**
