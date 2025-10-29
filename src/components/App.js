@@ -262,12 +262,13 @@ function App() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                   <span style={{ fontWeight: 500 }}>{__('Choose what to migrate:','dokan-migrator')}</span>
                   <Checkbox.Group
+                    className="dokan-migrator-checkbox-group"
                     options={options}
                     value={checked}
                     disabled={selectionLocked}
-                    onChange={(list)=>{
+                    onChange={(checkedValues)=>{
                       const next = { vendor:false, order:false, withdraw:false };
-                      list.forEach(v=> next[v] = true);
+                      checkedValues.forEach(v=> { next[v] = true; });
                       saveSelectedSteps(next);
                     }}
                   />

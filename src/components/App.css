@@ -57,3 +57,17 @@ body{
     box-shadow: rgba(149, 157, 165, 0.15) 0px 8px 24px;
     border-radius: 8px;
 }
+
+.dokan-migrator-checkbox-group {
+    all: unset;
+    display: block;
+}
+
+.dokan-migrator-checkbox-group input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
