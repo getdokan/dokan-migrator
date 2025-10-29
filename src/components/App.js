@@ -34,7 +34,7 @@ function App() {
     const [ selectionLocked, setSelectionLocked ] = useState(false);
     const [ inProgressStep, setInProgressStep ] = useState('');
 
-    useEffect(()=>{
+    function fetchInitialState(){
       setStateLoading(true);
       setLoading(true);
 
@@ -43,7 +43,7 @@ function App() {
           action: 'dokan_migrator_last_migrated',
           nonce: dokan_migrator.nonce,
         } )
-      .done( function (res) {
+      .done( (res) => {
         setType( res.data.last_migrated != 'undefined' ? res.data.last_migrated : 'vendor' );
         setMigratable( res.data.migratable != 'undefined' ? res.data.migratable : false );
         setMigrationSuccess( res.data.migration_success != 'undefined' ? res.data.migration_success : false );
@@ -52,27 +52,37 @@ function App() {
           setSelectedSteps(res.data.selected_steps);
         }
 
-        let oldData = {...lastCompleted};
+        let oldData = { vendor:false, order:false, withdraw:false };
         switch (res.data.last_migrated) {
           case 'order':
             oldData.vendor = true;
             break;
-
           case 'withdraw':
             oldData.vendor = true;
             oldData.order = true;
             break;
+          case 'vendor':
+          default:
+            break;
         }
-
         setLastCompleted(oldData);
-        setStateLoading(false);
 
-        // If there is an in-progress step, lock selection but do NOT auto-start
+        // Lock selection if there is an in-progress step, but do NOT auto-start
         if (res.data && res.data.in_progress) {
           setSelectionLocked(true);
           setInProgressStep(res.data.in_progress);
+        } else {
+          setSelectionLocked(false);
+          setInProgressStep('');
         }
+      })
+      .always(() => {
+        setStateLoading(false);
       });
+    }
+
+    useEffect(()=>{
+      fetchInitialState();
     },[]);
 
     // Determine the next selected step in the canonical order
@@ -99,7 +109,15 @@ function App() {
       // No next step selected: finish
       setCompleted(true);
       setEnableVendorDashboard(true);
+      setMigrationSuccess(true);
       openNotification();
+
+      // Persist completion so success UI remains after reload
+      jQuery.post(dokan_migrator.ajax_url, {
+        action: 'dokan_migrator_mark_completed',
+        nonce: dokan_migrator.nonce,
+        final_step: migrated,
+      });
     }
 
     function getFirstSelectedStep(){
@@ -188,6 +206,9 @@ function App() {
                 description: __( 'You can now re-run the migration.', 'dokan-migrator' ),
                 placement: 'bottomRight',
               });
+
+              // After reset, fetch fresh state from server first, then UI will render cards
+              fetchInitialState();
             } else {
               notification.error({
                 message: __( 'Reset failed', 'dokan-migrator' ),
@@ -203,7 +224,6 @@ function App() {
             });
           }).always(() => {
             setResetLoading(false);
-            setStateLoading(false);
             setSelectionLocked(false);
           });
         },

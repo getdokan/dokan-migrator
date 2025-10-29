@@ -28,6 +28,8 @@ class Ajax {
         add_action( 'wp_ajax_reset_and_restart_migration', array( $this, 'reset_and_restart_migration' ) );
         // Save selected steps preference
         add_action( 'wp_ajax_dokan_migrator_set_selected_steps', array( $this, 'set_selected_steps' ) );
+        // Persist overall completion so success survives reload
+        add_action( 'wp_ajax_dokan_migrator_mark_completed', array( $this, 'mark_completed' ) );
     }
 
     /**
@@ -136,10 +138,9 @@ class Ajax {
             $deleted[$opt] = delete_option( $opt );
         }
 
-        // Do NOT delete user-selected steps. Those are preferences that should persist across resets.
+        // Delete all plugin options related to migrator state, including selected steps as per latest requirement.
 
-        // Also clear installer metadata if requested by requirements (non-critical for reset flow).
-        // Keeping this here to fully reset plugin-saved options as per instruction.
+        // Also clear installer metadata to fully reset plugin-saved options as per instruction.
         $meta_options = [
             'dokan_migrator_installed_time',
             'dokan_migrator_plugin_version',
@@ -193,6 +194,35 @@ class Ajax {
         update_option( 'dokan_migrator_selected_steps', $clean );
 
         wp_send_json_success( [ 'message' => __( 'Selected steps saved.', 'dokan-migrator' ), 'selected_steps' => $clean ] );
+    }
+
+    /**
+     * Mark overall migration as completed so success persists across reloads.
+     *
+     * @since 1.1.4
+     *
+     * @return void
+     */
+    public function mark_completed() {
+        $this->verify_nonce();
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( [ 'message' => __( 'You do not have permission to perform this action.', 'dokan-migrator' ) ] );
+        }
+
+        $final_step = ! empty( $_POST['final_step'] ) ? sanitize_text_field( wp_unslash( $_POST['final_step'] ) ) : '';
+        if ( in_array( $final_step, [ 'vendor', 'order', 'withdraw' ], true ) ) {
+            update_option( 'dokan_migrator_last_migrated', $final_step );
+        }
+
+        update_option( 'dokan_migration_success', 'yes' );
+
+        // Clear any in-progress status options to avoid auto-resume flags lingering
+        delete_option( 'dokan_migrator_vendor_status' );
+        delete_option( 'dokan_migrator_order_status' );
+        delete_option( 'dokan_migrator_withdraw_status' );
+
+        wp_send_json_success( [ 'message' => __( 'Migration marked as completed.', 'dokan-migrator' ) ] );
     }
 
     /**
