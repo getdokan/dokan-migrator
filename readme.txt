@@ -3,9 +3,9 @@ Contributors: tareq1988, wedevs, nizamuddinbabu
 Donate link: https://tareq.co/donate/
 Tags: dokan, dokan migrator, multivendor marketplace
 Requires at least: 5.8
-Tested up to: 6.4.2
-WC tested up to: 8.4.0
-Stable tag: 1.1.2
+Tested up to: 6.8.3
+WC tested up to: 10.3.3
+Stable tag: 1.1.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -14,7 +14,7 @@ Migrate your marketplace from WCFM, WC Vendors to Dokan with one click. Secure d
 
 == Description ==
 
-Building a multi-vendor store from scratch is tough enough, but moving from an already built marketplace platform to another can be unimaginable. But when you are restricted to a platform that does not meet your growing feature requirements, it can be harmful for your business. Dokan Migrator allows you to seamlessly migrate from WCFM, WC Vendors, and YITH to the Dokan Multivendor Marketplace. Migrate without losing data about vendors, orders, or withdrawal records.
+Building a multi-vendor store from scratch is tough enough, but moving from an already built marketplace platform to another can be unimaginable. But when you are restricted to a platform that does not meet your growing feature requirements, it can be harmful for your business. Dokan Migrator allows you to seamlessly migrate from WCFM, WC Vendors to the Dokan Multivendor Marketplace. Migrate without losing data about vendors, orders, or withdrawal records.
 
 **DOKAN MIGRATOR PLUGIN FOR WORDPRESS**
 
@@ -22,7 +22,7 @@ Building a multi-vendor store from scratch is tough enough, but moving from an a
 
 - DOCUMENTATION : Detailed Guide.
 
-- COMPATIBILITY : WooCommerce, Dokan Lite & Dokan Pro, WCFM, WC Vendors, YITH.
+- COMPATIBILITY : WooCommerce, Dokan Lite & Dokan Pro, WCFM, WC Vendors.
 
 **EASY TO USE, SIMPLE TO FOLLOW**
 
