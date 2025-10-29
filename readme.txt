@@ -10,7 +10,7 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Migrate your marketplace from WCFM, WC Vendors and YITh to Dokan with one click. Secure data transfer within minutes.
+Migrate your marketplace from WCFM, WC Vendors to Dokan with one click. Secure data transfer within minutes.
 
 == Description ==
 
@@ -40,7 +40,6 @@ Check out all the [features of Dokan](https://wedevs.com/dokan/features/) and mo
 
 - WCFM
 - WC Vendors
-- YITH (coming soon)
 
 **MIGRATE IN 3 EASY STEPS**
 
