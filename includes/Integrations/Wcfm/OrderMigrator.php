@@ -31,7 +31,11 @@ class OrderMigrator extends OrderMigration {
         $this->order_id = $order->get_id();
         $this->order    = $order;
 
-        add_filter( 'dokan_shipping_method', [ $this, 'split_parent_order_shipping' ], 10, 3 );
+        if ( version_compare( dokan()->version, '3.7.19', '>=' ) ) {
+            add_filter( 'dokan_shipping_methods', [ $this, 'split_parent_order_shipping' ], 10, 3 );
+        } else {
+            add_filter( 'dokan_shipping_method', [ $this, 'split_parent_order_shipping' ], 10, 3 );
+        }
     }
 
     /**
