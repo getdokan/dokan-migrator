@@ -1,65 +1,88 @@
-# Copyright (c) 2024 weDevs Pte. Ltd. All Rights Reserved.
+# Copyright (c) 2025 weDevs Pte. Ltd. All Rights Reserved.
 msgid ""
 msgstr ""
-"Project-Id-Version: Dokan Migrator 1.1.2\n"
+"Project-Id-Version: Dokan Migrator 1.1.3\n"
 "Report-Msgid-Bugs-To: https://github.com/weDevsOfficial/dokan-migrator/issues\n"
 "Last-Translator: support@wedevs.com\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-19T09:37:59+00:00\n"
+"POT-Creation-Date: 2025-10-29T08:36:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: dokan-migrator\n"
 
 #. Plugin Name of the plugin
+#: dokan-migrator.php
 #: includes/Admin/Menu.php:33
 #: includes/Admin/Menu.php:34
 msgid "Dokan Migrator"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: dokan-migrator.php
 msgid "https://dokan.co/wordpress/"
 msgstr ""
 
 #. Description of the plugin
+#: dokan-migrator.php
 msgid "An e-commerce marketplace migration plugin for WordPress. Powered by WooCommerce and WeDevs."
 msgstr ""
 
 #. Author of the plugin
+#: dokan-migrator.php
 msgid "weDevs"
 msgstr ""
 
 #. Author URI of the plugin
+#: dokan-migrator.php
 msgid "https://dokan.co/"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:70
+#: includes/Helpers/MigrationHelper.php:82
 msgid "Dokan vendor dashboard activated."
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:104
+#: includes/Helpers/MigrationHelper.php:116
 msgid "Migrate to dokan"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:108
+#: includes/Helpers/MigrationHelper.php:120
 msgid "Migrate Wcfm To Dokan"
 msgstr ""
 
-#: includes/Helpers/MigrationHelper.php:112
+#: includes/Helpers/MigrationHelper.php:124
 msgid "Migrate Wc Vendors To Dokan."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:56
+#: includes/Migrator/Ajax.php:62
 msgid "Item count successfull."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:91
+#: includes/Migrator/Ajax.php:97
 msgid "Import successfull."
 msgstr ""
 
-#: includes/Migrator/Ajax.php:115
+#: includes/Migrator/Ajax.php:122
+#: includes/Migrator/Ajax.php:171
+#: includes/Migrator/Ajax.php:210
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/Migrator/Ajax.php:154
+msgid "Migration has been reset. You can re-run the migration now."
+msgstr ""
+
+#: includes/Migrator/Ajax.php:196
+msgid "Selected steps saved."
+msgstr ""
+
+#: includes/Migrator/Ajax.php:225
+msgid "Migration marked as completed."
+msgstr ""
+
+#: includes/Migrator/Ajax.php:239
 msgid "Nonce verification failed!"
 msgstr ""
 
@@ -95,16 +118,19 @@ msgstr ""
 
 #. translators: 1$s: opening anchor tag, 2$s: closing anchor tag
 #: templates/template-active-vendor-dashboard.php:21
+#, php-format
 msgid "%1$sActive now%2$s"
 msgstr ""
 
 #. translators: 1$s: the plugin to migrate to dokan
 #: templates/template-alert-migrate-to-dokan.php:21
+#, php-format
 msgid "Do You Want To %1$s ?"
 msgstr ""
 
 #. translators: 1$s: opening anchor tag, 2$s: closing anchor tag
 #: templates/template-alert-migrate-to-dokan.php:27
+#, php-format
 msgid "Click %1$1sHere%2$2s to move to the migration process."
 msgstr ""
 
@@ -121,6 +147,62 @@ msgid "You have successful migrated to Dokan. Enjoy 🎉"
 msgstr ""
 
 #: assets/dist/index.js:1
+msgid "Re-run migration?"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "This will reset previous migration progress and re-enable the migration steps. Do you want to continue?"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Yes, re-run"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Cancel"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Migrate to Dokan"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Reset complete"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "You can now re-run the migration."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Reset failed"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Unexpected error occurred."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Network error"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Could not contact the server. Please try again."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Everything looks great. If you need, you can re-run the migration."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "We could not detect a compatible plugin to migrate from."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Re-run migration"
+msgstr ""
+
+#: assets/dist/index.js:1
 msgid "You have successfully migrated to dokan."
 msgstr ""
 
@@ -134,6 +216,26 @@ msgstr ""
 
 #: assets/dist/index.js:1
 msgid "Withdraw"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Choose what to migrate:"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "You can change steps only before starting migration. Reset to change."
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Locked during migration"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "Select at least one to start migration"
+msgstr ""
+
+#: assets/dist/index.js:1
+msgid "No steps selected"
 msgstr ""
 
 #: assets/dist/index.js:1
