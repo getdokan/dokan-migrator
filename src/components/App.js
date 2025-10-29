@@ -31,6 +31,8 @@ function App() {
     const [ title, setTitle ] = useState('Migrate to Dokan');
     const [ resetLoading, setResetLoading ] = useState(false);
     const [ selectedSteps, setSelectedSteps ] = useState({ vendor: true, order: true, withdraw: true });
+    const [ selectionLocked, setSelectionLocked ] = useState(false);
+    const [ inProgressStep, setInProgressStep ] = useState('');
 
     useEffect(()=>{
       setStateLoading(true);
@@ -65,9 +67,10 @@ function App() {
         setLastCompleted(oldData);
         setStateLoading(false);
 
-        // Auto-resume if there is an in-progress step
+        // If there is an in-progress step, lock selection but do NOT auto-start
         if (res.data && res.data.in_progress) {
-          startMigration(res.data.in_progress);
+          setSelectionLocked(true);
+          setInProgressStep(res.data.in_progress);
         }
       });
     },[]);
@@ -107,6 +110,8 @@ function App() {
     }
 
     function startMigration( start = type ) {
+      // Lock step selection once a migration starts
+      setSelectionLocked(true);
       let toStart = start;
       // If requested step is not selected, fallback to the first selected
       if (!selectedSteps[start]) {
@@ -176,6 +181,7 @@ function App() {
               setWithdrawStarter(false);
               setType('vendor');
               setTitle( __( 'Migrate to Dokan', 'dokan-migrator' ) );
+              setInProgressStep('');
 
               notification.success({
                 message: __( 'Reset complete', 'dokan-migrator' ),
@@ -198,6 +204,7 @@ function App() {
           }).always(() => {
             setResetLoading(false);
             setStateLoading(false);
+            setSelectionLocked(false);
           });
         },
       });
@@ -237,12 +244,18 @@ function App() {
                   <Checkbox.Group
                     options={options}
                     value={checked}
+                    disabled={selectionLocked}
                     onChange={(list)=>{
                       const next = { vendor:false, order:false, withdraw:false };
                       list.forEach(v=> next[v] = true);
                       saveSelectedSteps(next);
                     }}
                   />
+                  { selectionLocked && (
+                    <Tooltip title={__('You can change steps only before starting migration. Reset to change.', 'dokan-migrator')}>
+                      <span style={{ color:'rgba(0,0,0,0.45)' }}>{__('Locked during migration', 'dokan-migrator')}</span>
+                    </Tooltip>
+                  ) }
                   { noneSelected && (
                     <Tooltip title={__('Select at least one to start migration','dokan-migrator')}>
                       <span style={{ color:'#faad14' }}>{__('No steps selected','dokan-migrator')}</span>
@@ -310,7 +323,7 @@ function App() {
                 />
                 :''}
                 { ! completed ?
-                  <Button onClick={()=>startMigration(getFirstSelectedStep())} type="primary" disabled={noneSelected} loading={loading}>{ __( 'Start migration', 'dokan-migrator' ) }</Button>
+                  <Button onClick={()=>startMigration(inProgressStep || getFirstSelectedStep())} type="primary" disabled={noneSelected && !inProgressStep} loading={loading}>{ __( 'Start migration', 'dokan-migrator' ) }</Button>
                   : ''
                 }
               </Col>

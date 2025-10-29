@@ -128,6 +128,7 @@ class Ajax {
             'dokan_migrator_withdraw_status',
             'dokan_migration_completed',
             'dokan_migration_success',
+            'dokan_migrator_selected_steps',
         ];
 
         $deleted = [];
