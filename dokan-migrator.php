@@ -187,30 +187,30 @@ final class Dokan_Migrator {
     }
 
     /**
-	 * Initiates Appsero services.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function init_appsero_tracker() {
-		if ( ! class_exists( '\Appsero\Client' ) ) {
+     * Initiates Appsero services.
+     *
+     * @since 1.0.0
+     *
+     * @return void
+     */
+    public function init_appsero_tracker() {
+        if ( ! class_exists( 'WeDevs\DokanMigrator\Dependencies\Appsero\Client' ) ) {
             return;
         }
 
-        $client   = new \Appsero\Client( '2852f2fd-66ff-4649-9b00-5f9ed953f8b9', 'Dokan Migrator', DOKAN_MIGRATOR_FILE );
+        $client   = new WeDevs\DokanMigrator\Dependencies\Appsero\Client( '2852f2fd-66ff-4649-9b00-5f9ed953f8b9', 'Dokan Migrator', DOKAN_MIGRATOR_FILE );
         $insights = $client->insights();
 
-		$insights->add_extra(
+        $insights->add_extra(
             function() {
                 return array(
                     'dokan_migrator_version' => DOKAN_MIGRATOR_PLUGIN_VERSION,
-				);
+                );
             }
         );
 
         $insights->init();
-	}
+    }
 
     /**
      * Make dokan migrator plugin HPOS supported.
